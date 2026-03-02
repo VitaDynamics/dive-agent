@@ -509,6 +509,9 @@ rollout:
 ❌ **反模式**：
 
 ```python
+# 示例 pipeline
+pipeline = [step1, step2, step3, ...]
+
 trace = langfuse.trace(name="process")
 for i, step in enumerate(pipeline):
     span = trace.span(name=f"step-{i}")  # 为每个细小步骤创建 span
