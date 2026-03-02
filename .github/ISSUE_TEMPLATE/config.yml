@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📚 Documentation
+    url: https://github.com/dylanli/agent-group/tree/main/docs
+    about: Browse learning notes and design documents
+  - name: 💬 Discussions
+    url: https://github.com/dylanli/agent-group/discussions
+    about: Ask questions and share ideas with the community
+  - name: 📖 Wiki
+    url: https://github.com/dylanli/agent-group/wiki
+    about: View auto-synced learning notes on the Wiki

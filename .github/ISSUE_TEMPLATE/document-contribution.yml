@@ -1,0 +1,57 @@
+name: 📝 Document Contribution
+description: Propose new documentation or major updates
+labels: ["documentation", "needs-review"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for contributing documentation! Please describe your proposal.
+
+  - type: dropdown
+    id: doc-type
+    attributes:
+      label: Document Type
+      options:
+        - Learning Note (pattern analysis)
+        - Best Choice (design recommendation)
+        - Template update
+        - Index update
+    validations:
+      required: true
+
+  - type: input
+    id: topic
+    attributes:
+      label: Topic Area
+      description: Which topic area does this document belong to?
+      placeholder: e.g., streaming, error-handling, context-management
+    validations:
+      required: true
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What will this document cover?
+      placeholder: This document will analyze...
+    validations:
+      required: true
+
+  - type: textarea
+    id: frameworks
+    attributes:
+      label: Frameworks Analyzed
+      description: Which frameworks will be analyzed? (for learning notes)
+      placeholder: pydantic-ai, langchain, republic...
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Pre-submission checks
+      options:
+        - label: I've read the Contributing Guide
+          required: true
+        - label: I've reviewed existing documents to avoid duplication
+          required: true

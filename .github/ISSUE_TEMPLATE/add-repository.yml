@@ -1,0 +1,60 @@
+name: 📦 Add Repository
+description: Suggest a repository to add to the index
+labels: ["repository", "needs-review"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for suggesting a repository! Please provide details below.
+
+  - type: input
+    id: repo-url
+    attributes:
+      label: Repository URL
+      description: Full GitHub URL of the repository
+      placeholder: https://github.com/org/repo
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      description: Which category should this repository belong to?
+      options:
+        - Agent
+        - Agent-harness
+        - Agent Evaluation
+        - Agent Training
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Brief description of the repository (1-2 sentences)
+      placeholder: This framework provides...
+    validations:
+      required: true
+
+  - type: textarea
+    id: rationale
+    attributes:
+      label: Why should this be included?
+      description: Explain the value this repository adds to the knowledge base
+      placeholder: This repository demonstrates...
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Pre-submission checks
+      options:
+        - label: I've verified this repository is not already in the index
+          required: true
+        - label: I've checked that the repository is actively maintained or historically significant
+          required: true

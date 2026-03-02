@@ -1,0 +1,85 @@
+{
+  "$schema": "./sources.schema.json",
+  "version": "1.0",
+  "lastSync": null,
+  "sources": {
+    "agent-harness": [
+      {
+        "name": "pydantic-ai",
+        "url": "https://github.com/pydantic/pydantic-ai.git",
+        "branch": "main",
+        "depth": 1,
+        "description": "Provider-agnostic GenAI agent framework",
+        "addedAt": "2026-03-02",
+        "notes": [
+          "docs/learns/type-safety/typed-message-parts-pydantic-ai.md",
+          "docs/learns/streaming/streaming-tool-assembly.md"
+        ],
+        "commit": "bc7f6a28c14c960d9b90a27cfc7985f640f29744"
+      },
+      {
+        "name": "langchain",
+        "url": "https://github.com/langchain-ai/langchain.git",
+        "branch": "master",
+        "depth": 1,
+        "description": "Build context-aware reasoning applications",
+        "addedAt": "2026-03-02",
+        "notes": [
+          "docs/learns/middleware/middleware-callback-system.md",
+          "docs/learns/error-handling/structured-errors-retry.md"
+        ],
+        "commit": "78678534f970a5a01dddfc979594367c58d04b44"
+      },
+      {
+        "name": "republic",
+        "url": "https://github.com/fixie/republic.git",
+        "branch": "main",
+        "depth": 1,
+        "description": "Tape-based agent framework",
+        "addedAt": "2026-03-02",
+        "notes": [
+          "docs/learns/architecture/republic-anchor-mechanism.md"
+        ],
+        "commit": "422a6e879f57ba96b20abbf486b3e000e1a5fbef"
+      },
+      {
+        "name": "litai",
+        "url": "https://github.com/Lightning-AI/litai.git",
+        "branch": "main",
+        "depth": 1,
+        "description": "Lightweight LLM router",
+        "addedAt": "2026-03-02",
+        "notes": [],
+        "commit": "07f4d71d0e6aa7ab668957b2237dab7cc5a116e4"
+      },
+      {
+        "name": "kimi-cli",
+        "url": "https://github.com/MoonshotAI/kimi-cli.git",
+        "branch": "main",
+        "depth": 1,
+        "description": "CLI agent with kosong streaming",
+        "addedAt": "2026-03-02",
+        "notes": [
+          "docs/learns/architecture/kimi-cli-architecture.md",
+          "docs/learns/streaming/async-streaming-first-class.md"
+        ],
+        "commit": "600ff8f676bcbf61064562e8f9a7d25f806d44f6"
+      },
+      {
+        "name": "pi-mono",
+        "url": "https://github.com/pi-company/pi-mono.git",
+        "branch": "main",
+        "depth": 1,
+        "description": "Multi-provider LLM abstraction monorepo",
+        "addedAt": "2026-03-02",
+        "notes": [
+          "docs/learns/context-management/context-management-dual-mode.md"
+        ],
+        "commit": "9a0a8d7ccb03b89bd3700477b2b8b399bd38dc03"
+      }
+    ],
+    "agent": [],
+    "agent-evaluation": [],
+    "agent-training": []
+  }
+}

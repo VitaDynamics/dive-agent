@@ -1,0 +1,13 @@
+# CODEOWNERS for Agent Group Knowledge Base
+
+# Default owners for everything
+* @dylan
+
+# Documentation
+/docs/ @dylan
+
+# Repository indexes
+/repos/ @dylan
+
+# GitHub configuration
+/.github/ @dylan

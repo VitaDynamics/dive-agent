@@ -1,0 +1,128 @@
+name: Sync Wiki
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/learns/**/*.md'
+      - 'docs/best-choices/**/*.md'
+
+permissions:
+  contents: write
+
+jobs:
+  sync-wiki:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Checkout wiki
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository }}.wiki
+          path: wiki
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Sync learning notes to wiki
+        run: |
+          # Create wiki directory structure
+          mkdir -p wiki/learns
+          mkdir -p wiki/best-choices
+
+          # Sync learning notes (flatten subdirectories)
+          if [ -d "docs/learns" ]; then
+            find docs/learns -name "*.md" -type f | while read file; do
+              cp "$file" wiki/learns/
+            done
+          fi
+
+          # Sync best-choices
+          if [ -d "docs/best-choices" ]; then
+            find docs/best-choices -name "*.md" -type f | while read file; do
+              cp "$file" wiki/best-choices/
+            done
+          fi
+
+      - name: Generate Home page
+        run: |
+          cat > wiki/Home.md << 'EOF'
+          # Agent Group Knowledge Base Wiki
+
+          Welcome to the Agent Group Wiki! This wiki is automatically synced from the [main repository](${{ github.server_url }}/${{ github.repository }}).
+
+          ## Learning Notes
+
+          EOF
+
+          # Add links to all learning notes
+          if [ -d "docs/learns" ]; then
+            find docs/learns -name "*.md" -type f | sort | while read file; do
+              filename=$(basename "$file")
+              name="${filename%.md}"
+              echo "- [$name](./learns/$filename)" >> wiki/Home.md
+            done
+          fi
+
+          cat >> wiki/Home.md << 'EOF'
+
+          ## Best Choices
+
+          EOF
+
+          if [ -d "docs/best-choices" ]; then
+            find docs/best-choices -name "*.md" -type f | sort | while read file; do
+              filename=$(basename "$file")
+              name="${filename%.md}"
+              echo "- [$name](./best-choices/$filename)" >> wiki/Home.md
+            done
+          fi
+
+          echo "" >> wiki/Home.md
+          echo "---" >> wiki/Home.md
+          echo "*Last synced: $(date -u '+%Y-%m-%d %H:%M:%S UTC')*" >> wiki/Home.md
+
+      - name: Generate Sidebar
+        run: |
+          cat > wiki/_Sidebar.md << 'EOF'
+          ## Navigation
+
+          **[Home](./Home)**
+
+          ### Learning Notes
+
+          EOF
+
+          if [ -d "docs/learns" ]; then
+            find docs/learns -name "*.md" -type f | sort | while read file; do
+              filename=$(basename "$file")
+              name="${filename%.md}"
+              echo "- [$name](./learns/$filename)" >> wiki/_Sidebar.md
+            done
+          fi
+
+          cat >> wiki/_Sidebar.md << 'EOF'
+
+          ### Best Choices
+
+          EOF
+
+          if [ -d "docs/best-choices" ]; then
+            find docs/best-choices -name "*.md" -type f | sort | while read file; do
+              filename=$(basename "$file")
+              name="${filename%.md}"
+              echo "- [$name](./best-choices/$filename)" >> wiki/_Sidebar.md
+            done
+          fi
+
+      - name: Commit and push wiki
+        run: |
+          cd wiki
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git diff --quiet && git diff --staged --quiet || git commit -m "Sync from main repo: $(date -u '+%Y-%m-%d %H:%M')"
+          git push origin master || git push origin main

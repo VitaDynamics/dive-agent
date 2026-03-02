@@ -1,0 +1,43 @@
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+.pyo
+.pyd
+.Python
+*.so
+.eggs/
+*.egg-info/
+*.egg
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build
+dist/
+build/
+*.mdc
+
+# Logs
+*.log
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Claude
+.claude/settings.local.json
+
+# External sources (cloned repos)
+# Keep sources.json but ignore cloned content
+sources/*/
+!sources/.gitkeep
