@@ -1,168 +1,168 @@
 ---
 name: learn-best
 description: |
-  Synthesize best practices from learning notes into a best-choices document. Use this skill when the user wants to create design recommendations, mentions "best practices", "最佳实践", "design recommendation", "synthesize", or wants to distill learnings into actionable guidelines. This skill analyzes existing notes and outputs to docs/best-choices/.
+  从学习笔记综合最佳实践到 best-choices 文档。当用户想要创建设计建议、提到"best practices"、"最佳实践"、"design recommendation"、"synthesize"或想要将学习提炼为可操作指南时使用此技能。此技能分析现有笔记并输出到 docs/best-choices/。
 ---
 
-# Learn Best
+# 学习最佳实践
 
-Synthesize best practices from learning notes into actionable guidelines.
+从学习笔记综合最佳实践为可操作指南。
 
-## Input Required
+## 必需输入
 
-Ask the user for:
+请询问用户：
 
-1. **Topic** (required): What pattern/practice to synthesize
-2. **Source notes** (optional): Specific notes to synthesize, or "all related"
-3. **Context** (optional): Any additional context from conversation
+1. **主题**（必需）：要综合的模式/实践
+2. **来源笔记**（可选）：要综合的特定笔记，或"所有相关"
+3. **上下文**（可选）：对话中的任何额外上下文
 
-## Steps
+## 步骤
 
-### 1. Identify Source Material
+### 1. 识别来源材料
 
-If source notes not specified, search for relevant notes:
+如果未指定来源笔记，搜索相关笔记：
 
 ```bash
-grep -r "<topic>" docs/learns/
+grep -r "<主题>" docs/learns/
 ```
 
-Read all relevant learning notes to understand:
-- Different approaches across frameworks
-- Trade-offs identified
-- Best practices mentioned
+阅读所有相关学习笔记以理解：
+- 跨框架的不同方法
+- 已识别的权衡
+- 提到的最佳实践
 
-### 2. Read Existing Best Choices
+### 2. 阅读现有最佳实践
 
-Check `docs/best-choices/` for related documents to reference or extend.
+检查 `docs/best-choices/` 中是否有相关文档可引用或扩展。
 
-### 3. Synthesize
+### 3. 综合
 
-Based on the research, identify:
+基于研究，识别：
 
-1. **The Problem** - What problem does this pattern solve?
-2. **Approaches** - What are the different ways to solve it?
-3. **Trade-offs** - When to use each approach?
-4. **Recommendation** - What's the recommended approach?
+1. **问题** - 这个模式解决什么问题？
+2. **方案** - 有哪些不同的解决方法？
+3. **权衡** - 何时使用每种方法？
+4. **建议** - 推荐的方法是什么？
 
-### 4. Write Best Choices Document
+### 4. 编写最佳实践文档
 
-Create file at `docs/best-choices/<topic>-best-practices.md`:
+在 `docs/best-choices/<主题>-best-practices.md` 创建文件：
 
 ```markdown
-# [Topic] Best Practices
+# [主题] 最佳实践
 
-> **Synthesized from**: [list of notes and repos analyzed]
-
----
-
-## Problem Statement
-
-[What problem does this address?]
+> **综合自**：[分析的笔记和仓库列表]
 
 ---
 
-## Approaches
+## 问题描述
 
-### Approach 1: [Name]
+[这解决什么问题？]
 
-**Used by**: [Framework A, Framework B]
+---
 
-**Description**:
-[How it works]
+## 方案
 
-**Code Example**:
+### 方案 1：[名称]
+
+**使用者**：[框架 A, 框架 B]
+
+**描述**：
+[如何工作]
+
+**代码示例**：
 ```python
-# Example code
+# 示例代码
 ```
 
-**Pros**:
-- Pro 1
-- Pro 2
+**优点**：
+- 优点 1
+- 优点 2
 
-**Cons**:
-- Con 1
-- Con 2
-
----
-
-### Approach 2: [Name]
-
-[Same structure]
+**缺点**：
+- 缺点 1
+- 缺点 2
 
 ---
 
-## Decision Matrix
+### 方案 2：[名称]
 
-| Scenario | Recommended Approach | Rationale |
-|----------|---------------------|-----------|
-| [Scenario 1] | [Approach] | [Why] |
-| [Scenario 2] | [Approach] | [Why] |
+[相同结构]
 
 ---
 
-## Recommended Best Practices
+## 决策矩阵
 
-1. **[Practice 1]**: [Description and rationale]
-2. **[Practice 2]**: [Description and rationale]
-3. **[Practice 3]**: [Description and rationale]
-
----
-
-## Anti-Patterns to Avoid
-
-1. **[Anti-pattern 1]**: [Why to avoid]
-2. **[Anti-pattern 2]**: [Why to avoid]
+| 场景 | 推荐方案 | 理由 |
+|------|----------|------|
+| [场景 1] | [方案] | [为什么] |
+| [场景 2] | [方案] | [为什么] |
 
 ---
 
-## References
+## 推荐最佳实践
 
-- [Learning Note 1](../learns/topic/note.md)
-- [Learning Note 2](../learns/topic/note.md)
-- [External Resource](https://...)
+1. **[实践 1]**：[描述和理由]
+2. **[实践 2]**：[描述和理由]
+3. **[实践 3]**：[描述和理由]
 
 ---
 
-*Created: [Today's date]*
-*Updated: [Today's date]*
+## 应避免的反模式
+
+1. **[反模式 1]**：[为什么避免]
+2. **[反模式 2]**：[为什么避免]
+
+---
+
+## 参考
+
+- [学习笔记 1](../learns/topic/note.md)
+- [学习笔记 2](../learns/topic/note.md)
+- [外部资源](https://...)
+
+---
+
+*创建时间：[今天日期]*
+*更新时间：[今天日期]*
 ```
 
-### 5. Update Indexes
+### 5. 更新索引
 
-1. Add entry to `docs/best-choices/README.md`
-2. Update `docs/README.md` if needed
-3. Update root `README.md` counts
+1. 添加条目到 `docs/best-choices/README.md`
+2. 如需要更新 `docs/README.md`
+3. 更新根 `README.md` 计数
 
-## Example
+## 示例
 
-User: "Create best practices for error handling based on what we discussed"
+用户："根据我们讨论的内容创建错误处理最佳实践"
 
-Actions:
-1. Read `docs/learns/error-handling/structured-errors-retry.md`
-2. Search for other error handling notes
-3. Synthesize approaches from pydantic-ai, langchain, etc.
-4. Write `docs/best-choices/error-handling-best-practices.md`
-5. Update indexes
+操作：
+1. 阅读 `docs/learns/error-handling/structured-errors-retry.md`
+2. 搜索其他错误处理笔记
+3. 综合 pydantic-ai、langchain 等的方法
+4. 编写 `docs/best-choices/error-handling-best-practices.md`
+5. 更新索引
 
-## Quality Criteria
+## 质量标准
 
-The best choices document should:
-- Analyze at least 2 frameworks/approaches
-- Provide concrete code examples
-- Include a decision matrix for when to use each approach
-- Be actionable and specific
-- Reference source learning notes
+最佳实践文档应该：
+- 分析至少 2 个框架/方法
+- 提供具体代码示例
+- 包含何时使用每种方法的决策矩阵
+- 可操作且具体
+- 引用来源学习笔记
 
-## Files Modified
+## 修改的文件
 
-- `docs/best-choices/<filename>.md` - New best choices document
-- `docs/best-choices/README.md` - Add to index
-- `docs/README.md` - Update if needed
-- `README.md` - Update counts
+- `docs/best-choices/<文件名>.md` - 新最佳实践文档
+- `docs/best-choices/README.md` - 添加到索引
+- `docs/README.md` - 如需要更新
+- `README.md` - 更新计数
 
-## Verification
+## 验证
 
-1. Document analyzes multiple approaches
-2. Decision matrix is complete
-3. Indexes are updated
-4. References to source notes are correct
+1. 文档分析多种方法
+2. 决策矩阵完整
+3. 索引已更新
+4. 来源笔记引用正确

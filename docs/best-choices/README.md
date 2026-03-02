@@ -1,69 +1,69 @@
-# Best Choices
+# 最佳实践
 
-Design documents synthesizing best practices from multiple frameworks.
+综合多个框架最佳实践的设计文档。
 
-## What are Best Choices?
+## 什么是最佳实践文档？
 
-Best Choice documents are synthesized recommendations that:
-- Analyze patterns across multiple frameworks
-- Provide concrete code examples
-- Include decision rationale and trade-offs
-- Offer actionable guidance for implementation
+最佳实践文档是综合性的推荐建议：
+- 跨多个框架分析模式
+- 提供具体代码示例
+- 包含决策理由和权衡
+- 提供可操作的指导
 
-## Documents
+## 文档列表
 
-| Document | Description | Frameworks Analyzed | Updated |
-|----------|-------------|---------------------|---------|
-| [LLM Error Handling Design](./llm-error-handling-design.md) | Structured error classification, retry strategies, fallback patterns | pydantic-ai, langchain, republic | 2026-02-26 |
-| [Streaming Pull Debounced Push Design](./streaming-pull-debounced-push-design.md) | Streaming architecture patterns for pull-based and debounced push | pydantic-ai, kimi-cli, republic | 2026-02-26 |
+| 文档 | 描述 | 分析框架 | 更新时间 |
+|------|------|----------|----------|
+| [LLM 错误处理设计](./llm-error-handling-design.md) | 结构化错误分类、重试策略、回退模式 | pydantic-ai, langchain, republic | 2026-02-26 |
+| [流式拉取防抖推送设计](./streaming-pull-debounced-push-design.md) | 拉取式和防抖推送的流式架构模式 | pydantic-ai, kimi-cli, republic | 2026-02-26 |
 
-## Contributing a Best Choice
+## 贡献最佳实践
 
-To contribute a Best Choice document:
+贡献最佳实践文档要求：
 
-1. **Analyze at least 2 frameworks** - Document must compare patterns across multiple implementations
-2. **Provide concrete examples** - Include code snippets from each framework
-3. **Explain trade-offs** - Document when to use each approach
-4. **Make recommendations** - Provide actionable guidance
+1. **分析至少 2 个框架** - 文档必须比较多个实现
+2. **提供具体示例** - 包含每个框架的代码片段
+3. **解释权衡** - 说明何时使用每种方法
+4. **给出建议** - 提供可操作的指导
 
-### Template
+### 模板
 
 ```markdown
-# [Pattern Name]
+# [模式名称]
 
-> **Synthesized from**: framework1, framework2, framework3
+> **综合自**: framework1, framework2, framework3
 
-## Problem Statement
+## 问题描述
 
-[What problem does this pattern solve?]
+[这个模式解决什么问题？]
 
-## Approaches
+## 方案
 
-### Framework A: [Approach Name]
+### 框架 A：[方案名称]
 
-[Description and code example]
+[描述和代码示例]
 
-### Framework B: [Approach Name]
+### 框架 B：[方案名称]
 
-[Description and code example]
+[描述和代码示例]
 
-## Trade-offs
+## 权衡分析
 
-| Approach | Pros | Cons |
-|----------|------|------|
+| 方案 | 优点 | 缺点 |
+|------|------|------|
 | A | ... | ... |
 | B | ... | ... |
 
-## Recommendation
+## 建议
 
-[When to use each approach]
+[何时使用每种方案]
 
-## References
+## 参考
 
-- [Link to framework A documentation]
-- [Link to framework B documentation]
+- [框架 A 文档链接]
+- [框架 B 文档链接]
 ```
 
 ---
 
-*Last updated: 2026-03-02*
+*最后更新：2026-03-02*

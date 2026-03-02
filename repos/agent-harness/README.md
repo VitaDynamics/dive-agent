@@ -1,104 +1,104 @@
 # Agent-harness
 
-Agent frameworks and orchestration tools that provide core abstractions for building AI agents.
+Agent 框架和编排工具，提供构建 AI Agent 的核心抽象。
 
-## Definition
+## 定义
 
-Agent-harness frameworks provide:
-- **State Management**: Conversation history, context windowing, checkpoint/revert
-- **Tool Calling**: Function execution, parallel calls, streaming assembly
-- **Streaming**: First-class async streaming support
-- **Error Handling**: Structured errors, retry strategies, fallbacks
-- **Extensibility**: Middleware, callbacks, hooks
+Agent-harness 框架提供：
+- **状态管理**：对话历史、上下文窗口、检查点/回滚
+- **工具调用**：函数执行、并行调用、流式组装
+- **流式处理**：一等异步流式支持
+- **错误处理**：结构化错误、重试策略、回退机制
+- **可扩展性**：中间件、回调、钩子
 
-## Indexed Repositories
+## 已索引仓库
 
 ### pydantic-ai
 
 - **URL**: https://github.com/pydantic/pydantic-ai
-- **Language**: Python
-- **Key Features**:
-  - Provider-agnostic (OpenAI, Anthropic, Gemini, etc.)
-  - Full type safety with Pydantic models
-  - Built-in observability with Logfire
-  - MCP and A2A protocol support
-- **Learning Notes**:
-  - [Typed Message Parts](../../docs/learns/type-safety/typed-message-parts-pydantic-ai.md)
-  - [Streaming Tool Assembly](../../docs/learns/streaming/streaming-tool-assembly.md)
+- **语言**: Python
+- **关键特性**:
+  - 提供者无关（OpenAI, Anthropic, Gemini 等）
+  - 基于 Pydantic 模型的完全类型安全
+  - 内置 Logfire 可观测性
+  - 支持 MCP 和 A2A 协议
+- **学习笔记**:
+  - [类型安全的消息部件](../../docs/learns/type-safety/typed-message-parts-pydantic-ai.md)
+  - [流式工具组装](../../docs/learns/streaming/streaming-tool-assembly.md)
 
 ### langchain
 
 - **URL**: https://github.com/langchain-ai/langchain
-- **Language**: Python
-- **Key Features**:
-  - Modular architecture (core, langchain, partners)
-  - Rich ecosystem of integrations
-  - LangGraph for stateful workflows
-  - Production-ready with LangSmith observability
-- **Learning Notes**:
-  - [Middleware/Callback System](../../docs/learns/middleware/middleware-callback-system.md)
-  - [Structured Errors & Retry](../../docs/learns/error-handling/structured-errors-retry.md)
+- **语言**: Python
+- **关键特性**:
+  - 模块化架构（core, langchain, partners）
+  - 丰富的集成生态系统
+  - LangGraph 用于有状态工作流
+  - 基于 LangSmith 的生产级可观测性
+- **学习笔记**:
+  - [中间件/回调系统](../../docs/learns/middleware/middleware-callback-system.md)
+  - [结构化错误与重试](../../docs/learns/error-handling/structured-errors-retry.md)
 
 ### republic
 
 - **URL**: https://github.com/fixie/republic
-- **Language**: Python
-- **Key Features**:
-  - Tape-first design with complete audit trail
-  - Anchor mechanism for context slicing
-  - Zero magic, explicit workflows
-- **Learning Notes**:
-  - [Republic Anchor Mechanism](../../docs/learns/architecture/republic-anchor-mechanism.md)
-  - [State Snapshot Concurrency](../../docs/learns/concurrency/state-snapshot-concurrency.md)
+- **语言**: Python
+- **关键特性**:
+  - Tape-first 设计，完整审计追踪
+  - Anchor 机制用于上下文切片
+  - 零魔法，显式工作流
+- **学习笔记**:
+  - [Republic Anchor 机制](../../docs/learns/architecture/republic-anchor-mechanism.md)
+  - [状态快照并发](../../docs/learns/concurrency/state-snapshot-concurrency.md)
 
 ### litai
 
 - **URL**: https://github.com/Lightning-AI/litai
-- **Language**: Python
-- **Key Features**:
-  - Lightweight LLM router
-  - Unified billing and rate limiting
-  - Automatic retries and fallbacks
-- **Learning Notes**:
-  - [LLM Framework Comparison](../../docs/learns/abstractions/llm-framework-comparison.md)
+- **语言**: Python
+- **关键特性**:
+  - 轻量级 LLM 路由器
+  - 统一计费和速率限制
+  - 自动重试和回退
+- **学习笔记**:
+  - [LLM 框架比较](../../docs/learns/abstractions/llm-framework-comparison.md)
 
 ### kimi-cli
 
 - **URL**: https://github.com/MoonshotAI/kimi-cli
-- **Language**: Python
-- **Key Features**:
-  - Terminal-based AI agent
-  - Kosong streaming library
-  - Shell mode and VS Code extension
-  - MCP and ACP support
-- **Learning Notes**:
-  - [Kimi CLI Architecture](../../docs/learns/architecture/kimi-cli-architecture.md)
-  - [Async Streaming First Class](../../docs/learns/streaming/async-streaming-first-class.md)
+- **语言**: Python
+- **关键特性**:
+  - 终端 AI Agent
+  - Kosong 流式库
+  - Shell 模式和 VS Code 扩展
+  - 支持 MCP 和 ACP
+- **学习笔记**:
+  - [Kimi CLI 架构](../../docs/learns/architecture/kimi-cli-architecture.md)
+  - [异步流式一等公民](../../docs/learns/streaming/async-streaming-first-class.md)
 
 ### pi-mono
 
 - **URL**: https://github.com/pi-company/pi-mono
-- **Language**: TypeScript
-- **Key Features**:
-  - Multi-package monorepo architecture
-  - LLM deployment management
-  - Coding agent with TUI and Web UI
-- **Learning Notes**:
-  - [Context Management Dual Mode](../../docs/learns/context-management/context-management-dual-mode.md)
+- **语言**: TypeScript
+- **关键特性**:
+  - 多包 monorepo 架构
+  - LLM 部署管理
+  - 编码 Agent，包含 TUI 和 Web UI
+- **学习笔记**:
+  - [上下文管理双模式](../../docs/learns/context-management/context-management-dual-mode.md)
 
 ---
 
-## Comparison Matrix
+## 比较矩阵
 
-| Feature | pydantic-ai | langchain | republic | kimi-cli |
-|---------|-------------|-----------|----------|----------|
-| Type Safety | ✅ Full | Partial | Partial | Partial |
-| Streaming | ✅ First-class | ✅ Yes | ✅ Yes | ✅ First-class |
-| Tool Calling | ✅ Parallel | ✅ Parallel | ✅ Sequential | ✅ Parallel |
-| Error Handling | ✅ Structured | ✅ Callbacks | Basic | ✅ Structured |
-| State Management | Graph-based | LangGraph | Tape-based | Tape-based |
-| Observability | Logfire | LangSmith | Basic | Built-in |
+| 特性 | pydantic-ai | langchain | republic | kimi-cli |
+|------|-------------|-----------|----------|----------|
+| 类型安全 | ✅ 完全 | 部分 | 部分 | 部分 |
+| 流式处理 | ✅ 一等公民 | ✅ 支持 | ✅ 支持 | ✅ 一等公民 |
+| 工具调用 | ✅ 并行 | ✅ 并行 | ✅ 顺序 | ✅ 并行 |
+| 错误处理 | ✅ 结构化 | ✅ 回调 | 基础 | ✅ 结构化 |
+| 状态管理 | 基于图 | LangGraph | 基于 Tape | 基于 Tape |
+| 可观测性 | Logfire | LangSmith | 基础 | 内置 |
 
 ---
 
-*Last updated: 2026-03-02*
+*最后更新：2026-03-02*

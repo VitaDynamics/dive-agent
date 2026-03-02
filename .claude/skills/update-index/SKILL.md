@@ -1,106 +1,106 @@
 ---
 name: update-index
 description: |
-  Update README indexes based on recent changes to docs/. Use this skill when files have been added/removed/renamed in docs/learns/ or docs/best-choices/, when the user mentions "update index", "更新索引", "sync readme", or after creating new learning notes. This ensures all documentation indexes are consistent and complete.
+  根据 docs/ 的最新更改更新 README 索引。当文件在 docs/learns/ 或 docs/best-choices/ 中被添加/删除/重命名、用户提到"update index"、"更新索引"、"sync readme"或创建新学习笔记后使用此技能。确保所有文档索引一致完整。
 ---
 
-# Update Index
+# 更新索引
 
-Synchronize all README indexes with the actual documentation files.
+将所有 README 索引与实际文档文件同步。
 
-## When to Use
+## 何时使用
 
-- After adding new learning notes
-- After removing or renaming documents
-- After reorganizing categories
-- When user asks to "update indexes" or "sync readme"
-- Periodically to ensure consistency
+- 添加新学习笔记后
+- 删除或重命名文档后
+- 重新组织类别后
+- 用户要求"更新索引"或"同步 readme"
+- 定期确保一致性
 
-## Steps
+## 步骤
 
-### 1. Scan All Documentation
+### 1. 扫描所有文档
 
-Scan `docs/learns/` and `docs/best-choices/` to get actual file list:
+扫描 `docs/learns/` 和 `docs/best-choices/` 获取实际文件列表：
 
 ```bash
 find docs/learns -name "*.md" -type f | sort
 find docs/best-choices -name "*.md" -type f | sort
 ```
 
-### 2. Update docs/README.md
+### 2. 更新 docs/README.md
 
-For each category in `docs/learns/`:
+对于 `docs/learns/` 中的每个类别：
 
-1. List all `.md` files in that category
-2. Ensure the table in docs/README.md includes all files
-3. Remove entries for files that no longer exist
-4. Add entries for new files
+1. 列出该类别中的所有 `.md` 文件
+2. 确保 docs/README.md 的表格包含所有文件
+3. 删除不再存在的文件条目
+4. 为新文件添加条目
 
-Format for each topic section:
+每个主题部分的格式：
 
 ```markdown
-#### [Topic Name](./learns/<topic>/)
+#### [主题名称](./learns/<主题>/)
 
-| Document | Description | Priority |
-|----------|-------------|----------|
-| [Document Title](./learns/<topic>/<filename>.md) | <first line or description> | P0/P1/P2 |
+| 文档 | 描述 | 优先级 |
+|------|------|--------|
+| [文档标题](./learns/<主题>/<文件名>.md) | <第一行或描述> | P0/P1/P2 |
 ```
 
-### 3. Update Root README.md
+### 3. 更新根 README.md
 
-Update the Documentation section:
+更新文档部分：
 
-1. Count documents per category
-2. Update the table with accurate counts
-3. Update total statistics
+1. 统计每个类别的文档数
+2. 用准确的计数更新表格
+3. 更新总计统计
 
-### 4. Update docs/best-choices/README.md
+### 4. 更新 docs/best-choices/README.md
 
-Ensure all files in `docs/best-choices/` are listed.
+确保 `docs/best-choices/` 中的所有文件都已列出。
 
-### 5. Verify Cross-References
+### 5. 验证交叉引用
 
-Check that all relative links work:
-- Links from README to documents
-- Links from documents to related documents
-- Links in "Related Documents" sections
+检查所有相对链接是否有效：
+- 从 README 到文档的链接
+- 从文档到相关文档的链接
+- "相关文档"部分的链接
 
-### 6. Update Last Updated Date
+### 6. 更新最后更新日期
 
-Update the "Last updated" date at the bottom of each README.
+更新每个 README 底部的"最后更新"日期。
 
-## Example
+## 示例
 
-User: "Update the indexes after I added some new notes"
+用户："更新索引，我添加了一些新笔记"
 
-Actions:
-1. Scan `docs/learns/**/*.md`
-2. Compare with `docs/README.md` tables
-3. Add missing entries, remove stale ones
-4. Update counts in root `README.md`
-5. Verify all links
+操作：
+1. 扫描 `docs/learns/**/*.md`
+2. 与 `docs/README.md` 表格比较
+3. 添加缺失条目，删除过期条目
+4. 更新 `README.md` 中的计数
+5. 验证所有链接
 
-## Output Format
+## 输出格式
 
-Report changes made:
+报告所做的更改：
 
 ```
-Index Update Summary:
-- Added 3 new entries to docs/README.md
-- Removed 1 stale entry
-- Updated counts in README.md
-- Fixed 2 broken links
-- Last updated: 2026-03-02
+索引更新摘要：
+- 添加 3 个新条目到 docs/README.md
+- 删除 1 个过期条目
+- 更新 README.md 中的计数
+- 修复 2 个损坏链接
+- 最后更新：2026-03-02
 ```
 
-## Files Modified
+## 修改的文件
 
-- `docs/README.md` - Main documentation index
-- `README.md` - Root README statistics
-- `docs/best-choices/README.md` - Best choices index
+- `docs/README.md` - 主文档索引
+- `README.md` - 根 README 统计
+- `docs/best-choices/README.md` - 最佳实践索引
 
-## Verification
+## 验证
 
-1. All files in `docs/learns/` appear in `docs/README.md`
-2. Counts in `README.md` match actual file counts
-3. No broken relative links
+1. `docs/learns/` 中的所有文件出现在 `docs/README.md`
+2. `README.md` 中的计数与实际文件数匹配
+3. 没有损坏的相对链接

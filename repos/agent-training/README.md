@@ -1,35 +1,35 @@
 # Agent Training
 
-Resources for training and fine-tuning agent models.
+Agent 模型训练和微调资源。
 
-## Definition
+## 定义
 
-Agent Training resources provide:
-- **Fine-tuning**: Adapting base models for agent-specific tasks
-- **RL Training**: Reinforcement learning for agent behavior optimization
-- **Data Curation**: Training data preparation and quality control
-- **Evaluation**: Training metrics and checkpoint evaluation
+Agent Training 资源提供：
+- **微调**：为 Agent 特定任务适配基础模型
+- **RL 训练**：Agent 行为优化的强化学习
+- **数据整理**：训练数据准备和质量控制
+- **评估**：训练指标和检查点评估
 
-## Indexed Repositories
+## 已索引仓库
 
-| Repository | Description | Language | Status |
-|------------|-------------|----------|--------|
-| *None yet* | - | - | - |
+| 仓库 | 描述 | 语言 | 状态 |
+|------|------|------|------|
+| *暂无* | - | - | - |
 
-## Suggested Additions
+## 建议添加
 
-If you know of a repository that should be included here, please:
-1. Open an issue using the [Add Repository template](../../issues/new?template=add-repository.yml)
-2. Select "Agent Training" as the category
-3. Provide details about the repository
+如果你知道应该包含在此的仓库：
+1. 使用 [添加仓库模板](../../issues/new?template=add-repository.yml) 创建 Issue
+2. 选择 "Agent Training" 作为类别
+3. 提供仓库详情
 
-## Potential Candidates
+## 潜在候选
 
-- Agent fine-tuning frameworks
-- RL training pipelines
-- Agent training datasets
-- Model optimization tools
+- Agent 微调框架
+- RL 训练流水线
+- Agent 训练数据集
+- 模型优化工具
 
 ---
 
-*Last updated: 2026-03-02*
+*最后更新：2026-03-02*

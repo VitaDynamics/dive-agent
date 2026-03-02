@@ -1,45 +1,45 @@
 # Agent
 
-Standalone AI agent applications and implementations.
+独立的 AI Agent 应用和实现。
 
-## Definition
+## 定义
 
-Agent repositories are complete, runnable agent applications that:
-- **End-user focused**: Designed for direct use by end users
-- **Self-contained**: Include UI, CLI, or API interfaces
-- **Production-ready**: Can be deployed and used as-is
-- **Domain-specific**: May target specific use cases (coding, research, automation)
+Agent 仓库是完整的、可运行的 Agent 应用：
+- **面向终端用户**：设计为直接由最终用户使用
+- **自包含**：包含 UI、CLI 或 API 接口
+- **生产就绪**：可直接部署和使用
+- **领域特定**：可能针对特定用例（编码、研究、自动化）
 
-## Difference from Agent-harness
+## 与 Agent-harness 的区别
 
-| Aspect | Agent | Agent-harness |
-|--------|-------|---------------|
-| Purpose | End-user applications | Developer frameworks |
-| Usage | Use directly | Build on top |
-| Abstraction | High (opinionated) | Low (flexible) |
-| Examples | CLI assistants, chatbots | SDKs, libraries |
+| 方面 | Agent | Agent-harness |
+|------|-------|---------------|
+| 目的 | 终端用户应用 | 开发者框架 |
+| 使用方式 | 直接使用 | 在其上构建 |
+| 抽象级别 | 高（有主见） | 低（灵活） |
+| 示例 | CLI 助手、聊天机器人 | SDK、库 |
 
-## Indexed Repositories
+## 已索引仓库
 
-| Repository | Description | Language | Status |
-|------------|-------------|----------|--------|
-| *None yet* | - | - | - |
+| 仓库 | 描述 | 语言 | 状态 |
+|------|------|------|------|
+| *暂无* | - | - | - |
 
-## Suggested Additions
+## 建议添加
 
-If you know of a repository that should be included here, please:
-1. Open an issue using the [Add Repository template](../../issues/new?template=add-repository.yml)
-2. Select "Agent" as the category
-3. Provide details about the repository
+如果你知道应该包含在此的仓库：
+1. 使用 [添加仓库模板](../../issues/new?template=add-repository.yml) 创建 Issue
+2. 选择 "Agent" 作为类别
+3. 提供仓库详情
 
-## Potential Candidates
+## 潜在候选
 
-- AI coding assistants (CLI or IDE)
-- Research agents
-- Automation agents
-- Chatbot applications
-- Task-specific agents (data analysis, writing, etc.)
+- AI 编码助手（CLI 或 IDE）
+- 研究 Agent
+- 自动化 Agent
+- 聊天机器人应用
+- 任务特定 Agent（数据分析、写作等）
 
 ---
 
-*Last updated: 2026-03-02*
+*最后更新：2026-03-02*

@@ -1,128 +1,128 @@
-# Documentation Index
+# 文档索引
 
-## Learning Notes
+## 学习笔记
 
-In-depth analysis of patterns and practices across Agent frameworks.
+跨框架的模式和实践深度分析。
 
-### By Topic
+### 按主题分类
 
-#### [Streaming](./learns/streaming/)
-Async streaming, WebSocket patterns, and real-time communication.
+#### [流式处理](./learns/streaming/)
+异步流式、WebSocket 模式和实时通信。
 
-| Document | Description | Priority |
-|----------|-------------|----------|
-| [Async Streaming First Class](./learns/streaming/async-streaming-first-class.md) | Streaming as core abstraction: StreamedMessage Protocol, Pull/Push/Hybrid patterns | P0 |
-| [Streaming Comparison](./learns/streaming/streaming-comparison.md) | Cross-framework streaming patterns comparison | P2 |
-| [Streaming Tool Assembly](./learns/streaming/streaming-tool-assembly.md) | Incremental tool call assembly with streaming | P1 |
-| [WebSocket Streaming Support](./learns/streaming/websocket-streaming-support.md) | WebSocket streaming design patterns | P2 |
+| 文档 | 描述 | 优先级 |
+|------|------|--------|
+| [异步流式一等公民](./learns/streaming/async-streaming-first-class.md) | 流式作为核心抽象：StreamedMessage 协议、Pull/Push/Hybrid 模式 | P0 |
+| [流式比较](./learns/streaming/streaming-comparison.md) | 跨框架流式模式比较 | P2 |
+| [流式工具组装](./learns/streaming/streaming-tool-assembly.md) | 流式增量工具调用组装 | P1 |
+| [WebSocket 流式支持](./learns/streaming/websocket-streaming-support.md) | WebSocket 流式设计模式 | P2 |
 
-#### [Error Handling](./learns/error-handling/)
-Structured errors, retry strategies, and resilience patterns.
+#### [错误处理](./learns/error-handling/)
+结构化错误、重试策略和弹性模式。
 
-| Document | Description | Priority |
-|----------|-------------|----------|
-| [Structured Errors & Retry](./learns/error-handling/structured-errors-retry.md) | Error classification, retry strategies, error recovery | P1 |
+| 文档 | 描述 | 优先级 |
+|------|------|--------|
+| [结构化错误与重试](./learns/error-handling/structured-errors-retry.md) | 错误分类、重试策略、错误恢复 | P1 |
 
-#### [Context Management](./learns/context-management/)
-Session history, context transformation, and memory patterns.
+#### [上下文管理](./learns/context-management/)
+会话历史、上下文转换和内存模式。
 
-| Document | Description | Priority |
-|----------|-------------|----------|
-| [Context Management Dual Mode](./learns/context-management/context-management-dual-mode.md) | Audit vs Token optimization: Tape anchor slicing, history processors | P2 |
-| [Context Transformation Comparison](./learns/context-management/context-transformation-comparison.md) | Context compaction and transformation patterns | P2 |
-| [Session History Management](./learns/context-management/session-history-management.md) | Session persistence and history management | P2 |
+| 文档 | 描述 | 优先级 |
+|------|------|--------|
+| [上下文管理双模式](./learns/context-management/context-management-dual-mode.md) | 审计 vs Token 优化：Tape anchor 切片、历史处理器 | P2 |
+| [上下文转换比较](./learns/context-management/context-transformation-comparison.md) | 上下文压缩和转换模式 | P2 |
+| [会话历史管理](./learns/context-management/session-history-management.md) | 会话持久化和历史管理 | P2 |
 
-#### [Type Safety](./learns/type-safety/)
-Type-safe message hierarchies and serialization patterns.
+#### [类型安全](./learns/type-safety/)
+类型安全的消息层次结构和序列化模式。
 
-| Document | Description | Priority |
-|----------|-------------|----------|
-| [Typed Message Parts](./learns/type-safety/typed-message-parts-pydantic-ai.md) | Type-safe message parts: UserContent union, ModelMessage hierarchy | P0 |
+| 文档 | 描述 | 优先级 |
+|------|------|--------|
+| [类型化消息部件](./learns/type-safety/typed-message-parts-pydantic-ai.md) | 类型安全消息部件：UserContent 联合、ModelMessage 层次结构 | P0 |
 
-#### [Middleware](./learns/middleware/)
-Callback and extensibility systems.
+#### [中间件](./learns/middleware/)
+回调和可扩展性系统。
 
-| Document | Description | Priority |
-|----------|-------------|----------|
-| [Middleware/Callback System](./learns/middleware/middleware-callback-system.md) | Extensibility hooks: BaseCallbackHandler, RunnableConfig, astream_events | P2 |
+| 文档 | 描述 | 优先级 |
+|------|------|--------|
+| [中间件/回调系统](./learns/middleware/middleware-callback-system.md) | 可扩展性钩子：BaseCallbackHandler、RunnableConfig、astream_events | P2 |
 
-#### [Concurrency](./learns/concurrency/)
-State snapshot and concurrency patterns.
+#### [并发](./learns/concurrency/)
+状态快照和并发模式。
 
-| Document | Description | Priority |
-|----------|-------------|----------|
-| [State Snapshot Concurrency](./learns/concurrency/state-snapshot-concurrency.md) | Dual-mode concurrency: EventStream, partial snapshots, UI state sync | P2 |
+| 文档 | 描述 | 优先级 |
+|------|------|--------|
+| [状态快照并发](./learns/concurrency/state-snapshot-concurrency.md) | 双模式并发：EventStream、部分快照、UI 状态同步 | P2 |
 
-#### [Architecture](./learns/architecture/)
-Framework architecture analysis and design patterns.
+#### [架构](./learns/architecture/)
+框架架构分析和设计模式。
 
-| Document | Description | Priority |
-|----------|-------------|----------|
-| [Kimi CLI Architecture](./learns/architecture/kimi-cli-architecture.md) | Layered architecture: Soul/Wire/UI separation, D-Mail, Steer mode | P2 |
-| [Republic Anchor Mechanism](./learns/architecture/republic-anchor-mechanism.md) | Tape Anchor context slicing implementation | P2 |
+| 文档 | 描述 | 优先级 |
+|------|------|--------|
+| [Kimi CLI 架构](./learns/architecture/kimi-cli-architecture.md) | 分层架构：Soul/Wire/UI 分离、D-Mail、Steer 模式 | P2 |
+| [Republic Anchor 机制](./learns/architecture/republic-anchor-mechanism.md) | Tape Anchor 上下文切片实现 | P2 |
 
-#### [Abstractions](./learns/abstractions/)
-LLM abstraction layer comparisons and SDK patterns.
+#### [抽象层](./learns/abstractions/)
+LLM 抽象层比较和 SDK 模式。
 
-| Document | Description | Priority |
-|----------|-------------|----------|
-| [LLM Abstraction Comparison](./learns/abstractions/llm-abstraction-comparison.md) | Provider abstraction layer design patterns | P2 |
-| [LLM Call Return Encapsulation](./learns/abstractions/llm-call-return-encapsulation.md) | SDK usage patterns for LLM calls | P2 |
-| [LLM Framework Comparison](./learns/abstractions/llm-framework-comparison.md) | Comprehensive framework comparison (LitAI, Pydantic AI, Republic, Kimi CLI, LangChain) | P2 |
+| 文档 | 描述 | 优先级 |
+|------|------|--------|
+| [LLM 抽象比较](./learns/abstractions/llm-abstraction-comparison.md) | 提供者抽象层设计模式 | P2 |
+| [LLM 调用返回封装](./learns/abstractions/llm-call-return-encapsulation.md) | LLM 调用的 SDK 使用模式 | P2 |
+| [LLM 框架比较](./learns/abstractions/llm-framework-comparison.md) | 综合框架比较（LitAI, Pydantic AI, Republic, Kimi CLI, LangChain） | P2 |
 
 #### [WebSocket](./learns/websocket/)
-WebSocket protocol comparisons.
+WebSocket 协议比较。
 
-| Document | Description | Priority |
-|----------|-------------|----------|
-| [OpenAI WebSocket Comparison](./learns/websocket/openai-websocket-comparison.md) | OpenAI WebSocket vs framework implementations | P2 |
-
----
-
-### By Priority
-
-| Priority | Document | Topic |
-|----------|----------|-------|
-| P0 | [Async Streaming First Class](./learns/streaming/async-streaming-first-class.md) | Core Abstractions |
-| P0 | [Typed Message Parts](./learns/type-safety/typed-message-parts-pydantic-ai.md) | Type Safety |
-| P1 | [Structured Errors & Retry](./learns/error-handling/structured-errors-retry.md) | Production Robustness |
-| P1 | [Streaming Tool Assembly](./learns/streaming/streaming-tool-assembly.md) | Streaming |
-| P2 | [Context Management Dual Mode](./learns/context-management/context-management-dual-mode.md) | State Management |
-| P2 | [Middleware/Callback System](./learns/middleware/middleware-callback-system.md) | Extensibility |
-| P2 | [State Snapshot Concurrency](./learns/concurrency/state-snapshot-concurrency.md) | Concurrency |
+| 文档 | 描述 | 优先级 |
+|------|------|--------|
+| [OpenAI WebSocket 比较](./learns/websocket/openai-websocket-comparison.md) | OpenAI WebSocket 与框架实现比较 | P2 |
 
 ---
 
-## Best Choices
+### 按优先级分类
 
-Design documents synthesizing best practices from multiple frameworks.
-
-| Document | Description | Updated |
-|----------|-------------|---------|
-| [LLM Error Handling Design](./best-choices/llm-error-handling-design.md) | Structured error classification, retry strategies, fallback patterns | 2026-02-26 |
-| [Streaming Pull Debounced Push Design](./best-choices/streaming-pull-debounced-push-design.md) | Streaming architecture patterns | 2026-02-26 |
-
----
-
-## Templates
-
-| Template | Description |
-|----------|-------------|
-| [Learning Note Template](./templates/learning-note-template.md) | Template for contributing new learning notes |
+| 优先级 | 文档 | 主题 |
+|--------|------|------|
+| P0 | [异步流式一等公民](./learns/streaming/async-streaming-first-class.md) | 核心抽象 |
+| P0 | [类型化消息部件](./learns/type-safety/typed-message-parts-pydantic-ai.md) | 类型安全 |
+| P1 | [结构化错误与重试](./learns/error-handling/structured-errors-retry.md) | 生产健壮性 |
+| P1 | [流式工具组装](./learns/streaming/streaming-tool-assembly.md) | 流式处理 |
+| P2 | [上下文管理双模式](./learns/context-management/context-management-dual-mode.md) | 状态管理 |
+| P2 | [中间件/回调系统](./learns/middleware/middleware-callback-system.md) | 可扩展性 |
+| P2 | [状态快照并发](./learns/concurrency/state-snapshot-concurrency.md) | 并发 |
 
 ---
 
-## Contributing
+## 最佳实践
 
-To contribute documentation:
+综合多个框架最佳实践的设计文档。
 
-1. Follow the [Learning Note Template](./templates/learning-note-template.md)
-2. Place the file in the appropriate topic subdirectory under `docs/learns/<topic>/`
-3. Update this README index
-4. Submit a PR
-
-**[View Contributing Guide →](../CONTRIBUTING.md)**
+| 文档 | 描述 | 更新时间 |
+|------|------|----------|
+| [LLM 错误处理设计](./best-choices/llm-error-handling-design.md) | 结构化错误分类、重试策略、回退模式 | 2026-02-26 |
+| [流式拉取防抖推送设计](./best-choices/streaming-pull-debounced-push-design.md) | 流式架构模式 | 2026-02-26 |
 
 ---
 
-*Last updated: 2026-03-02*
+## 模板
+
+| 模板 | 描述 |
+|------|------|
+| [学习笔记模板](./templates/learning-note-template.md) | 贡献新学习笔记的模板 |
+
+---
+
+## 贡献文档
+
+贡献文档步骤：
+
+1. 遵循 [学习笔记模板](./templates/learning-note-template.md)
+2. 将文件放在 `docs/learns/<主题>/` 对应目录
+3. 更新本 README 索引
+4. 提交 PR
+
+**[查看贡献指南 →](../CONTRIBUTING.md)**
+
+---
+
+*最后更新：2026-03-02*

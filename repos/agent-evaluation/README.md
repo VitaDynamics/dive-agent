@@ -1,35 +1,35 @@
 # Agent Evaluation
 
-Frameworks for testing and evaluating agent performance.
+Agent 性能测试和评估框架。
 
-## Definition
+## 定义
 
-Agent Evaluation frameworks provide:
-- **Benchmarking**: Standardized tasks and metrics for agent evaluation
-- **Testing**: Unit and integration testing for agent behaviors
-- **Monitoring**: Runtime observability and performance tracking
-- **Comparison**: Cross-framework and cross-model comparisons
+Agent Evaluation 框架提供：
+- **基准测试**：Agent 评估的标准化任务和指标
+- **测试**：Agent 行为的单元和集成测试
+- **监控**：运行时可观测性和性能跟踪
+- **比较**：跨框架和跨模型比较
 
-## Indexed Repositories
+## 已索引仓库
 
-| Repository | Description | Language | Status |
-|------------|-------------|----------|--------|
-| *None yet* | - | - | - |
+| 仓库 | 描述 | 语言 | 状态 |
+|------|------|------|------|
+| *暂无* | - | - | - |
 
-## Suggested Additions
+## 建议添加
 
-If you know of a repository that should be included here, please:
-1. Open an issue using the [Add Repository template](../../issues/new?template=add-repository.yml)
-2. Select "Agent Evaluation" as the category
-3. Provide details about the repository
+如果你知道应该包含在此的仓库：
+1. 使用 [添加仓库模板](../../issues/new?template=add-repository.yml) 创建 Issue
+2. 选择 "Agent Evaluation" 作为类别
+3. 提供仓库详情
 
-## Potential Candidates
+## 潜在候选
 
-- Agent benchmarking frameworks
-- Agent testing libraries
-- Evaluation metric tools
-- Agent behavior analysis tools
+- Agent 基准测试框架
+- Agent 测试库
+- 评估指标工具
+- Agent 行为分析工具
 
 ---
 
-*Last updated: 2026-03-02*
+*最后更新：2026-03-02*

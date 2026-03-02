@@ -1,97 +1,97 @@
-# [Document Title]
+# [文档标题]
 
-> **Scope**: Brief description of what this document covers
+> **范围**：简要描述本文档涵盖的内容
 >
-> **Synthesized from**: framework1, framework2, framework3
+> **综合自**：framework1, framework2, framework3
 >
-> **Priority**: P0 | P1 | P2
+> **优先级**：P0 | P1 | P2
 
 ---
 
-## Overview
+## 概述
 
-[2-3 paragraphs explaining the pattern/concept and why it matters]
+[2-3 段解释模式/概念及其重要性]
 
-## Problem Statement
+## 问题描述
 
-[What problem does this pattern solve? Why is it important for Agent frameworks?]
+[这个模式解决什么问题？为什么对 Agent 框架很重要？]
 
-## Key Concepts
+## 核心概念
 
-### 1. [First Major Concept]
+### 1. [第一个主要概念]
 
-#### Framework: [Name]
+#### 框架：[名称]
 
-[Description with code examples]
+[带代码示例的描述]
 
 ```python
-# Example code from framework
+# 框架中的示例代码
 ```
 
-**Design Rationale**:
-- Point 1
-- Point 2
+**设计理由**：
+- 要点 1
+- 要点 2
 
-**Trade-offs**:
-- Pro: ...
-- Con: ...
-
----
-
-### 2. [Second Major Concept]
-
-[Continue pattern...]
+**权衡**：
+- 优点：...
+- 缺点：...
 
 ---
 
-## Comparison Matrix
+### 2. [第二个主要概念]
 
-| Aspect | Framework A | Framework B | Framework C |
-|--------|-------------|-------------|-------------|
-| Pattern | X | Y | Z |
-| Trade-off | Pro/Con | Pro/Con | Pro/Con |
-| Complexity | Low/Medium/High | ... | ... |
+[继续模式...]
 
 ---
 
-## Best Practices
+## 比较矩阵
 
-1. **Recommendation 1**: Explanation of when and why to apply this
-2. **Recommendation 2**: Another actionable recommendation
-3. **Anti-pattern**: What to avoid and why
+| 方面 | 框架 A | 框架 B | 框架 C |
+|------|--------|--------|--------|
+| 模式 | X | Y | Z |
+| 权衡 | 优/缺 | 优/缺 | 优/缺 |
+| 复杂度 | 低/中/高 | ... | ... |
 
 ---
 
-## Code Examples
+## 最佳实践
 
-### Basic Usage
+1. **建议 1**：何时以及为何应用的解释
+2. **建议 2**：另一个可操作的建议
+3. **反模式**：应该避免什么以及为什么
+
+---
+
+## 代码示例
+
+### 基础用法
 
 ```python
-# Minimal working example
+# 最小工作示例
 ```
 
-### Advanced Usage
+### 高级用法
 
 ```python
-# More complex example with error handling
+# 带错误处理的更复杂示例
 ```
 
 ---
 
-## Related Documents
+## 相关文档
 
-- [related-doc-1](../path/to/doc.md) - Brief description of relationship
-- [related-doc-2](../path/to/doc.md) - Brief description of relationship
-
----
-
-## References
-
-- [Framework A Documentation](https://...)
-- [Framework B Source Code](https://...)
-- [Related Paper/Article](https://...)
+- [相关文档 1](../path/to/doc.md) - 关系简要描述
+- [相关文档 2](../path/to/doc.md) - 关系简要描述
 
 ---
 
-*Created: YYYY-MM-DD*
-*Updated: YYYY-MM-DD*
+## 参考
+
+- [框架 A 文档](https://...)
+- [框架 B 源码](https://...)
+- [相关论文/文章](https://...)
+
+---
+
+*创建时间：YYYY-MM-DD*
+*更新时间：YYYY-MM-DD*

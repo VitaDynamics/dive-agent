@@ -1,94 +1,94 @@
 ---
 name: add-repo
 description: |
-  Add a new repository to the knowledge base. Use this skill when the user wants to add a new repository for learning, mentions "add repo", "新增仓库", "引入仓库", or provides a GitHub URL to add. This skill updates sources.json, repos/ indexes, and optionally clones the repository.
+  添加新仓库到知识库。当用户想要添加新仓库用于学习、提到"add repo"、"新增仓库"、"引入仓库"或提供 GitHub URL 时使用此技能。此技能会更新 sources.json、repos/ 索引，并可选择克隆仓库。
 ---
 
-# Add Repository
+# 添加仓库
 
-Add a new repository to the Agent Group knowledge base.
+添加新仓库到 Agent Group 知识库。
 
-## Input Required
+## 必需输入
 
-Ask the user for the following information if not provided:
+如果用户未提供，请询问以下信息：
 
-1. **Repository URL** (required): GitHub URL, e.g., `https://github.com/org/repo.git`
-2. **Category** (required): One of `agent`, `agent-harness`, `agent-evaluation`, `agent-training`
-3. **Name** (optional): Directory name, defaults to repo name from URL
-4. **Description** (optional): Brief description
-5. **Branch** (optional): Default is `main`
-6. **Clone now** (optional): Whether to clone immediately, default is `yes`
+1. **仓库 URL**（必需）：GitHub URL，例如 `https://github.com/org/repo.git`
+2. **类别**（必需）：`agent`、`agent-harness`、`agent-evaluation`、`agent-training` 之一
+3. **名称**（可选）：目录名，默认为 URL 中的仓库名
+4. **描述**（可选）：简要描述
+5. **分支**（可选）：默认为 `main`
+6. **立即克隆**（可选）：是否立即克隆，默认为 `yes`
 
-## Steps
+## 步骤
 
-### 1. Validate Category
+### 1. 验证类别
 
-Valid categories:
-- `agent` - Standalone AI agent applications
-- `agent-harness` - Agent frameworks and orchestration tools
-- `agent-evaluation` - Agent testing and evaluation frameworks
-- `agent-training` - Agent training and fine-tuning resources
+有效类别：
+- `agent` - 独立的 AI Agent 应用
+- `agent-harness` - Agent 框架和编排工具
+- `agent-evaluation` - Agent 测试和评估框架
+- `agent-training` - Agent 训练和微调资源
 
-### 2. Update sources.json
+### 2. 更新 sources.json
 
-Add entry to `sources.json`:
+添加条目到 `sources.json`：
 
 ```json
 {
-  "name": "<name>",
+  "name": "<名称>",
   "url": "<url>",
-  "branch": "<branch>",
+  "branch": "<分支>",
   "depth": 1,
-  "description": "<description>",
-  "addedAt": "<today's date YYYY-MM-DD>",
+  "description": "<描述>",
+  "addedAt": "<今天日期 YYYY-MM-DD>",
   "notes": []
 }
 ```
 
-### 3. Update repos/README.md
+### 3. 更新 repos/README.md
 
-Add entry to the appropriate category table in `repos/README.md`:
+在 `repos/README.md` 的相应类别表格中添加条目：
 
 ```markdown
-| [<name>](https://github.com/org/repo) | <description> | <language> | - |
+| [<名称>](https://github.com/org/repo) | <描述> | <语言> | - |
 ```
 
-### 4. Update repos/<category>/README.md
+### 4. 更新 repos/<类别>/README.md
 
-Add detailed entry to the category-specific README.
+在类别特定的 README 中添加详细条目。
 
-### 5. Update Root README.md
+### 5. 更新根 README.md
 
-Update the category count in `README.md`.
+更新 `README.md` 中的类别计数。
 
-### 6. Clone Repository (if requested)
+### 6. 克隆仓库（如果需要）
 
-Run the sync script:
+运行同步脚本：
 ```bash
-./scripts/sync-sources.sh <name>
+./scripts/sync-sources.sh <名称>
 ```
 
-## Example
+## 示例
 
-User: "Add https://github.com/openai/swarm to agent-harness"
+用户："Add https://github.com/openai/swarm to agent-harness"
 
-Actions:
-1. Add to sources.json under "agent-harness"
-2. Update repos/README.md
-3. Update repos/agent-harness/README.md
-4. Update README.md count
-5. Clone with `./scripts/sync-sources.sh swarm`
+操作：
+1. 添加到 sources.json 的 "agent-harness" 下
+2. 更新 repos/README.md
+3. 更新 repos/agent-harness/README.md
+4. 更新 README.md 计数
+5. 用 `./scripts/sync-sources.sh swarm` 克隆
 
-## Files Modified
+## 修改的文件
 
-- `sources.json` - Add repository entry
-- `repos/README.md` - Add to category table
-- `repos/<category>/README.md` - Add detailed entry
-- `README.md` - Update count
+- `sources.json` - 添加仓库条目
+- `repos/README.md` - 添加到类别表格
+- `repos/<类别>/README.md` - 添加详细条目
+- `README.md` - 更新计数
 
-## Verification
+## 验证
 
-After completion, verify:
-1. `./scripts/sync-sources.sh --status` shows the new repo
-2. All README files contain the new entry
-3. If cloned, `sources/<category>/<name>/` exists
+完成后验证：
+1. `./scripts/sync-sources.sh --status` 显示新仓库
+2. 所有 README 文件包含新条目
+3. 如果已克隆，`sources/<类别>/<名称>/` 存在

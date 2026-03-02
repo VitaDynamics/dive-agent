@@ -1,79 +1,79 @@
-# Repository Index
+# 仓库索引
 
-A curated collection of Agent-related repositories organized by category.
+按类别组织的 Agent 相关仓库精选集合。
 
-## Categories
+## 分类
 
-### [Agent](./agent/) (0 repositories)
+### [Agent](./agent/)（0 个仓库）
 
-Standalone AI agent applications and implementations.
+独立的 AI Agent 应用和实现，可直接使用。
 
-| Repository | Description | Language | Status |
-|------------|-------------|----------|--------|
-| *None yet* | - | - | - |
+| 仓库 | 描述 | 语言 | 状态 |
+|------|------|------|------|
+| *暂无* | - | - | - |
 
-**[View Details →](./agent/README.md)**
-
----
-
-### [Agent-harness](./agent-harness/) (6 repositories)
-
-Agent frameworks and orchestration tools that provide core abstractions for building AI agents.
-
-| Repository | Description | Language |
-|------------|-------------|----------|
-| [pydantic-ai](https://github.com/pydantic/pydantic-ai) | Provider-agnostic GenAI agent framework with full type safety | Python |
-| [langchain](https://github.com/langchain-ai/langchain) | Build context-aware reasoning applications | Python |
-| [republic](https://github.com/fixie/republic) | Tape-based agent framework with complete audit trail | Python |
-| [litai](https://github.com/Lightning-AI/litai) | Lightweight LLM integration with unified billing | Python |
-| [kimi-cli](https://github.com/MoonshotAI/kimi-cli) | CLI agent with kosong streaming library | Python |
-| [pi-mono](https://github.com/pi-company/pi-mono) | Multi-provider LLM abstraction monorepo | TypeScript |
-
-**[View Details →](./agent-harness/README.md)**
+**[查看详情 →](./agent/README.md)**
 
 ---
 
-### [Agent Evaluation](./agent-evaluation/) (0 repositories)
+### [Agent-harness](./agent-harness/)（6 个仓库）
 
-Frameworks for testing and evaluating agent performance.
+Agent 框架和编排工具，提供构建 AI Agent 的核心抽象。
 
-| Repository | Description | Language | Status |
-|------------|-------------|----------|--------|
-| *None yet* | - | - | - |
+| 仓库 | 描述 | 语言 |
+|------|------|------|
+| [pydantic-ai](https://github.com/pydantic/pydantic-ai) | 提供者无关的 GenAI Agent 框架，完全类型安全 | Python |
+| [langchain](https://github.com/langchain-ai/langchain) | 构建上下文感知推理应用 | Python |
+| [republic](https://github.com/fixie/republic) | 基于 Tape 的 Agent 框架，完整审计追踪 | Python |
+| [litai](https://github.com/Lightning-AI/litai) | 轻量级 LLM 路由器，统一计费 | Python |
+| [kimi-cli](https://github.com/MoonshotAI/kimi-cli) | 终端 Agent，包含 kosong 流式库 | Python |
+| [pi-mono](https://github.com/pi-company/pi-mono) | 多提供者 LLM 抽象 monorepo | TypeScript |
 
-**[View Details →](./agent-evaluation/README.md)**
-
----
-
-### [Agent Training](./agent-training/) (0 repositories)
-
-Resources for training and fine-tuning agent models.
-
-| Repository | Description | Language | Status |
-|------------|-------------|----------|--------|
-| *None yet* | - | - | - |
-
-**[View Details →](./agent-training/README.md)**
+**[查看详情 →](./agent-harness/README.md)**
 
 ---
 
-## Adding a Repository
+### [Agent Evaluation](./agent-evaluation/)（0 个仓库）
 
-To add a repository to this index:
+Agent 性能测试和评估框架。
 
-1. Open an issue using the [Add Repository template](../../issues/new?template=add-repository.yml)
-2. Provide repository URL, category, and brief description
-3. Maintainers will review and update the index
+| 仓库 | 描述 | 语言 | 状态 |
+|------|------|------|------|
+| *暂无* | - | - | - |
 
-## Category Definitions
-
-| Category | Definition | Examples |
-|----------|------------|----------|
-| **Agent** | Standalone AI agent applications ready for end-user use | CLI assistants, chatbots, automation agents |
-| **Agent-harness** | Frameworks that provide core agent abstractions (state management, tool calling, streaming) | pydantic-ai, langchain, republic |
-| **Agent Evaluation** | Tools for benchmarking, testing, and evaluating agent behavior | agent-eval, agent-bench |
-| **Agent Training** | Resources for training, fine-tuning, and optimizing agent models | agent-trainer, rl-agent |
+**[查看详情 →](./agent-evaluation/README.md)**
 
 ---
 
-*Last updated: 2026-03-02*
+### [Agent Training](./agent-training/)（0 个仓库）
+
+Agent 模型训练和微调资源。
+
+| 仓库 | 描述 | 语言 | 状态 |
+|------|------|------|------|
+| *暂无* | - | - | - |
+
+**[查看详情 →](./agent-training/README.md)**
+
+---
+
+## 添加仓库
+
+要将仓库添加到此索引：
+
+1. 使用 [添加仓库模板](../../issues/new?template=add-repository.yml) 创建 Issue
+2. 提供仓库 URL、类别和简要描述
+3. 维护者将审核并更新索引
+
+## 类别定义
+
+| 类别 | 定义 | 示例 |
+|------|------|------|
+| **Agent** | 可直接使用的独立 AI Agent 应用 | CLI 助手、聊天机器人、自动化 Agent |
+| **Agent-harness** | 提供 Agent 核心抽象的框架（状态管理、工具调用、流式处理） | pydantic-ai, langchain, republic |
+| **Agent Evaluation** | Agent 行为基准测试、测试和评估工具 | agent-eval, agent-bench |
+| **Agent Training** | Agent 模型训练、微调和优化资源 | agent-trainer, rl-agent |
+
+---
+
+*最后更新：2026-03-02*

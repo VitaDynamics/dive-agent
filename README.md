@@ -1,86 +1,86 @@
-# Agent Group Knowledge Base
+# Agent Group 知识库
 
-> A curated collection of Agent frameworks, evaluation tools, training methodologies, and learning resources.
+> Agent 框架、评估工具、训练方法和学习资源的精选集合。
 
-## Overview
+## 概述
 
-This repository serves as a centralized knowledge base for:
-- **Repository Index**: Curated list of Agent-related projects organized by category
-- **Learning Notes**: In-depth analysis and comparison of Agent framework patterns
-- **Design Documents**: Best practices and architectural decisions
+本仓库作为集中式知识库，包含：
+- **仓库索引**：按类别组织的 Agent 相关项目精选列表
+- **学习笔记**：Agent 框架模式的深度分析和比较
+- **最佳实践**：设计决策和架构建议
 
-## Repository Categories
+## 仓库分类
 
-| Category | Description | Count |
-|----------|-------------|-------|
-| [Agent](./repos/agent/) | Standalone AI agent applications and implementations | 0 |
-| [Agent-harness](./repos/agent-harness/) | Agent frameworks and orchestration tools | 6 |
-| [Agent Evaluation](./repos/agent-evaluation/) | Agent testing and evaluation frameworks | 0 |
-| [Agent Training](./repos/agent-training/) | Agent training and fine-tuning resources | 0 |
+| 类别 | 描述 | 数量 |
+|------|------|------|
+| [Agent](./repos/agent/) | 独立的 AI Agent 应用和实现 | 0 |
+| [Agent-harness](./repos/agent-harness/) | Agent 框架和编排工具 | 6 |
+| [Agent Evaluation](./repos/agent-evaluation/) | Agent 测试和评估框架 | 0 |
+| [Agent Training](./repos/agent-training/) | Agent 训练和微调资源 | 0 |
 
-**[View All Repositories →](./repos/README.md)**
+**[查看所有仓库 →](./repos/README.md)**
 
-## Documentation
+## 文档
 
-### Learning Notes by Topic
+### 学习笔记（按主题）
 
-| Topic | Description | Documents |
-|-------|-------------|-----------|
-| [Streaming](./docs/learns/streaming/) | Async streaming, WebSocket patterns | 4 |
-| [Error Handling](./docs/learns/error-handling/) | Structured errors, retry strategies | 1 |
-| [Context Management](./docs/learns/context-management/) | Session history, context transformation | 3 |
-| [Type Safety](./docs/learns/type-safety/) | Type-safe message hierarchies | 1 |
-| [Middleware](./docs/learns/middleware/) | Callback and extensibility systems | 1 |
-| [Concurrency](./docs/learns/concurrency/) | State snapshot and concurrency patterns | 1 |
-| [Architecture](./docs/learns/architecture/) | Framework architecture analysis | 2 |
-| [Abstractions](./docs/learns/abstractions/) | LLM abstraction layer comparisons | 3 |
-| [WebSocket](./docs/learns/websocket/) | OpenAI WebSocket comparisons | 1 |
+| 主题 | 描述 | 文档数 |
+|------|------|--------|
+| [流式处理](./docs/learns/streaming/) | 异步流式、WebSocket 模式 | 4 |
+| [错误处理](./docs/learns/error-handling/) | 结构化错误、重试策略 | 1 |
+| [上下文管理](./docs/learns/context-management/) | 会话历史、上下文转换 | 3 |
+| [类型安全](./docs/learns/type-safety/) | 类型安全的消息层次结构 | 1 |
+| [中间件](./docs/learns/middleware/) | 回调和可扩展性系统 | 1 |
+| [并发](./docs/learns/concurrency/) | 状态快照和并发模式 | 1 |
+| [架构](./docs/learns/architecture/) | 框架架构分析 | 2 |
+| [抽象层](./docs/learns/abstractions/) | LLM 抽象层比较 | 3 |
+| [WebSocket](./docs/learns/websocket/) | OpenAI WebSocket 比较 | 1 |
 
-### Best Choices
+### 最佳实践
 
-Design documents synthesizing best practices from multiple frameworks.
+综合多个框架的最佳实践文档。
 
-| Document | Description |
-|----------|-------------|
-| [LLM Error Handling Design](./docs/best-choices/llm-error-handling-design.md) | Structured error classification, retry strategies |
-| [Streaming Pull Debounced Push Design](./docs/best-choices/streaming-pull-debounced-push-design.md) | Streaming architecture patterns |
+| 文档 | 描述 |
+|------|------|
+| [LLM 错误处理设计](./docs/best-choices/llm-error-handling-design.md) | 结构化错误分类、重试策略 |
+| [流式拉取防抖推送设计](./docs/best-choices/streaming-pull-debounced-push-design.md) | 流式架构模式 |
 
-**[View All Documentation →](./docs/README.md)**
+**[查看所有文档 →](./docs/README.md)**
 
-## Quick Links
+## 快速链接
 
-- [Contributing Guide](./CONTRIBUTING.md)
-- [Add a Repository](../../issues/new?template=add-repository.yml)
-- [Contribute Documentation](../../issues/new?template=document-contribution.yml)
-- [GitHub Wiki](../../wiki) (auto-synced from `docs/learns/`)
-- [Discussions](../../discussions)
+- [贡献指南](./CONTRIBUTING.md)
+- [添加仓库](../../issues/new?template=add-repository.yml)
+- [贡献文档](../../issues/new?template=document-contribution.yml)
+- [GitHub Wiki](../../wiki)（从 `docs/learns/` 自动同步）
+- [讨论区](../../discussions)
 
-## Sync Source Code
+## 同步源码
 
-To clone external repositories for local learning:
+克隆外部仓库用于本地学习：
 
 ```bash
-# Sync all repositories (shallow clone)
+# 同步所有仓库（浅层克隆）
 ./scripts/sync-sources.sh
 
-# Sync specific repository
+# 同步单个仓库
 ./scripts/sync-sources.sh pydantic-ai
 
-# Check sync status
+# 查看同步状态
 ./scripts/sync-sources.sh --status
 ```
 
-Cloned code is stored in `sources/<category>/<name>/` (not committed to git).
+克隆的代码存储在 `sources/<类别>/<名称>/`（不提交到 git）。
 
-## Statistics
+## 统计信息
 
 ```
-Repositories: 6 (Agent-harness: 6, Evaluation: 0, Training: 0)
-Documents: 17 learning notes + 2 design documents
-Topics: 9
-Last Updated: 2026-03-02
+仓库：6（Agent-harness: 6, Evaluation: 0, Training: 0）
+文档：17 个学习笔记 + 2 个最佳实践文档
+主题：9
+最后更新：2026-03-02
 ```
 
 ---
 
-*Maintained by the Agent Group team*
+*由 Agent Group 团队维护*

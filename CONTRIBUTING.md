@@ -1,25 +1,34 @@
-# Contributing to Agent Group
+# 贡献指南
 
-Thank you for your interest in contributing! This guide covers how to add repositories, contribute documentation, and maintain the knowledge base.
+感谢你有兴趣贡献！本指南涵盖如何添加仓库、贡献文档和维护知识库。
 
-## Ways to Contribute
+## 贡献方式
 
-### 1. Add a Repository
+### 1. 添加仓库
 
-To suggest a repository for inclusion:
+建议添加仓库：
 
-1. Open an issue using the [Add Repository template](../../issues/new?template=add-repository.yml)
-2. Provide:
-   - Repository URL
-   - Suggested category (Agent / Agent-harness / Agent Evaluation / Agent Training)
-   - Brief description (1-2 sentences)
-   - Why it should be included
+1. 使用 [添加仓库模板](../../issues/new?template=add-repository.yml) 创建 Issue
+2. 提供：
+   - 仓库 URL
+   - 建议类别（Agent / Agent-harness / Agent Evaluation / Agent Training）
+   - 简要描述（1-2 句）
+   - 为什么应该收录
 
-#### Adding Repository Source Code
+#### 类别定义
 
-To add a repository's source code for local learning:
+| 类别 | 定义 | 示例 |
+|------|------|------|
+| **Agent** | 可直接使用的独立 AI Agent 应用 | CLI 助手、聊天机器人、自动化 Agent |
+| **Agent-harness** | 提供 Agent 核心抽象的框架（状态管理、工具调用、流式处理） | pydantic-ai, langchain, republic |
+| **Agent Evaluation** | Agent 行为基准测试、测试和评估工具 | agent-eval, agent-bench |
+| **Agent Training** | Agent 模型训练、微调和优化资源 | agent-trainer, rl-agent |
 
-1. Edit `sources.json` to add the repository entry:
+#### 添加仓库源码
+
+添加仓库源码用于本地学习：
+
+1. 编辑 `sources.json` 添加仓库条目：
 
 ```json
 {
@@ -27,137 +36,129 @@ To add a repository's source code for local learning:
   "url": "https://github.com/org/example-repo.git",
   "branch": "main",
   "depth": 1,
-  "description": "Brief description",
+  "description": "简要描述",
   "addedAt": "2026-03-02",
   "notes": ["docs/learns/topic/related-note.md"]
 }
 ```
 
-2. Run the sync script:
+2. 运行同步脚本：
 
 ```bash
-# Sync all repositories
+# 同步所有仓库
 ./scripts/sync-sources.sh
 
-# Sync specific repository
+# 同步单个仓库
 ./scripts/sync-sources.sh example-repo
 
-# Check status
+# 查看状态
 ./scripts/sync-sources.sh --status
 ```
 
-3. Cloned code will be available in `sources/<category>/<name>/`
+3. 克隆的代码将位于 `sources/<类别>/<名称>/`
 
-#### Category Definitions
+### 2. 贡献文档
 
-| Category | Definition | Examples |
-|----------|------------|----------|
-| **Agent-harness** | Frameworks that provide core agent abstractions (state management, tool calling, streaming) | pydantic-ai, langchain, republic |
-| **Agent Evaluation** | Tools for benchmarking, testing, and evaluating agent behavior | agent-eval, agent-bench |
-| **Agent Training** | Resources for training, fine-tuning, and optimizing agent models | agent-trainer, rl-agent |
+#### 学习笔记
 
-### 2. Contribute Documentation
+学习笔记分析跨框架的模式。贡献步骤：
 
-#### Learning Notes
+1. **选择主题** - 比较多个框架中的模式
+2. **使用模板**：[学习笔记模板](./docs/templates/learning-note-template.md)
+3. **放在正确目录**：`docs/learns/<主题>/your-document.md`
+4. **更新索引**：添加条目到 `docs/README.md`
+5. **提交 PR**
 
-Learning notes analyze patterns across frameworks. To contribute:
+可用主题：
+- `streaming/` - 异步流式、WebSocket 模式
+- `error-handling/` - 结构化错误、重试策略
+- `context-management/` - 会话历史、上下文转换
+- `type-safety/` - 类型安全的消息层次结构
+- `middleware/` - 回调和可扩展性系统
+- `concurrency/` - 状态快照和并发模式
+- `architecture/` - 框架架构分析
+- `abstractions/` - LLM 抽象层比较
+- `websocket/` - WebSocket 协议比较
 
-1. **Choose a topic** that compares patterns across multiple frameworks
-2. **Use the template**: [Learning Note Template](./docs/templates/learning-note-template.md)
-3. **Place in correct subdirectory**: `docs/learns/<topic>/your-document.md`
-4. **Update the index**: Add entry to `docs/README.md`
-5. **Submit a PR**
+#### 最佳实践
 
-Available topics:
-- `streaming/` - Async streaming, WebSocket patterns
-- `error-handling/` - Structured errors, retry strategies
-- `context-management/` - Session history, context transformation
-- `type-safety/` - Type-safe message hierarchies
-- `middleware/` - Callback and extensibility systems
-- `concurrency/` - State snapshot and concurrency patterns
-- `architecture/` - Framework architecture analysis
-- `abstractions/` - LLM abstraction layer comparisons
-- `websocket/` - WebSocket protocol comparisons
+最佳实践文档综合分析得出的建议。要求：
 
-#### Best Choices
+- 必须分析至少 2 个框架
+- 必须提供具体代码示例
+- 必须包含决策理由
 
-Best Choice documents synthesize recommendations from analysis. Requirements:
+### 3. 修复或改进现有内容
 
-- Must analyze at least 2 frameworks
-- Must provide concrete code examples
-- Must include decision rationale
+- **拼写错误/小修复**：直接提交 PR
+- **重大更改**：先创建 Issue 讨论
 
-### 3. Fix or Improve Existing Content
+## PR 流程
 
-- **Typos/Minor fixes**: Submit a PR directly
-- **Major changes**: Open an issue first to discuss
+### 提交前
 
-## PR Process
+- [ ] 阅读本贡献指南
+- [ ] 文档类：使用适当模板
+- [ ] 更新所有相关 README 索引
+- [ ] 确保 markdown 格式一致
 
-### Before Submitting
+### PR 检查清单
 
-- [ ] Read this contributing guide
-- [ ] For documentation: use the appropriate template
-- [ ] Update all relevant README indexes
-- [ ] Ensure markdown formatting is consistent
+- [ ] PR 标题遵循规范：`docs: add streaming-patterns` 或 `repos: add smolagents`
+- [ ] README 索引已更新
+- [ ] 文件位置遵循目录结构
 
-### PR Checklist
+### 合并后
 
-- [ ] PR title follows convention: `docs: add streaming-patterns` or `repos: add smolagents`
-- [ ] README indexes are updated
-- [ ] File placement follows directory structure
+- `docs/learns/*.md` 中的文档会自动同步到 GitHub Wiki
+- README 索引是导航的真实来源
 
-### After Merge
-
-- Documentation in `docs/learns/*.md` is automatically synced to GitHub Wiki
-- README indexes are the source of truth for navigation
-
-## Directory Structure
+## 目录结构
 
 ```
 agent-group/
-├── repos/                    # Repository indexes by category
+├── repos/                    # 按类别组织的仓库索引
 │   ├── agent-harness/
 │   ├── agent-evaluation/
 │   └── agent-training/
 ├── docs/
-│   ├── learns/               # Learning notes by topic
+│   ├── learns/               # 按主题组织的学习笔记
 │   │   ├── streaming/
 │   │   ├── error-handling/
 │   │   └── ...
-│   ├── best-choices/         # Design documents
-│   └── templates/            # Document templates
-└── .github/                  # Issue/PR templates
+│   ├── best-choices/         # 设计文档
+│   └── templates/            # 文档模板
+└── .github/                  # Issue/PR 模板
 ```
 
-## Style Guide
+## 风格指南
 
-### Document Formatting
+### 文档格式
 
-- Use ATX headings (# for H1, ## for H2, etc.)
-- Include front matter with creation date and related topics
-- Code blocks must specify language
-- Tables for comparisons are encouraged
+- 使用 ATX 标题（# 为 H1，## 为 H2 等）
+- 包含创建日期和相关主题的元信息
+- 代码块必须指定语言
+- 鼓励使用表格进行比较
 
-### File Naming
+### 文件命名
 
-- Use kebab-case: `streaming-tool-assembly.md`
-- Be descriptive but concise
-- Match existing naming patterns
+- 使用 kebab-case：`streaming-tool-assembly.md`
+- 描述性强但简洁
+- 匹配现有命名模式
 
-### Commit Messages
+### 提交信息
 
-Follow conventional commits:
-- `docs: add streaming-patterns` - Adding documentation
-- `repos: add smolagents` - Adding repository to index
-- `fix: correct typo in readme` - Fixing typos
-- `chore: update contributing guide` - Maintenance tasks
+遵循约定式提交：
+- `docs: add streaming-patterns` - 添加文档
+- `repos: add smolagents` - 添加仓库到索引
+- `fix: correct typo in readme` - 修复拼写错误
+- `chore: update contributing guide` - 维护任务
 
-## Questions?
+## 问题？
 
-- Open a [Discussion](../../discussions) for general questions
-- Open an [Issue](../../issues) for specific problems
+- 一般问题：开启 [讨论区](../../discussions)
+- 具体问题：开启 [Issue](../../issues)
 
 ---
 
-Thank you for contributing to the Agent Group knowledge base!
+感谢你为 Agent Group 知识库做出贡献！

@@ -1,124 +1,124 @@
 ---
 name: add-repo-category
 description: |
-  Add a new repository category to repos/. Use this skill when the user wants to create a new classification for repositories, mentions "add repo category", "新增仓库分类", "创建仓库类别", or wants to organize repos under a new category.
+  添加新的仓库类别到 repos/。当用户想要创建新的仓库分类、提到"add repo category"、"新增仓库分类"、"创建仓库类别"或在 新类别下组织仓库时使用此技能。
 ---
 
-# Add Repo Category
+# 添加仓库类别
 
-Add a new category for classifying repositories.
+添加新的类别用于分类仓库。
 
-## Input Required
+## 必需输入
 
-Ask the user for:
+请询问用户：
 
-1. **Category name** (required): kebab-case name, e.g., `agent-infra`
-2. **Display name** (optional): Human-readable name, e.g., "Agent Infrastructure"
-3. **Description** (optional): What kind of repos belong here
-4. **Examples** (optional): Example repositories that would fit
+1. **类别名称**（必需）：kebab-case 名称，例如 `agent-infra`
+2. **显示名称**（可选）：人类可读名称，例如"Agent 基础设施"
+3. **描述**（可选）：什么样的仓库属于这里
+4. **示例**（可选）：适合的示例仓库
 
-## Steps
+## 步骤
 
-### 1. Create Directory and README
+### 1. 创建目录和 README
 
 ```bash
-mkdir -p repos/<category-name>
+mkdir -p repos/<类别名称>
 ```
 
-Create `repos/<category-name>/README.md`:
+创建 `repos/<类别名称>/README.md`：
 
 ```markdown
-# <Display Name>
+# <显示名称>
 
-<Description>
+<描述>
 
-## Definition
+## 定义
 
-<Category definition and criteria>
+<类别定义和标准>
 
-## Indexed Repositories
+## 已索引仓库
 
-| Repository | Description | Language | Status |
-|------------|-------------|----------|--------|
-| *None yet* | - | - | - |
+| 仓库 | 描述 | 语言 | 状态 |
+|------|------|------|------|
+| *暂无* | - | - | - |
 
-## Suggested Additions
+## 建议添加
 
-If you know of a repository that should be included here, please:
-1. Open an issue using the [Add Repository template](../../issues/new?template=add-repository.yml)
-2. Select "<Display Name>" as the category
+如果你知道应该包含在此的仓库：
+1. 使用 [添加仓库模板](../../issues/new?template=add-repository.yml) 创建 Issue
+2. 选择"<显示名称>"作为类别
 
 ---
 
-*Last updated: <today's date>*
+*最后更新：<今天日期>*
 ```
 
-### 2. Update sources.json
+### 2. 更新 sources.json
 
-Add empty array for new category:
+为新类别添加空数组：
 
 ```json
 "sources": {
   ...
-  "<category-name>": []
+  "<类别名称>": []
 }
 ```
 
-### 3. Update repos/README.md
+### 3. 更新 repos/README.md
 
-Add new category section:
+添加新类别部分：
 
 ```markdown
-### [<Display Name>](./<category-name>/) (0 repositories)
+### [<显示名称>](./<类别名称>/)（0 个仓库）
 
-<Description>
+<描述>
 
-| Repository | Description | Language | Status |
-|------------|-------------|----------|--------|
-| *None yet* | - | - | - |
+| 仓库 | 描述 | 语言 | 状态 |
+|------|------|------|------|
+| *暂无* | - | - | - |
 
-**[View Details →](./<category-name>/README.md)**
+**[查看详情 →](./<类别名称>/README.md)**
 ```
 
-Also update the Category Definitions table.
+同时更新类别定义表。
 
-### 4. Update Root README.md
+### 4. 更新根 README.md
 
-Add to Repository Categories table.
+添加到仓库分类表格。
 
-### 5. Update Issue Template
+### 5. 更新 Issue 模板
 
-Add new option to `.github/ISSUE_TEMPLATE/add-repository.yml` dropdown.
+向 `.github/ISSUE_TEMPLATE/add-repository.yml` 下拉菜单添加新选项。
 
-### 6. Create sources Directory
+### 6. 创建 sources 目录
 
 ```bash
-mkdir -p sources/<category-name>
+mkdir -p sources/<类别名称>
 ```
 
-## Example
+## 示例
 
-User: "Add a category for agent infrastructure tools"
+用户："Add a category for agent infrastructure tools"
 
-Actions:
-1. Create `repos/agent-infra/README.md`
-2. Update `sources.json`
-3. Update `repos/README.md`
-4. Update `README.md`
-5. Update Issue template dropdown
-6. Create `sources/agent-infra/`
+操作：
+1. 创建 `repos/agent-infra/README.md`
+2. 更新 `sources.json`
+3. 更新 `repos/README.md`
+4. 更新 `README.md`
+5. 更新 Issue 模板下拉菜单
+6. 创建 `sources/agent-infra/`
 
-## Files Modified
+## 修改的文件
 
-- `repos/<category>/README.md` - New file
-- `repos/README.md` - Add category
-- `README.md` - Update table
-- `sources.json` - Add empty category
-- `.github/ISSUE_TEMPLATE/add-repository.yml` - Add dropdown option
-- `sources/<category>/` - New directory
+- `repos/<类别>/README.md` - 新文件
+- `repos/README.md` - 添加类别
+- `README.md` - 更新表格
+- `sources.json` - 添加空类别
+- `.github/ISSUE_TEMPLATE/add-repository.yml` - 添加下拉选项
+- `sources/<类别>/` - 新目录
 
-## Verification
+## 验证
 
-1. All README files contain the new category
-2. Issue template includes new option
-3. `sources.json` has the new category
+1. 所有 README 文件包含新类别
+2. Issue 模板包含新选项
+3. `sources.json` 有新类别

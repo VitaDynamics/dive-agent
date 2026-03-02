@@ -1,155 +1,155 @@
 ---
 name: learn-about
 description: |
-  Research a repository and write a comprehensive learning note. Use this skill when the user wants to learn about a specific repository, mentions "learn about", "研究", "分析", "write a note about", or asks to understand how a framework implements something. This skill researches the source code, follows the learning note template, and saves to the specified category.
+  研究仓库并编写全面的学习笔记。当用户想要了解特定仓库、提到"learn about"、"研究"、"分析"、"write a note about"或询问框架如何实现某事时使用此技能。此技能研究源码、遵循学习笔记模板并保存到指定类别。
 ---
 
-# Learn About
+# 学习研究
 
-Research a repository and create a comprehensive learning note.
+研究仓库并创建全面的学习笔记。
 
-## Input Required
+## 必需输入
 
-Ask the user for:
+请询问用户：
 
-1. **Repository** (required): Name of the repo to research (must be in sources.json)
-2. **Topic** (required): What aspect/pattern to study
-3. **Category** (required): Which docs/learns/ subdirectory to save to
-4. **Related repos** (optional): Other repos to compare with
-5. **Priority** (optional): P0, P1, or P2 (default P2)
+1. **仓库**（必需）：要研究的仓库名称（必须在 sources.json 中）
+2. **主题**（必需）：要研究的方面/模式
+3. **类别**（必需）：保存到哪个 docs/learns/ 子目录
+4. **相关仓库**（可选）：要比较的其他仓库
+5. **优先级**（可选）：P0、P1 或 P2（默认 P2）
 
-## Steps
+## 步骤
 
-### 1. Locate Repository
+### 1. 定位仓库
 
-Find the repo in `sources/<category>/<name>/` or run sync if not cloned:
+在 `sources/<类别>/<名称>/` 中查找仓库，如未克隆则运行同步：
 
 ```bash
-./scripts/sync-sources.sh <name>
+./scripts/sync-sources.sh <名称>
 ```
 
-### 2. Research Phase
+### 2. 研究阶段
 
-Explore the repository to understand:
+探索仓库以理解：
 
-1. **Directory structure** - How is the code organized?
-2. **Core abstractions** - What are the main types/classes?
-3. **Key patterns** - How is the topic implemented?
-4. **Code examples** - Find representative code snippets
-5. **Design decisions** - Why was it done this way?
+1. **目录结构** - 代码如何组织？
+2. **核心抽象** - 主要类型/类是什么？
+3. **关键模式** - 主题是如何实现的？
+4. **代码示例** - 找到代表性代码片段
+5. **设计决策** - 为什么这样做？
 
-Focus areas based on topic:
-- **Streaming**: Look for async/await, generators, event emitters
-- **Error handling**: Look for error classes, retry logic, fallbacks
-- **Context management**: Look for history, memory, context classes
-- **Type safety**: Look for type definitions, unions, validators
-- **Architecture**: Look for layer separation, module boundaries
+根据主题关注领域：
+- **流式处理**：查找 async/await、生成器、事件发射器
+- **错误处理**：查找错误类、重试逻辑、回退
+- **上下文管理**：查找历史、内存、上下文类
+- **类型安全**：查找类型定义、联合、验证器
+- **架构**：查找层分离、模块边界
 
-### 3. Read Template
+### 3. 阅读模板
 
-Read `docs/templates/learning-note-template.md` for structure.
+阅读 `docs/templates/learning-note-template.md` 了解结构。
 
-### 4. Write Learning Note
+### 4. 编写学习笔记
 
-Create file at `docs/learns/<category>/<topic>-<repo>.md`:
+在 `docs/learns/<类别>/<主题>-<仓库>.md` 创建文件：
 
 ```markdown
-# [Topic] in [Repo Name]
+# [主题] 在 [仓库名称]
 
-> **Scope**: [What this document covers]
+> **范围**：[本文档涵盖什么]
 >
-> **Synthesized from**: [repo name]
+> **综合自**：[仓库名称]
 >
-> **Priority**: [P0/P1/P2]
+> **优先级**：[P0/P1/P2]
 
 ---
 
-## Overview
+## 概述
 
-[2-3 paragraphs about the pattern/concept]
+[2-3 段关于模式/概念]
 
-## Implementation in [Repo Name]
+## [仓库名称] 中的实现
 
-### Core Abstractions
+### 核心抽象
 
-[Key types/classes with code examples]
+[带代码示例的关键类型/类]
 
-### Design Decisions
+### 设计决策
 
-[Why was it done this way?]
+[为什么这样做？]
 
-### Code Examples
+### 代码示例
 
-[Representative code snippets]
-
----
-
-## Comparison with Other Frameworks
-
-[If related repos were specified, compare approaches]
+[代表性代码片段]
 
 ---
 
-## Key Takeaways
+## 与其他框架比较
 
-1. [Takeaway 1]
-2. [Takeaway 2]
-3. [Takeaway 3]
+[如果指定了相关仓库，比较方法]
 
 ---
 
-## Related Documents
+## 关键要点
 
-- [Link to related notes]
+1. [要点 1]
+2. [要点 2]
+3. [要点 3]
 
 ---
 
-*Created: [Today's date]*
-*Updated: [Today's date]*
+## 相关文档
+
+- [相关笔记链接]
+
+---
+
+*创建时间：[今天日期]*
+*更新时间：[今天日期]*
 ```
 
-### 5. Update Indexes
+### 5. 更新索引
 
-Run the update-index skill or manually update:
+运行 update-index 技能或手动更新：
 
-1. Add entry to `docs/README.md`
-2. Update counts in `README.md`
+1. 添加条目到 `docs/README.md`
+2. 更新 `README.md` 中的计数
 
-### 6. Update sources.json
+### 6. 更新 sources.json
 
-Add the new note to the repo's `notes` array in `sources.json`.
+在 `sources.json` 中仓库的 `notes` 数组添加新笔记。
 
-## Example
+## 示例
 
-User: "Learn about how pydantic-ai handles streaming"
+用户："学习 pydantic-ai 如何处理流式处理"
 
-Actions:
-1. Locate `sources/agent-harness/pydantic-ai/`
-2. Research streaming implementation
-3. Read `docs/templates/learning-note-template.md`
-4. Write `docs/learns/streaming/pydantic-ai-streaming.md`
-5. Update `docs/README.md`
-6. Update `sources.json` notes array
+操作：
+1. 定位 `sources/agent-harness/pydantic-ai/`
+2. 研究流式处理实现
+3. 阅读 `docs/templates/learning-note-template.md`
+4. 编写 `docs/learns/streaming/pydantic-ai-streaming.md`
+5. 更新 `docs/README.md`
+6. 更新 `sources.json` notes 数组
 
-## Quality Criteria
+## 质量标准
 
-The learning note should:
-- Explain the "why" not just the "what"
-- Include actual code examples from the source
-- Compare with at least one other framework if possible
-- Provide actionable takeaways
-- Follow the template structure
+学习笔记应该：
+- 解释"为什么"而不只是"是什么"
+- 包含源码中的实际代码示例
+- 如可能至少与一个其他框架比较
+- 提供可操作的要点
+- 遵循模板结构
 
-## Files Modified
+## 修改的文件
 
-- `docs/learns/<category>/<filename>.md` - New learning note
-- `docs/README.md` - Add to index
-- `README.md` - Update counts
-- `sources.json` - Add to notes array
+- `docs/learns/<类别>/<文件名>.md` - 新学习笔记
+- `docs/README.md` - 添加到索引
+- `README.md` - 更新计数
+- `sources.json` - 添加到 notes 数组
 
-## Verification
+## 验证
 
-1. Note follows template structure
-2. Code examples are from actual source
-3. Indexes are updated
-4. `sources.json` includes the note reference
+1. 笔记遵循模板结构
+2. 代码示例来自实际源码
+3. 索引已更新
+4. `sources.json` 包含笔记引用
