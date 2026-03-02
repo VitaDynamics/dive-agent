@@ -28,23 +28,34 @@ jobs:
           path: wiki
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Sync learning notes to wiki
+      - name: Sync docs to wiki
         run: |
-          # Create wiki directory structure
+          # Clean and recreate learns directory
+          rm -rf wiki/learns
           mkdir -p wiki/learns
-          mkdir -p wiki/best-choices
-
-          # Sync learning notes (flatten subdirectories)
+          
+          # Sync learns with directory structure preserved
           if [ -d "docs/learns" ]; then
-            find docs/learns -name "*.md" -type f | while read file; do
-              cp "$file" wiki/learns/
+            find docs/learns -name "*.md" -type f ! -name "README.md" | while read file; do
+              # Get relative path from docs/learns
+              rel_path="${file#docs/learns/}"
+              target_file="wiki/learns/$rel_path"
+              target_dir=$(dirname "$target_file")
+              
+              # Create directory and copy file
+              mkdir -p "$target_dir"
+              cp "$file" "$target_file"
             done
           fi
-
+          
+          # Clean and recreate best-choices directory
+          rm -rf wiki/best-choices
+          mkdir -p wiki/best-choices
+          
           # Sync best-choices
           if [ -d "docs/best-choices" ]; then
-            find docs/best-choices -name "*.md" -type f | while read file; do
-              cp "$file" wiki/best-choices/
+            find docs/best-choices -maxdepth 1 -name "*.md" -type f ! -name "README.md" | while read file; do
+              cp "$file" "wiki/best-choices/"
             done
           fi
 
@@ -59,13 +70,48 @@ jobs:
 
           EOF
 
-          # Add links to all learning notes (excluding README.md)
+          # 递归生成学习笔记目录树
+          process_home_tree() {
+            local dir="$1"
+            local level="$2"
+            local base_path="$3"
+            
+            find "$dir" -mindepth 1 -maxdepth 1 -type d | sort | while read subdir; do
+              local dirname=$(basename "$subdir")
+              
+              # 检查是否有非 README 的 md 文件（递归检查）
+              local has_content=$(find "$subdir" -name "*.md" ! -name "README.md" -type f | head -1)
+              
+              if [ -n "$has_content" ]; then
+                # 生成标题前缀 (# 数量根据层级)
+                local heading=""
+                local i=0
+                while [ $i -lt $level ]; do
+                  heading="${heading}#"
+                  i=$((i + 1))
+                done
+                heading="${heading}###"
+                
+                echo "" >> wiki/Home.md
+                echo "${heading} ${dirname}" >> wiki/Home.md
+                echo "" >> wiki/Home.md
+                
+                # 当前目录下的 md 文件
+                find "$subdir" -maxdepth 1 -name "*.md" ! -name "README.md" -type f | sort | while read file; do
+                  local filename=$(basename "$file")
+                  local name="${filename%.md}"
+                  local rel_path="${base_path}${dirname}/${name}"
+                  echo "- [${name}](./learns/${rel_path})" >> wiki/Home.md
+                done
+                
+                # 递归处理子目录
+                process_home_tree "$subdir" $((level + 1)) "${base_path}${dirname}/"
+              fi
+            done
+          }
+
           if [ -d "docs/learns" ]; then
-            while read file; do
-              filename=$(basename "$file")
-              name="${filename%.md}"
-              echo "- [${name}](./learns/${name})" >> wiki/Home.md
-            done < <(find docs/learns -name "*.md" ! -name "README.md" -type f | sort)
+            process_home_tree "docs/learns" 0 ""
           fi
 
           cat >> wiki/Home.md << 'EOF'
@@ -75,11 +121,11 @@ jobs:
           EOF
 
           if [ -d "docs/best-choices" ]; then
-            while read file; do
+            find docs/best-choices -maxdepth 1 -name "*.md" ! -name "README.md" -type f | sort | while read file; do
               filename=$(basename "$file")
               name="${filename%.md}"
               echo "- [${name}](./best-choices/${name})" >> wiki/Home.md
-            done < <(find docs/best-choices -name "*.md" ! -name "README.md" -type f | sort)
+            done
           fi
 
           echo "" >> wiki/Home.md
@@ -97,37 +143,38 @@ jobs:
 
           EOF
 
-          # 递归处理 learns 目录，过滤 README.md
-          process_learns_dir() {
+          # 递归处理 learns 目录
+          process_sidebar_tree() {
             local dir="$1"
             local indent="$2"
+            local base_path="$3"
             
-            # 获取当前目录下所有子目录（按字母排序）
             find "$dir" -mindepth 1 -maxdepth 1 -type d | sort | while read subdir; do
               local dirname=$(basename "$subdir")
               
-              # 检查该目录下是否有非 README 的 md 文件
+              # 检查是否有非 README 的 md 文件
               local has_content=$(find "$subdir" -name "*.md" ! -name "README.md" -type f | head -1)
               
               if [ -n "$has_content" ]; then
                 # 目录标题
                 echo "${indent}**${dirname}**" >> wiki/_Sidebar.md
                 
-                # 该目录下的 md 文件（排除 README）
+                # 当前目录下的 md 文件
                 find "$subdir" -maxdepth 1 -name "*.md" ! -name "README.md" -type f | sort | while read file; do
-                  filename=$(basename "$file")
-                  name="${filename%.md}"
-                  echo "${indent}- [${name}](./learns/${name})" >> wiki/_Sidebar.md
+                  local filename=$(basename "$file")
+                  local name="${filename%.md}"
+                  local rel_path="${base_path}${dirname}/${name}"
+                  echo "${indent}- [${name}](./learns/${rel_path})" >> wiki/_Sidebar.md
                 done
                 
-                # 递归处理子目录
-                process_learns_dir "$subdir" "${indent}  "
+                # 递归处理子目录（增加缩进）
+                process_sidebar_tree "$subdir" "${indent}  " "${base_path}${dirname}/"
               fi
             done
           }
 
           if [ -d "docs/learns" ]; then
-            process_learns_dir "docs/learns" ""
+            process_sidebar_tree "docs/learns" "" ""
           fi
 
           cat >> wiki/_Sidebar.md << 'EOF'
@@ -137,7 +184,6 @@ jobs:
           EOF
 
           if [ -d "docs/best-choices" ]; then
-            # 只包含非 README 的 md 文件
             find docs/best-choices -maxdepth 1 -name "*.md" ! -name "README.md" -type f | sort | while read file; do
               filename=$(basename "$file")
               name="${filename%.md}"
