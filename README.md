@@ -15,7 +15,7 @@
 |------|------|------|
 | [Agent](./repos/agent/) | 独立的 AI Agent 应用和实现 | 2 |
 | [Agent-harness](./repos/agent-harness/) | Agent 框架和编排工具 | 8 |
-| [Agent Evaluation](./repos/agent-evaluation/) | Agent 测试和评估框架 | 3 |
+| [Agent Evaluation](./repos/agent-evaluation/) | Agent 测试和评估框架 | 4 |
 | [Agent Training](./repos/agent-training/) | Agent 训练和微调资源 | 0 |
 
 **[查看所有仓库 →](./repos/README.md)**
@@ -44,7 +44,6 @@
 | [抽象层](./docs/learns/harness/abstractions/) | LLM 抽象层比较 | 3 |
 | [WebSocket](./docs/learns/harness/websocket/) | OpenAI WebSocket 比较 | 1 |
 | [机器人技术](./docs/learns/harness/robotics/) | 机器人运动控制 | 2 |
-| [评估](./docs/learns/evaluation/) | Agent 性能测试和安全评估 | 2 |
 
 ### 最佳实践
 
@@ -86,9 +85,9 @@
 ## 统计信息
 
 ```
-仓库：13（Agent: 2, Agent-harness: 8, Evaluation: 3, Training: 0）
-文档：23 个学习笔记 + 3 个最佳实践文档
-主题：11
+仓库：14（Agent: 2, Agent-harness: 8, Evaluation: 4, Training: 0）
+文档：24 个学习笔记 + 4 个最佳实践文档
+主题：12
 最后更新：2026-03-02
 ```
 

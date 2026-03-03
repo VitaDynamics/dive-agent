@@ -36,7 +36,7 @@ Agent 框架和编排工具，提供构建 AI Agent 的核心抽象。
 
 ---
 
-### [Agent Evaluation](./agent-evaluation/)（3 个仓库）
+### [Agent Evaluation](./agent-evaluation/)（4 个仓库）
 
 Agent 性能测试和评估框架。
 
@@ -45,6 +45,7 @@ Agent 性能测试和评估框架。
 | [opik](https://github.com/comet-ml/opik) | 开源 LLM 评估与观测平台，支持追踪、自动评估及生产监控 | Python | - |
 | [bloom](https://github.com/safety-research/bloom) | Backdooring LLMs for multi-agent environments | Python | - |
 | [ACEBench](https://github.com/chenchen0103/ACEBench) | A comprehensive benchmark for assessing tool usage in LLMs | Python | - |
+| [langfuse](https://github.com/langfuse/langfuse) | 生产级 trace + 可定制 eval 长期方案 | TypeScript | - |
 
 **[查看详情 →](./agent-evaluation/README.md)**
 
