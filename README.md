@@ -26,7 +26,7 @@
 
 | 类别 | 描述 | 文档数 |
 |------|------|--------|
-| [Agent Harness](./docs/learns/harness/) | Agent 框架和编排工具模式 | 24 |
+| [Agent Harness](./docs/learns/harness/) | Agent 框架和编排工具模式 | 23 |
 | [Agent Evaluation](./docs/learns/evaluation/) | Agent 测试和评估模式 | 2 |
 | [Agent Training](./docs/learns/training/) | Agent 训练和微调方法 | 0 |
 
@@ -44,7 +44,6 @@
 | [抽象层](./docs/learns/harness/abstractions/) | LLM 抽象层比较 | 3 |
 | [WebSocket](./docs/learns/harness/websocket/) | OpenAI WebSocket 比较 | 1 |
 | [机器人技术](./docs/learns/harness/robotics/) | 机器人运动控制 | 2 |
-| [评估](./docs/learns/evaluation/) | Agent 性能测试和安全评估 | 2 |
 
 ### 最佳实践
 
@@ -87,7 +86,7 @@
 
 ```
 仓库：14（Agent: 3, Agent-harness: 8, Evaluation: 3, Training: 0）
-文档：26 个学习笔记 + 3 个最佳实践文档
+文档：25 个学习笔记 + 3 个最佳实践文档
 主题：11
 最后更新：2026-03-04
 ```

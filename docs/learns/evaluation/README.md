@@ -20,6 +20,12 @@ Agent Evaluation 涵盖：
 |------|------|--------|
 | [Seed-driven Evaluation](./seed-driven-evaluation/) | 基于 Seed 的自适应行为评估模式 | 1 |
 
+### 其他文档
+
+| 文档 | 描述 | 优先级 |
+|------|------|--------|
+| [Opik Bloom 集成](./opik-bloom-integration.md) | 评估框架与观测平台集成，Bloom 后门检测与 Opik 可观测性结合 | P1 |
+
 ---
 
 ## 建议添加的主题
@@ -64,4 +70,4 @@ mkdir -p docs/learns/evaluation/backdoor-detection
 
 ---
 
-*最后更新：2026-03-02*
+*最后更新：2026-03-04*
