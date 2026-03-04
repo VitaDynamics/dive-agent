@@ -125,6 +125,20 @@
           "docs/learns/robotics/emotion-system-design.md"
         ],
         "commit": "a7e73279de578ccb0c37bd5443753caf3cfcbfe9"
+      },
+      {
+        "name": "codex",
+        "url": "https://github.com/openai/codex.git",
+        "branch": "main",
+        "depth": 1,
+        "description": "OpenAI 的轻量级编码 Agent，在终端中运行",
+        "addedAt": "2026-03-04",
+        "notes": [
+          "docs/learns/harness/architecture/codex-llm-abstraction.md",
+          "docs/learns/harness/streaming/codex-streaming.md",
+          "docs/learns/harness/context-management/codex-context-management.md"
+        ],
+        "commit": "7134220f3c1a5119cc0ea775b1807fe186b8a614"
       }
     ],
     "agent-evaluation": [

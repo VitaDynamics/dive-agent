@@ -25,6 +25,7 @@ Agent 仓库是完整的、可运行的 Agent 应用：
 |------|------|------|------|
 | [om1](https://github.com/OpenMind/OM1) | 模块化机器人 AI 运行时和框架，用于人形机器人 | Python | ✅ |
 | [reachy-mini-conversation-app](https://github.com/pollen-robotics/reachy_mini_conversation_app) | Reachy Mini 机器人对话应用，结合 OpenAI 实时 API、视觉管道和动作库 | Python | ✅ |
+| [codex](https://github.com/openai/codex) | OpenAI 的轻量级编码 Agent，在终端中运行 | TypeScript | - |
 
 ### om1
 
@@ -73,6 +74,31 @@ Agent 仓库是完整的、可运行的 Agent 应用：
 - 机器人控制与 AI 服务集成
 - 可配置的 Agent 人格系统
 
+### codex
+
+**仓库**: https://github.com/openai/codex
+
+**描述**: OpenAI 官方发布的轻量级编码 Agent，直接在终端中运行，能够理解和修改代码库。
+
+**技术特点**:
+- **终端原生**: 直接在命令行界面运行，无需额外 IDE 或 GUI
+- **代码理解**: 能够分析整个代码库的结构和上下文
+- **多轮对话**: 支持迭代式的代码修改和优化
+- **安全检查**: 在执行代码变更前进行安全确认
+- **Git 集成**: 自动创建分支和提交更改
+
+**架构模式**:
+- 基于 OpenAI API 的 Agent 循环
+- 工具使用模式（文件读取、编辑、执行命令）
+- 上下文窗口管理和代码分块策略
+- 用户确认和撤销机制
+
+**学习价值**:
+- 终端 Agent 的交互设计
+- 代码库级别的上下文管理
+- 安全的代码自动修改模式
+- CLI 工具与 LLM 的集成方式
+
 ## 建议添加
 
 如果你知道应该包含在此的仓库：
@@ -90,4 +116,4 @@ Agent 仓库是完整的、可运行的 Agent 应用：
 
 ---
 
-*最后更新：2026-03-02*
+*最后更新：2026-03-04*
