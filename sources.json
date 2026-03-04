@@ -172,7 +172,8 @@
         "notes": [
           "docs/learns/harness/architecture/codex-llm-abstraction.md",
           "docs/learns/harness/streaming/codex-streaming.md",
-          "docs/learns/harness/context-management/codex-context-management.md"
+          "docs/learns/harness/context-management/codex-context-management.md",
+          "docs/learns/harness/error-handling/codex-error-handling-stream-interruption.md"
         ],
         "commit": "7134220f3c1a5119cc0ea775b1807fe186b8a614"
       }

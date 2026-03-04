@@ -90,6 +90,7 @@ Agent 训练和微调相关的学习笔记。
 | P1 | [Bloom: Seed-driven 行为评估](./evaluation/seed-driven-evaluation/bloom-behavioral-evaluation.md) | Evaluation | 安全评估 |
 | P1 | [Opik Bloom 集成](./evaluation/opik-bloom-integration.md) | Evaluation | 评估集成 |
 | P1 | [结构化错误与重试](./harness/error-handling/structured-errors-retry.md) | Harness | 生产健壮性 |
+| P1 | [Codex 错误处理与流中断](./harness/error-handling/codex-error-handling-stream-interruption.md) | Harness | 错误处理 |
 | P1 | [流式工具组装](./harness/streaming/streaming-tool-assembly.md) | Harness | 流式处理 |
 | P1 | [Codex LLM 抽象层](./harness/architecture/codex-llm-abstraction.md) | Harness | 架构设计 |
 | P1 | [Codex 流式处理](./harness/streaming/codex-streaming.md) | Harness | 流式架构 |
