@@ -72,6 +72,7 @@ LLM 抽象层比较和 SDK 模式。
 
 | 文档 | 描述 | 优先级 |
 |------|------|--------|
+| [LLM Provider 最佳抽象](./learns/harness/abstractions/llm-provider-best-abstraction.md) | 统一抽象层设计：Protocol vs ABC、内容部件注册表、Delta 合并、能力画像 | P1 |
 | [LLM 抽象比较](./learns/harness/abstractions/llm-abstraction-comparison.md) | 提供者抽象层设计模式 | P2 |
 | [LLM 调用返回封装](./learns/harness/abstractions/llm-call-return-encapsulation.md) | LLM 调用的 SDK 使用模式 | P2 |
 | [LLM 框架比较](./learns/harness/abstractions/llm-framework-comparison.md) | 综合框架比较（LitAI, Pydantic AI, Republic, Kimi CLI, LangChain） | P2 |
@@ -113,6 +114,7 @@ Agent 性能测试、安全评估和观测模式。
 | P0 | [实时 vs. Kosong 对比](./learns/streaming/realtime-vs-kosong.md) | 架构对比 |
 | P1 | [Opik 与 Bloom 融合](./learns/evaluation/opik-bloom-integration.md) | 安全评估 |
 | P1 | [结构化错误与重试](./learns/harness/error-handling/structured-errors-retry.md) | 生产健壮性 |
+| P1 | [LLM Provider 最佳抽象](./learns/harness/abstractions/llm-provider-best-abstraction.md) | 架构模式 |
 | P1 | [Codex 错误处理与流中断](./learns/harness/error-handling/codex-error-handling-stream-interruption.md) | 错误处理 |
 | P1 | [流式工具组装](./learns/harness/streaming/streaming-tool-assembly.md) | 流式处理 |
 | P1 | [OpenClaw Opik 可观测性插件架构](./learns/harness/architecture/openclaw-opik-observability-plugin.md) | 可观测性架构 |

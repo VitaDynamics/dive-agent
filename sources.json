@@ -13,7 +13,9 @@
         "addedAt": "2026-03-02",
         "notes": [
           "docs/learns/streaming/realtime-voice-agentscope.md",
-          "docs/learns/streaming/realtime-vs-kosong.md"
+          "docs/learns/streaming/realtime-vs-kosong.md",
+          "docs/learns/harness/error-handling/error-recovery-without-context-loss.md",
+          "docs/learns/harness/abstractions/llm-provider-best-abstraction.md"
         ],
         "commit": "722a60c95531a7389285fe82f2b5ca0d6d950cfe"
       },
@@ -36,7 +38,9 @@
         "addedAt": "2026-03-02",
         "notes": [
           "docs/learns/type-safety/typed-message-parts-pydantic-ai.md",
-          "docs/learns/streaming/streaming-tool-assembly.md"
+          "docs/learns/streaming/streaming-tool-assembly.md",
+          "docs/learns/harness/error-handling/error-recovery-without-context-loss.md",
+          "docs/learns/harness/abstractions/llm-provider-best-abstraction.md"
         ],
         "commit": "bc7f6a28c14c960d9b90a27cfc7985f640f29744"
       },
@@ -49,7 +53,8 @@
         "addedAt": "2026-03-02",
         "notes": [
           "docs/learns/middleware/middleware-callback-system.md",
-          "docs/learns/error-handling/structured-errors-retry.md"
+          "docs/learns/error-handling/structured-errors-retry.md",
+          "docs/learns/harness/error-handling/error-recovery-without-context-loss.md"
         ],
         "commit": "78678534f970a5a01dddfc979594367c58d04b44"
       },
@@ -61,7 +66,8 @@
         "description": "Tape-based agent framework",
         "addedAt": "2026-03-02",
         "notes": [
-          "docs/learns/architecture/republic-anchor-mechanism.md"
+          "docs/learns/architecture/republic-anchor-mechanism.md",
+          "docs/learns/harness/error-handling/error-recovery-without-context-loss.md"
         ],
         "commit": "422a6e879f57ba96b20abbf486b3e000e1a5fbef"
       },
@@ -85,7 +91,9 @@
         "notes": [
           "docs/learns/architecture/kimi-cli-architecture.md",
           "docs/learns/streaming/async-streaming-first-class.md",
-          "docs/learns/streaming/realtime-vs-kosong.md"
+          "docs/learns/streaming/realtime-vs-kosong.md",
+          "docs/learns/harness/error-handling/error-recovery-without-context-loss.md",
+          "docs/learns/harness/abstractions/llm-provider-best-abstraction.md"
         ],
         "commit": "600ff8f676bcbf61064562e8f9a7d25f806d44f6"
       },
@@ -173,7 +181,8 @@
           "docs/learns/harness/architecture/codex-llm-abstraction.md",
           "docs/learns/harness/streaming/codex-streaming.md",
           "docs/learns/harness/context-management/codex-context-management.md",
-          "docs/learns/harness/error-handling/codex-error-handling-stream-interruption.md"
+          "docs/learns/harness/error-handling/codex-error-handling-stream-interruption.md",
+          "docs/learns/harness/error-handling/error-recovery-without-context-loss.md"
         ],
         "commit": "7134220f3c1a5119cc0ea775b1807fe186b8a614"
       }

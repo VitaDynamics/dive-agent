@@ -1,34 +1,25 @@
 # 错误处理
 
-Agent 框架的错误处理、重试策略和弹性模式。
+Agent 框架中的错误处理模式：结构化错误、重试策略、回退机制。
 
-## 定义
+---
 
-错误处理涵盖：
-- **错误分类**：可重试 vs 不可重试错误
-- **重试策略**：指数退避、熔断器模式
-- **错误传播**：从底层到 UI 的错误转换
-- **恢复机制**：流中断恢复、会话恢复
-
-## 学习笔记
+## 文档
 
 | 文档 | 描述 | 优先级 |
 |------|------|--------|
-| [结构化错误与重试](./structured-errors-retry.md) | LangChain 中的错误分类、重试策略和恢复模式 | P1 |
-| [Codex 错误处理与流中断](./codex-error-handling-stream-interruption.md) | Codex 的错误分类、可重试性判断、WebSocket 回退、流中断恢复 | P1 |
+| [结构化错误与重试](./structured-errors-retry.md) | 错误分类、指数退避、上下文重试 | P1 |
+| [Codex 错误处理与流中断恢复](./codex-error-handling-stream-interruption.md) | WebSocket/SSE 流中断、错误分类、自动回退 | P1 |
+| [错误恢复与上下文无损](./error-recovery-without-context-loss.md) | 失败时保留完整上下文、精确恢复点、检查点模式 | P0 |
 
-## 建议添加的主题
+---
 
-| 主题 | 描述 | 潜在来源 |
-|------|------|----------|
-| pydantic-ai-errors | Pydantic AI 的验证错误处理 | pydantic-ai |
+## 关键模式
 
-## 添加笔记
-
-1. 在 `docs/learns/harness/error-handling/` 创建新文档
-2. 遵循 [学习笔记模板](../../../templates/learning-note-template.md)
-3. 使用标签：`error-handling`, `retry`, `resilience`
-4. 更新本 README
+1. **结构化错误分类** - 可重试 vs 不可重试错误
+2. **上下文保留** - 失败时保留完整上下文
+3. **自动回退** - WebSocket → SSE → 轮询的降级策略
+4. **流中断恢复** - 网络波动时的无缝恢复
 
 ---
 

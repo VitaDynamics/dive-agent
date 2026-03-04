@@ -36,6 +36,12 @@ Agent 评估和测试框架的模式分析。
 | [Seed-driven Evaluation](./evaluation/seed-driven-evaluation/) | 基于 Seed 的自适应行为评估模式 | 1 |
 | Production Tracing & Eval | 生产级 trace 与可定制评估方案 | 3 |
 
+### 其他文档
+
+| 文档 | 描述 | 优先级 |
+|------|------|--------|
+| [Opik Bloom 集成](./evaluation/opik-bloom-integration.md) | 评估框架与观测平台集成 | P1 |
+
 潜在主题：
 - 基准测试框架设计
 - Agent 行为评估指标
@@ -80,6 +86,7 @@ Agent 训练和微调相关的学习笔记。
 
 | 优先级 | 文档 | 类别 | 主题 |
 |--------|------|------|------|
+| P0 | [错误恢复与上下文无损](./harness/error-handling/error-recovery-without-context-loss.md) | Harness | 生产弹性 |
 | P0 | [异步流式一等公民](./harness/streaming/async-streaming-first-class.md) | Harness | 核心抽象 |
 | P0 | [类型化消息部件](./harness/type-safety/typed-message-parts-pydantic-ai.md) | Harness | 类型安全 |
 | P0 | [分层运动系统](./harness/robotics/layered-motion-system.md) | Harness | 机器人控制 |

@@ -52,6 +52,7 @@
 
 | 文档 | 描述 |
 |------|------|
+| [历史项作为检查点设计](./docs/best-choices/history-item-checkpointer-design.md) | 不可变磁带模式、细粒度状态恢复 |
 | [LLM 错误处理设计](./docs/best-choices/llm-error-handling-design.md) | 结构化错误分类、重试策略 |
 | [流式拉取防抖推送设计](./docs/best-choices/streaming-pull-debounced-push-design.md) | 流式架构模式 |
 | [机器人情绪与动作系统设计](./docs/best-choices/emotion-motion-system-design.md) | 永不静止原则、双层融合架构 |
