@@ -104,6 +104,18 @@
     ],
     "agent": [
       {
+        "name": "nanoclaw",
+        "url": "https://github.com/qwibitai/nanoclaw.git",
+        "branch": "main",
+        "depth": 1,
+        "description": "轻量级 AI 助手，运行在安全的容器中，连接 WhatsApp、Telegram 等消息应用",
+        "addedAt": "2026-03-06",
+        "notes": [
+          "docs/learns/harness/architecture/nanoclaw-architecture.md"
+        ],
+        "commit": null
+      },
+      {
         "name": "om1",
         "url": "https://github.com/OpenMind/OM1.git",
         "branch": "main",
