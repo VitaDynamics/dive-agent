@@ -63,6 +63,8 @@
 | [Kimi CLI 架构](./learns/harness/architecture/kimi-cli-architecture.md) | 分层架构：Soul/Wire/UI 分离、D-Mail、Steer 模式 | P2 |
 | [Republic Anchor 机制](./learns/harness/architecture/republic-anchor-mechanism.md) | Tape Anchor 上下文切片实现 | P2 |
 | [OpenClaw Opik 可观测性插件架构](./learns/harness/architecture/openclaw-opik-observability-plugin.md) | 事件投影式 tracing：hook 到 trace/span 的状态聚合与收尾链路 | P1 |
+| [NanoClaw 架构](./learns/harness/architecture/nanoclaw-architecture.md) | NanoClaw 架构设计分析 | P1 |
+| [Codex LLM 抽象层](./learns/harness/architecture/codex-llm-abstraction.md) | ModelClient/Session 设计、WebSocket 预热、流式回退 | P1 |
 
 #### [抽象层](./learns/harness/abstractions/)
 LLM 抽象层比较和 SDK 模式。
