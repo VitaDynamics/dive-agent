@@ -379,3 +379,25 @@ truncation:
   permalink: /truncation
   description: 自动发现的标签
 
+
+# 自动发现的标签
+actor-model:
+  label: actor-model
+  permalink: /actor-model
+  description: 自动发现的标签
+
+kameo:
+  label: kameo
+  permalink: /kameo
+  description: 自动发现的标签
+
+ractor:
+  label: ractor
+  permalink: /ractor
+  description: 自动发现的标签
+
+rust:
+  label: rust
+  permalink: /rust
+  description: 自动发现的标签
+
