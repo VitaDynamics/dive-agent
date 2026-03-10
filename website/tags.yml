@@ -312,3 +312,70 @@ voice:
   permalink: /voice
   description: 自动发现的标签
 
+
+# 自动发现的标签
+client:
+  label: client
+  permalink: /client
+  description: 自动发现的标签
+
+codex:
+  label: codex
+  permalink: /codex
+  description: 自动发现的标签
+
+container-isolation:
+  label: container-isolation
+  permalink: /container-isolation
+  description: 自动发现的标签
+
+harness:
+  label: harness
+  permalink: /harness
+  description: 自动发现的标签
+
+history:
+  label: history
+  permalink: /history
+  description: 自动发现的标签
+
+llm-abstraction:
+  label: llm-abstraction
+  permalink: /llm-abstraction
+  description: 自动发现的标签
+
+memory:
+  label: memory
+  permalink: /memory
+  description: 自动发现的标签
+
+multi-channel:
+  label: multi-channel
+  permalink: /multi-channel
+  description: 自动发现的标签
+
+nanoclaw:
+  label: nanoclaw
+  permalink: /nanoclaw
+  description: 自动发现的标签
+
+openclaw:
+  label: openclaw
+  permalink: /openclaw
+  description: 自动发现的标签
+
+skill-system:
+  label: skill-system
+  permalink: /skill-system
+  description: 自动发现的标签
+
+tracing:
+  label: tracing
+  permalink: /tracing
+  description: 自动发现的标签
+
+truncation:
+  label: truncation
+  permalink: /truncation
+  description: 自动发现的标签
+

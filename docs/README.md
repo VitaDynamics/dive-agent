@@ -62,6 +62,9 @@
 |------|------|--------|
 | [Kimi CLI 架构](./learns/harness/architecture/kimi-cli-architecture.md) | 分层架构：Soul/Wire/UI 分离、D-Mail、Steer 模式 | P2 |
 | [Republic Anchor 机制](./learns/harness/architecture/republic-anchor-mechanism.md) | Tape Anchor 上下文切片实现 | P2 |
+| [OpenClaw Opik 可观测性插件架构](./learns/harness/architecture/openclaw-opik-observability-plugin.md) | 事件投影式 tracing：hook 到 trace/span 的状态聚合与收尾链路 | P1 |
+| [NanoClaw 架构](./learns/harness/architecture/nanoclaw-architecture.md) | NanoClaw 架构设计分析 | P1 |
+| [Codex LLM 抽象层](./learns/harness/architecture/codex-llm-abstraction.md) | ModelClient/Session 设计、WebSocket 预热、流式回退 | P1 |
 
 #### [抽象层](./learns/harness/abstractions/)
 LLM 抽象层比较和 SDK 模式。
@@ -110,6 +113,7 @@ Agent 性能测试、安全评估和观测模式。
 | P1 | [Opik 与 Bloom 融合](./learns/evaluation/opik-bloom-integration.md) | 安全评估 |
 | P1 | [结构化错误与重试](./learns/harness/error-handling/structured-errors-retry.md) | 生产健壮性 |
 | P1 | [流式工具组装](./learns/harness/streaming/streaming-tool-assembly.md) | 流式处理 |
+| P1 | [OpenClaw Opik 可观测性插件架构](./learns/harness/architecture/openclaw-opik-observability-plugin.md) | 可观测性架构 |
 | P2 | [Bloom 行为评估](./learns/evaluation/seed-driven-evaluation/bloom-behavioral-evaluation.md) | 行为评估 |
 | P2 | [上下文管理双模式](./learns/harness/context-management/context-management-dual-mode.md) | 状态管理 |
 | P2 | [中间件/回调系统](./learns/harness/middleware/middleware-callback-system.md) | 可扩展性 |
@@ -150,4 +154,4 @@ Agent 性能测试、安全评估和观测模式。
 
 ---
 
-*最后更新：2026-03-02*
+*最后更新：2026-03-10*

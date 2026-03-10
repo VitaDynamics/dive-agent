@@ -26,8 +26,8 @@
 
 | 类别 | 描述 | 文档数 |
 |------|------|--------|
-| [Agent Harness](./docs/learns/harness/) | Agent 框架和编排工具模式 | 23 |
-| [Agent Evaluation](./docs/learns/evaluation/) | Agent 测试和评估模式 | 2 |
+| [Agent Harness](./docs/learns/harness/) | Agent 框架和编排工具模式 | 25 |
+| [Agent Evaluation](./docs/learns/evaluation/) | Agent 测试和评估模式 | 3 |
 | [Agent Training](./docs/learns/training/) | Agent 训练和微调方法 | 0 |
 
 #### Harness 主题
@@ -40,7 +40,7 @@
 | [类型安全](./docs/learns/harness/type-safety/) | 类型安全的消息层次结构 | 1 |
 | [中间件](./docs/learns/harness/middleware/) | 回调和可扩展性系统 | 1 |
 | [并发](./docs/learns/harness/concurrency/) | 状态快照 and 并发模式 | 1 |
-| [架构](./docs/learns/harness/architecture/) | 框架架构分析 | 3 |
+| [架构](./docs/learns/harness/architecture/) | 框架架构分析 | 5 |
 | [抽象层](./docs/learns/harness/abstractions/) | LLM 抽象层比较 | 3 |
 | [WebSocket](./docs/learns/harness/websocket/) | OpenAI WebSocket 比较 | 1 |
 | [机器人技术](./docs/learns/harness/robotics/) | 机器人运动控制 | 2 |
@@ -86,9 +86,9 @@
 
 ```
 仓库：14（Agent: 3, Agent-harness: 8, Evaluation: 3, Training: 0）
-文档：25 个学习笔记 + 3 个最佳实践文档
+文档：29 个学习笔记 + 3 个最佳实践文档
 主题：11
-最后更新：2026-03-04
+最后更新：2026-03-10
 ```
 
 ---

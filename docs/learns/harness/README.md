@@ -70,6 +70,7 @@ Agent 框架和编排工具的模式分析。
 |------|------|--------|
 | [Kimi CLI 架构](./architecture/kimi-cli-architecture.md) | 分层架构：Soul/Wire/UI 分离、D-Mail、Steer 模式 | P2 |
 | [Republic Anchor 机制](./architecture/republic-anchor-mechanism.md) | Tape Anchor 上下文切片实现 | P2 |
+| [OpenClaw Opik 可观测性插件架构](./architecture/openclaw-opik-observability-plugin.md) | 事件投影式 tracing：hook、状态聚合、延迟 finalize、附件旁路上传 | P1 |
 | [Codex LLM 抽象层](./architecture/codex-llm-abstraction.md) | ModelClient/Session 设计、WebSocket 预热、流式回退 | P1 |
 
 ### [抽象层](./abstractions/)
@@ -113,6 +114,7 @@ WebSocket 协议比较。
 | P1 | [结构化错误与重试](./error-handling/structured-errors-retry.md) | 生产健壮性 |
 | P1 | [流式工具组装](./streaming/streaming-tool-assembly.md) | 流式处理 |
 | P1 | [Codex LLM 抽象层](./architecture/codex-llm-abstraction.md) | 架构设计 |
+| P1 | [OpenClaw Opik 可观测性插件架构](./architecture/openclaw-opik-observability-plugin.md) | 可观测性架构 |
 | P1 | [Codex 流式处理](./streaming/codex-streaming.md) | 流式架构 |
 | P1 | [Codex 上下文管理](./context-management/codex-context-management.md) | 上下文管理 |
 | P2 | [上下文管理双模式](./context-management/context-management-dual-mode.md) | 状态管理 |
@@ -132,4 +134,4 @@ WebSocket 协议比较。
 
 ---
 
-*最后更新：2026-03-04*
+*最后更新：2026-03-10*
