@@ -14,6 +14,7 @@
 
 | 文档 | 描述 | 分析框架 | 更新时间 |
 |------|------|----------|----------|
+| [Rust Actor Runtime 作为 Agent Harness 基座](./rust-actor-runtime-for-agent-harness.md) | `kameo` vs `ractor`：会话监督、事件流、worker/factory 路由与停机语义选型 | kameo, ractor | 2026-03-10 |
 | [LLM 错误处理设计](./llm-error-handling-design.md) | 结构化错误分类、重试策略、回退模式 | pydantic-ai, langchain, republic | 2026-02-26 |
 | [流式拉取防抖推送设计](./streaming-pull-debounced-push-design.md) | 拉取式和防抖推送的流式架构模式 | pydantic-ai, kimi-cli, republic | 2026-02-26 |
 | [机器人情绪与动作系统设计](./emotion-motion-system-design.md) | 永不静止原则、双层融合架构、音频驱动运动 | reachy-mini-conversation-app | 2026-03-02 |
@@ -68,4 +69,4 @@
 
 ---
 
-*最后更新：2026-03-02*
+*最后更新：2026-03-10*
