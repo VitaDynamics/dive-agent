@@ -40,7 +40,7 @@
 | [类型安全](./docs/learns/harness/type-safety/) | 类型安全的消息层次结构 | 1 |
 | [中间件](./docs/learns/harness/middleware/) | 回调和可扩展性系统 | 1 |
 | [并发](./docs/learns/harness/concurrency/) | 状态快照 and 并发模式 | 1 |
-| [架构](./docs/learns/harness/architecture/) | 框架架构分析 | 4 |
+| [架构](./docs/learns/harness/architecture/) | 框架架构分析 | 5 |
 | [抽象层](./docs/learns/harness/abstractions/) | LLM 抽象层比较 | 3 |
 | [WebSocket](./docs/learns/harness/websocket/) | OpenAI WebSocket 比较 | 1 |
 | [机器人技术](./docs/learns/harness/robotics/) | 机器人运动控制 | 2 |
