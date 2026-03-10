@@ -188,6 +188,18 @@
         "addedAt": "2026-03-02",
         "notes": [],
         "commit": "56dd66cf6439b0d9655ee1b353e4cd745c6f664e"
+      },
+      {
+        "name": "langfuse",
+        "url": "https://github.com/langfuse/langfuse.git",
+        "branch": "main",
+        "depth": 1,
+        "description": "生产级 trace + 可定制 eval 长期方案",
+        "addedAt": "2026-03-02",
+        "notes": [
+          "docs/learns/evaluation/production-trace-eval-langfuse.md"
+        ],
+        "commit": "2be7672022189f80c1cfdc9e18dd001fa4c7d06f"
       }
     ],
     "agent-training": []

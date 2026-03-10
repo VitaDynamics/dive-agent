@@ -34,6 +34,7 @@ Agent 评估和测试框架的模式分析。
 | 主题 | 描述 | 文档数 |
 |------|------|--------|
 | [Seed-driven Evaluation](./evaluation/seed-driven-evaluation/) | 基于 Seed 的自适应行为评估模式 | 1 |
+| Production Tracing & Eval | 生产级 trace 与可定制评估方案 | 1 |
 
 潜在主题：
 - 基准测试框架设计

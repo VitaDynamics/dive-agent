@@ -15,7 +15,7 @@
 |------|------|------|
 | [Agent](./repos/agent/) | 独立的 AI Agent 应用和实现 | 3 |
 | [Agent-harness](./repos/agent-harness/) | Agent 框架和编排工具 | 8 |
-| [Agent Evaluation](./repos/agent-evaluation/) | Agent 测试和评估框架 | 3 |
+| [Agent Evaluation](./repos/agent-evaluation/) | Agent 测试和评估框架 | 4 |
 | [Agent Training](./repos/agent-training/) | Agent 训练和微调资源 | 0 |
 
 **[查看所有仓库 →](./repos/README.md)**
