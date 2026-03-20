@@ -110,19 +110,32 @@ Agent-harness 框架提供：
 - **学习笔记**:
   - [上下文管理双模式](../../docs/learns/context-management/context-management-dual-mode.md)
 
+### livekit-agents
+
+- **URL**: https://github.com/livekit/agents
+- **语言**: Python
+- **关键特性**:
+  - 实时语音/视频 AI Agent 管道框架
+  - 基于 WebRTC 的低延迟实时通信
+  - 支持 STT/TTS/LLM 多模态流水线
+  - 插件系统支持 OpenAI、Deepgram、ElevenLabs 等
+  - 内置 VAD（语音活动检测）
+- **学习笔记**:
+  - *暂无*
+
 ---
 
 ## 比较矩阵
 
-| 特性 | agentscope | agno | pydantic-ai | langchain | republic | kimi-cli |
-|------|------------|------|-------------|-----------|----------|----------|
-| 多智能体 | ✅ MsgHub | ✅ 团队 | 基础 | LangGraph | 基础 | 基础 |
-| 流式处理 | ✅ 支持 | ✅ 支持 | ✅ 一等公民 | ✅ 支持 | ✅ 支持 | ✅ 一等公民 |
-| 工具调用 | ✅ ServiceMap | ✅ 并行 | ✅ 并行 | ✅ 并行 | ✅ 顺序 | ✅ 并行 |
-| 部署 | ✅ 分布式 | ✅ 生产 API | 库 | 库 | 库 | 库 |
-| 状态管理 | 集中式/分布式 | 会话管理 | 基于图 | LangGraph | 基于 Tape | 基于 Tape |
-| 可观测性 | OTel/UI | AgentOS | Logfire | LangSmith | 基础 | 内置 |
+| 特性 | agentscope | agno | pydantic-ai | langchain | republic | kimi-cli | livekit-agents |
+|------|------------|------|-------------|-----------|----------|----------|----------------|
+| 多智能体 | ✅ MsgHub | ✅ 团队 | 基础 | LangGraph | 基础 | 基础 | 基础 |
+| 流式处理 | ✅ 支持 | ✅ 支持 | ✅ 一等公民 | ✅ 支持 | ✅ 支持 | ✅ 一等公民 | ✅ 实时 WebRTC |
+| 工具调用 | ✅ ServiceMap | ✅ 并行 | ✅ 并行 | ✅ 并行 | ✅ 顺序 | ✅ 并行 | ✅ 插件系统 |
+| 部署 | ✅ 分布式 | ✅ 生产 API | 库 | 库 | 库 | 库 | ✅ 云原生 |
+| 状态管理 | 集中式/分布式 | 会话管理 | 基于图 | LangGraph | 基于 Tape | 基于 Tape | 管道状态 |
+| 可观测性 | OTel/UI | AgentOS | Logfire | LangSmith | 基础 | 内置 | 基础 |
 
 ---
 
-*最后更新：2026-03-02*
+*最后更新：2026-03-20*

@@ -14,7 +14,7 @@
 | 类别 | 描述 | 数量 |
 |------|------|------|
 | [Agent](./repos/agent/) | 独立的 AI Agent 应用和实现 | 3 |
-| [Agent-harness](./repos/agent-harness/) | Agent 框架和编排工具 | 8 |
+| [Agent-harness](./repos/agent-harness/) | Agent 框架和编排工具 | 9 |
 | [Agent Evaluation](./repos/agent-evaluation/) | Agent 测试和评估框架 | 4 |
 | [Agent Training](./repos/agent-training/) | Agent 训练和微调资源 | 0 |
 
@@ -85,7 +85,7 @@
 ## 统计信息
 
 ```
-仓库：14（Agent: 3, Agent-harness: 8, Evaluation: 3, Training: 0）
+仓库：15（Agent: 3, Agent-harness: 9, Evaluation: 3, Training: 0）
 文档：29 个学习笔记 + 3 个最佳实践文档
 主题：11
 最后更新：2026-03-10

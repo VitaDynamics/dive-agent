@@ -18,7 +18,7 @@
 
 ---
 
-### [Agent-harness](./agent-harness/)（8 个仓库）
+### [Agent-harness](./agent-harness/)（9 个仓库）
 
 Agent 框架和编排工具，提供构建 AI Agent 的核心抽象。
 
@@ -32,6 +32,7 @@ Agent 框架和编排工具，提供构建 AI Agent 的核心抽象。
 | [litai](https://github.com/Lightning-AI/litai) | 轻量级 LLM 路由器，统一计费 | Python |
 | [kimi-cli](https://github.com/MoonshotAI/kimi-cli) | 终端 Agent，包含 kosong 流式库 | Python |
 | [pi-mono](https://github.com/pi-company/pi-mono) | 多提供者 LLM 抽象 monorepo | TypeScript |
+| [livekit-agents](https://github.com/livekit/agents) | 实时多模态 AI Agent 框架，支持语音/视频流式处理 | Python |
 
 **[查看详情 →](./agent-harness/README.md)**
 
@@ -83,4 +84,4 @@ Agent 模型训练和微调资源。
 
 ---
 
-*最后更新：2026-03-04*
+*最后更新：2026-03-20*

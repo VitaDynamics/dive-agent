@@ -100,6 +100,19 @@
           "docs/learns/context-management/context-management-dual-mode.md"
         ],
         "commit": "9a0a8d7ccb03b89bd3700477b2b8b399bd38dc03"
+      },
+      {
+        "name": "livekit-agents",
+        "url": "https://github.com/livekit/agents.git",
+        "branch": "main",
+        "depth": 1,
+        "description": "实时多模态 AI Agent 框架，支持语音/视频流式处理",
+        "addedAt": "2026-03-20",
+        "notes": [
+          "docs/learns/harness/streaming/livekit-agents-duplex-pipeline.md",
+          "docs/learns/harness/streaming/livekit-agents-preflight-flushsentinel.md"
+        ],
+        "commit": "43f47e3e4d2e9b225e310ccbfb297da0bda1bda7"
       }
     ],
     "agent": [

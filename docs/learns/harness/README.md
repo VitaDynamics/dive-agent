@@ -18,6 +18,8 @@ Agent 框架和编排工具的模式分析。
 | [WebSocket 流式支持](./streaming/websocket-streaming-support.md) | WebSocket 流式设计模式 | P2 |
 | [AgentScope 实时语音](./streaming/realtime-voice-agentscope.md) | 统一事件驱动模型、多模型适配、语音聊天室广播机制 | P0 |
 | [Codex 流式处理](./streaming/codex-streaming.md) | WebSocket 实时对话、SSE 回退、增量请求优化 | P1 |
+| [LiveKit Agents 双工管道](./streaming/livekit-agents-duplex-pipeline.md) | ASR→LLM→TTS 级联管道、打断处理、抢占生成、动态端点检测 | P0 |
+| [FlushSentinel 与 PREFLIGHT 抢占机制](./streaming/livekit-agents-preflight-flushsentinel.md) | FlushSentinel 分段合成、PREFLIGHT 意图预判、抢占生成生命周期、EOU 检测 | P0 |
 
 ### [错误处理](./error-handling/)
 
@@ -111,6 +113,8 @@ WebSocket 协议比较。
 | P0 | [分层运动系统](./robotics/layered-motion-system.md) | 机器人控制 |
 | P0 | [机器人情绪系统设计](./robotics/emotion-system-design.md) | 机器人情绪 |
 | P0 | [AgentScope 实时语音](./streaming/realtime-voice-agentscope.md) | 实时交互 |
+| P0 | [LiveKit Agents 双工管道](./streaming/livekit-agents-duplex-pipeline.md) | 实时语音管道 |
+| P0 | [FlushSentinel 与 PREFLIGHT 抢占机制](./streaming/livekit-agents-preflight-flushsentinel.md) | 低延迟优化机制 |
 | P1 | [结构化错误与重试](./error-handling/structured-errors-retry.md) | 生产健壮性 |
 | P1 | [流式工具组装](./streaming/streaming-tool-assembly.md) | 流式处理 |
 | P1 | [Codex LLM 抽象层](./architecture/codex-llm-abstraction.md) | 架构设计 |
@@ -134,4 +138,4 @@ WebSocket 协议比较。
 
 ---
 
-*最后更新：2026-03-10*
+*最后更新：2026-03-20*
