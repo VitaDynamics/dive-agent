@@ -358,7 +358,7 @@ trace.update(output="Final summary delivered")
 ## 相关文档
 
 - [Opik 与 Bloom 集成方案](./opik-bloom-integration.md) - 比较评估平台的不同应用场景
-- [Agent Evaluation 索引](https://github.com/DylanLIiii/dive-agent/blob/main/repos/agent-evaluation/README.md) - 评估工具概览
+- [Agent Evaluation 索引](https://github.com/VitaDynamics/dive-agent/blob/main/repos/agent-evaluation/README.md) - 评估工具概览
 - [Langfuse 官方文档](https://langfuse.com/docs)
 
 ---

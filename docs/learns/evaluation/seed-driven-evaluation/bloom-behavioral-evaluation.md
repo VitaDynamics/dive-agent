@@ -359,7 +359,7 @@ rollout:
 ## 相关文档
 
 - ACEBench 工具使用评估 - 固定基准测试对比
-- [Agent Harness 概览](https://github.com/DylanLIiii/dive-agent/blob/main/repos/agent-harness/README.md) - 支持的 Agent 框架
+- [Agent Harness 概览](https://github.com/VitaDynamics/dive-agent/blob/main/repos/agent-harness/README.md) - 支持的 Agent 框架
 
 ---
 
