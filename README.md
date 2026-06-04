@@ -14,7 +14,7 @@
 | 类别 | 描述 | 数量 |
 |------|------|------|
 | [Agent](./repos/agent/) | 独立的 AI Agent 应用和实现 | 4 |
-| [Agent-harness](./repos/agent-harness/) | Agent 框架和编排工具 | 9 |
+| [Agent-harness](./repos/agent-harness/) | Agent 框架和编排工具 | 10 |
 | [Agent Evaluation](./repos/agent-evaluation/) | Agent 测试和评估框架 | 4 |
 | [Agent Training](./repos/agent-training/) | Agent 训练和微调资源 | 0 |
 
@@ -52,6 +52,7 @@
 
 | 文档 | 描述 |
 |------|------|
+| [历史项作为检查点设计](./docs/best-choices/history-item-checkpointer-design.md) | 不可变磁带模式、细粒度状态恢复 |
 | [LLM 错误处理设计](./docs/best-choices/llm-error-handling-design.md) | 结构化错误分类、重试策略 |
 | [流式拉取防抖推送设计](./docs/best-choices/streaming-pull-debounced-push-design.md) | 流式架构模式 |
 | [机器人情绪与动作系统设计](./docs/best-choices/emotion-motion-system-design.md) | 永不静止原则、双层融合架构 |
@@ -86,7 +87,7 @@
 ## 统计信息
 
 ```
-仓库：16（Agent: 4, Agent-harness: 9, Evaluation: 4, Training: 0）
+仓库：17（Agent: 4, Agent-harness: 10, Evaluation: 4, Training: 0）
 文档：35 个学习笔记 + 5 个最佳实践文档
 主题：12
 最后更新：2026-03-21

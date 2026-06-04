@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Agent Hook 系统对比：Pi vs LangChain</title>
+<style>
+  @font-face {
+    font-family: "TsangerJinKai02";
+    src: url("https://cdn.jsdelivr.net/gh/tw93/Kami@main/assets/fonts/TsangerJinKai02-W04.ttf") format("truetype");
+    font-weight: 400;
+  }
+  @font-face {
+    font-family: "TsangerJinKai02";
+    src: url("https://cdn.jsdelivr.net/gh/tw93/Kami@main/assets/fonts/TsangerJinKai02-W05.ttf") format("truetype");
+    font-weight: 500;
+  }
+  @page {
+    size: A4;
+    margin: 20mm 22mm 22mm 22mm;
+    background: #f5f4ed;
+    @top-right {
+      content: string(section-title);
+      font-family: "TsangerJinKai02", Georgia, serif;
+      font-size: 8pt;
+      color: #6b6a64;
+    }
+    @bottom-center {
+      content: counter(page) " \00b7 Agent Hook \u7cfb\u7edf\u5bf9\u6bd4";
+      font-family: "TsangerJinKai02", Georgia, serif;
+      font-size: 9pt;
+      color: #6b6a64;
+    }
+  }
+  @page:first {
+    @top-right { content: ""; }
+    @bottom-center { content: ""; }
+  }
+  :root {
+    --parchment: #f5f4ed;
+    --ivory: #faf9f5;
+    --brand: #1B365D;
+    --brand-pi: #2D5A8A;
+    --brand-lc: #4A7C59;
+    --near-black: #141413;
+    --dark-warm: #3d3d3a;
+    --olive: #504e49;
+    --stone: #6b6a64;
+    --border: #e8e6dc;
+    --tag-bg: #E4ECF5;
+    --tag-pi: #D6E1EE;
+    --tag-lc: #D6ECD8;
+    --serif: "TsangerJinKai02", Georgia, serif;
+  }
+  body {
+    font-family: var(--serif);
+    font-size: 10.5pt;
+    line-height: 1.55;
+    color: var(--near-black);
+    background: var(--parchment);
+  }
+  h1 { font-size: 24pt; font-weight: 500; color: var(--brand); border-left: 4pt solid var(--brand); padding-left: 12pt; }
+  h2 { font-size: 16pt; font-weight: 500; margin-top: 24pt; border-left: 3pt solid var(--brand); padding-left: 10pt; string-set: section-title content(); }
+  h3 { font-size: 13pt; font-weight: 500; color: var(--dark-warm); margin-top: 16pt; }
+  .cover { text-align: center; padding-top: 30vh; }
+  .cover h1 { border: none; font-size: 28pt; }
+  .abstract { background: var(--ivory); padding: 16pt; margin: 20pt 0; border: 0.5pt solid var(--border); }
+  table { width: 100%; border-collapse: collapse; margin: 12pt 0; font-size: 9.5pt; }
+  th { background: var(--ivory); padding: 8pt; text-align: left; font-weight: 500; color: var(--brand); border-bottom: 1pt solid var(--brand); }
+  td { padding: 8pt; border-bottom: 0.5pt solid var(--border); vertical-align: top; }
+  code { font-family: monospace; font-size: 9pt; background: var(--ivory); padding: 2pt 4pt; }
+  pre { background: var(--ivory); padding: 12pt; overflow-x: auto; font-size: 8.5pt; line-height: 1.4; }
+  .tag { display: inline-block; padding: 2pt 6pt; margin: 2pt; font-size: 8pt; border-radius: 2pt; }
+  .tag-pi { background: var(--tag-pi); color: var(--brand-pi); }
+  .tag-lc { background: var(--tag-lc); color: var(--brand-lc); }
+  .tag-common { background: var(--tag-bg); color: var(--brand); }
+  .highlight-box { background: var(--ivory); border-left: 3pt solid var(--brand); padding: 12pt 14pt; margin: 14pt 0; }
+  .pi-side { border-left: 3pt solid var(--brand-pi); padding-left: 10pt; margin: 8pt 0; }
+  .lc-side { border-left: 3pt solid var(--brand-lc); padding-left: 10pt; margin: 8pt 0; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>Agent Hook 系统对比</h1>
+  <p style="font-size: 14pt; color: var(--olive);">Pi 三层 Hook vs LangChain Callback</p>
+  <p style="margin-top: 40pt; color: var(--stone);">技术架构白皮书 &middot; 2026年6月</p>
+</div>
+
+<div class="abstract">
+  <strong>执行摘要</strong><br>
+  Pi 和 LangChain 采用截然不同的 Agent 事件系统设计：Pi 使用三层 Hook 架构（Agent Loop + Agent Event + Harness/Extension），支持 block/patch/cancel 语义；LangChain 使用 Mixin-Based 的 Callback 系统，纯只读观测。本文档从架构设计、ReAct Loop 映射、修改能力、扩展性四个维度进行系统性对比，揭示两种设计哲学背后的权衡与适用场景。
+</div>
+
+<h2>一、架构设计对比</h2>
+
+<h3>1.1 核心架构</h3>
+
+<table>
+<tr><th>维度</th><th><span class="tag tag-pi">Pi</span></th><th><span class="tag tag-lc">LangChain</span></th></tr>
+<tr>
+  <td><strong>架构模式</strong></td>
+  <td>三层分层 Hook</td>
+  <td>Mixin-Based 回调</td>
+</tr>
+<tr>
+  <td><strong>核心抽象</strong></td>
+  <td>Agent Loop 回调 + AgentEvent 流 + HookEvent 拦截</td>
+  <td>BaseCallbackHandler (Mixin 继承链)</td>
+</tr>
+<tr>
+  <td><strong>类型系统</strong></td>
+  <td>TypeScript + Phantom Type (HookResult)</td>
+  <td>Python Mixin + 鸭子类型</td>
+</tr>
+<tr>
+  <td><strong>执行模型</strong></td>
+  <td>同步/异步混合，返回值参与控制流</td>
+  <td>异步聚合，回调并行执行</td>
+</tr>
+<tr>
+  <td><strong>错误处理</strong></td>
+  <td>Hook 可 block，错误可传播</td>
+  <td>错误隔离，一个 handler 崩溃不影响其他</td>
+</tr>
+</table>
+
+<h3>1.2 层级对应关系</h3>
+
+<div class="highlight-box">
+<strong>关键发现</strong>：LangChain 的 Callback 系统 <strong>只对应 Pi 的 Agent 事件层</strong>（只读观测），没有 Agent Loop 层和 Harness/Extension 层的等价物。
+</div>
+
+<table>
+<tr><th>Pi 层级</th><th>能力</th><th>LangChain 等价物</th><th>差距</th></tr>
+<tr>
+  <td><span class="tag tag-pi">Agent Loop 层</span></td>
+  <td>函数回调，直接参与执行逻辑<br>可 block 工具、修改消息、决定停止</td>
+  <td><strong>无</strong></td>
+  <td>LangChain 没有执行控制点</td>
+</tr>
+<tr>
+  <td><span class="tag tag-pi">Agent 事件层</span></td>
+  <td>只读事件流，状态同步、UI 更新</td>
+  <td><span class="tag tag-lc">BaseCallbackHandler</span></td>
+  <td>等价，但 Pi 的事件粒度更细</td>
+</tr>
+<tr>
+  <td><span class="tag tag-pi">Harness/Extension 层</span></td>
+  <td>类型安全拦截，block/patch/cancel</td>
+  <td><strong>无</strong></td>
+  <td>LangChain 无法拦截执行</td>
+</tr>
+</table>
+
+<h2>二、ReAct Loop 事件映射对比</h2>
+
+<h3>2.1 事件触发时机对比</h3>
+
+<table>
+<tr><th>ReAct 阶段</th><th><span class="tag tag-pi">Pi 事件</span></th><th><span class="tag tag-lc">LangChain 事件</span></th></tr>
+<tr>
+  <td><strong>整轮开始</strong></td>
+  <td><code>agent_start</code>, <code>before_agent_start</code></td>
+  <td><code>on_chain_start</code></td>
+</tr>
+<tr>
+  <td><strong>LLM 请求</strong></td>
+  <td><code>message_start</code>, <code>message_update</code> &times; N, <code>message_end</code></td>
+  <td><code>on_llm_start</code>, <code>on_llm_new_token</code> &times; N, <code>on_llm_end</code></td>
+</tr>
+<tr>
+  <td><strong>工具调用</strong></td>
+  <td><code>beforeToolCall</code>, <code>tool_execution_start/end</code>, <code>afterToolCall</code></td>
+  <td><code>on_agent_action</code>, <code>on_tool_start</code>, <code>on_tool_end</code></td>
+</tr>
+<tr>
+  <td><strong>Agent 完成</strong></td>
+  <td><code>agent_end</code>, <code>turn_end</code></td>
+  <td><code>on_agent_finish</code>, <code>on_chain_end</code></td>
+</tr>
+</table>
+
+<h3>2.2 关键差异</h3>
+
+<div class="pi-side">
+<strong>Pi 优势</strong>：
+<ul>
+<li><code>message_start</code> 区分 user/assistant/toolResult 三种消息类型</li>
+<li><code>turn_start/end</code> 明确标记单轮边界</li>
+<li><code>save_point</code> 标记状态固化点</li>
+<li>流式事件包含完整消息对象，不只是 token 字符串</li>
+</ul>
+</div>
+
+<div class="lc-side">
+<strong>LangChain 优势</strong>：
+<ul>
+<li><code>on_llm_new_token</code> 更细粒度的流式输出</li>
+<li><code>on_retry</code> 专门的 retry 事件</li>
+<li><code>on_custom_event</code> 支持自定义事件扩展</li>
+<li>Mixin 设计可组合，按需继承</li>
+</ul>
+</div>
+
+<h2>三、修改能力对比</h2>
+
+<h3>3.1 核心能力矩阵</h3>
+
+<table>
+<tr><th>操作</th><th><span class="tag tag-pi">Pi</span></th><th><span class="tag tag-lc">LangChain</span></th></tr>
+<tr>
+  <td><strong>修改 System Prompt</strong></td>
+  <td>✅ <code>before_agent_start</code> 返回新 systemPrompt</td>
+  <td>❌ 无法修改</td>
+</tr>
+<tr>
+  <td><strong>修改进入 LLM 的消息</strong></td>
+  <td>✅ <code>context</code> / <code>transformContext</code> 替换 messages</td>
+  <td>❌ 无法修改</td>
+</tr>
+<tr>
+  <td><strong>阻断工具调用</strong></td>
+  <td>✅ <code>beforeToolCall</code> / <code>tool_call</code> 返回 <code>{ block: true }</code></td>
+  <td>❌ 无法阻断</td>
+</tr>
+<tr>
+  <td><strong>修改工具结果</strong></td>
+  <td>✅ <code>afterToolCall</code> / <code>tool_result</code> patch 结果</td>
+  <td>❌ 无法修改</td>
+</tr>
+<tr>
+  <td><strong>修改 LLM 请求参数</strong></td>
+  <td>✅ <code>before_provider_request</code> 修改 model/streamOptions</td>
+  <td>❌ 无法修改</td>
+</tr>
+<tr>
+  <td><strong>修改流式 Token</strong></td>
+  <td>⚠️ 不支持（设计上 AssistantMessage 不可修改）</td>
+  <td>❌ 不支持</td>
+</tr>
+<tr>
+  <td><strong>决定循环终止</strong></td>
+  <td>✅ <code>shouldStopAfterTurn</code> 返回 boolean</td>
+  <td>❌ 无法控制</td>
+</tr>
+<tr>
+  <td><strong>观测执行流程</strong></td>
+  <td>✅ Agent 事件层 observe()</td>
+  <td>✅ 所有回调都是观测</td>
+</tr>
+</table>
+
+<h3>3.2 设计哲学差异</h3>
+
+<div class="highlight-box">
+<strong>Pi</strong>："执行前/中/后的拦截与修改" —— 精细化控制 Agent 行为<br>
+<strong>LangChain</strong>："执行后的观测与记录" —— 追踪 Agent 行为
+</div>
+
+<h2>四、扩展性对比</h2>
+
+<h3>4.1 Extension / 自定义 Handler</h3>
+
+<table>
+<tr><th>维度</th><th><span class="tag tag-pi">Pi Extension</span></th><th><span class="tag tag-lc">LangChain Custom Handler</span></th></tr>
+<tr>
+  <td><strong>注册方式</strong></td>
+  <td>文件系统扫描 <code>extensions/</code> 目录</td>
+  <td>代码中实例化并传入 <code>callbacks=[...]</code></td>
+</tr>
+<tr>
+  <td><strong>生命周期</strong></td>
+  <td>随 Session 持久化，重启后自动加载</td>
+  <td>随代码实例化，每次调用独立</td>
+</tr>
+<tr>
+  <td><strong>注册工具</strong></td>
+  <td>✅ <code>pi.registerTool()</code></td>
+  <td>✅ 通过 <code>tools=[...]</code> 传入</td>
+</tr>
+<tr>
+  <td><strong>注册命令</strong></td>
+  <td>✅ <code>pi.registerCommand()</code></td>
+  <td>❌ 无内置命令系统</td>
+</tr>
+<tr>
+  <td><strong>UI 交互</strong></td>
+  <td>✅ <code>ctx.ui.select/confirm/input</code></td>
+  <td>❌ 无 UI 系统</td>
+</tr>
+<tr>
+  <td><strong>类型安全</strong></td>
+  <td>Phantom Type + 泛型约束</td>
+  <td>Python 鸭子类型</td>
+</tr>
+<tr>
+  <td><strong>错误隔离</strong></td>
+  <td>Extension 错误不破坏核心</td>
+  <td>Handler 错误不破坏其他 handler</td>
+</tr>
+</table>
+
+<h3>4.2 沙盒性对比</h3>
+
+<div class="pi-side">
+<strong>Pi Extension 沙盒</strong>：
+<ul>
+<li>只能通过 Harness HookEvent 参与生命周期</li>
+<li>无法直接操作 Agent 类实例</li>
+<li>所有修改通过声明式结果对象传递</li>
+<li>Session 持久化保证可审计性</li>
+</ul>
+</div>
+
+<div class="lc-side">
+<strong>LangChain Handler 自由度</strong>：
+<ul>
+<li>可以在回调中执行任意 Python 代码</li>
+<li>可以发起网络请求、读写文件</li>
+<li>但不能修改执行状态</li>
+<li>每次调用独立，无持久化状态</li>
+</ul>
+</div>
+
+<h2>五、适用场景对比</h2>
+
+<h3>5.1 选择 Pi 的场景</h3>
+
+<ul>
+<li><strong>需要拦截执行</strong>：阻断危险工具调用、修改工具结果</li>
+<li><strong>需要修改上下文</strong>：动态裁剪消息历史、注入系统指令</li>
+<li><strong>需要精细化控制</strong>：切换模型、改变思考级别、控制循环终止</li>
+<li><strong>需要可恢复性</strong>：Session 持久化、崩溃后恢复状态</li>
+<li><strong>需要 UI 扩展</strong>：自定义命令、快捷键、对话框</li>
+</ul>
+
+<h3>5.2 选择 LangChain 的场景</h3>
+
+<ul>
+<li><strong>需要观测追踪</strong>：记录 Token 用量、延迟指标</li>
+<li><strong>需要流式推送</strong>：WebSocket、SSE 实时推送</li>
+<li><strong>需要集成外部系统</strong>：LangSmith、Langfuse、自定义日志</li>
+<li><strong>需要快速原型</strong>：简单的回调即可满足需求</li>
+<li><strong>需要与 Python 生态集成</strong>：DataDog、Prometheus 等</li>
+</ul>
+
+<h2>六、一句话总结</h2>
+
+<div class="highlight-box">
+<strong>Pi = 拦截与修改框架</strong>：告诉你"发生了什么"，还能决定"接下来发生什么"。<br><br>
+<strong>LangChain Callback = 观测与追踪框架</strong>：告诉你"发生了什么"，但无法影响"接下来发生什么"。
+</div>
+
+<p style="margin-top: 20pt; color: var(--stone);">
+两者不是竞争关系，而是互补：<strong>LangChain 适合观测和追踪，Pi 适合控制和扩展</strong>。在实际项目中，可以根据需求选择或组合使用。
+</p>
+
+</body>
+</html>

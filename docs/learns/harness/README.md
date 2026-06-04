@@ -28,7 +28,10 @@ Agent 框架和编排工具的模式分析。
 
 | 文档 | 描述 | 优先级 |
 |------|------|--------|
+| [错误恢复与上下文无损](./error-handling/error-recovery-without-context-loss.md) | 失败时保留完整上下文、精确恢复点设计、检查点模式 | P0 |
 | [结构化错误与重试](./error-handling/structured-errors-retry.md) | 错误分类、重试策略、错误恢复 | P1 |
+| [Codex 错误处理与流中断](./error-handling/codex-error-handling-stream-interruption.md) | 错误分类、可重试性判断、WebSocket 回退、流中断恢复 | P1 |
+| [Kameo Mailbox 满/超时错误处理](./error-handling/kameo-mailbox-full-error-handling.md) | Mailbox 满/超时场景下的错误回传策略、死信队列、代理模式 | P1 |
 
 ### [上下文管理](./context-management/)
 
@@ -64,6 +67,7 @@ Agent 框架和编排工具的模式分析。
 | 文档 | 描述 | 优先级 |
 |------|------|--------|
 | [状态快照并发](./concurrency/state-snapshot-concurrency.md) | 双模式并发：EventStream、部分快照、UI 状态同步 | P2 |
+| [Kameo Request 与 Tool Call 对比](./concurrency/kameo-request-toolcall-pattern.md) | Actor 请求模式：Ask/Tell/Forward、阻塞式与异步式 Tool Call、死锁避免 | P1 |
 
 ### [架构](./architecture/)
 
@@ -76,6 +80,7 @@ Agent 框架和编排工具的模式分析。
 | [OpenClaw Opik 可观测性插件架构](./architecture/openclaw-opik-observability-plugin.md) | 事件投影式 tracing：hook、状态聚合、延迟 finalize、附件旁路上传 | P1 |
 | [Codex LLM 抽象层](./architecture/codex-llm-abstraction.md) | ModelClient/Session 设计、WebSocket 预热、流式回退 | P1 |
 | [Slate 架构](./architecture/slate-architecture.md) | Slate 架构设计分析 | P2 |
+| [Kameo Request 与 Mailbox 设计](./architecture/kameo-request-mailbox-design.md) | Actor 请求模型、双层超时机制、Mailbox Hooks | P1 |
 
 ### [抽象层](./abstractions/)
 
@@ -83,6 +88,7 @@ LLM 抽象层比较和 SDK 模式。
 
 | 文档 | 描述 | 优先级 |
 |------|------|--------|
+| [LLM Provider 最佳抽象](./abstractions/llm-provider-best-abstraction.md) | 统一抽象层设计：Protocol vs ABC、内容部件注册表、Delta 合并、能力画像 | P1 |
 | [LLM 抽象比较](./abstractions/llm-abstraction-comparison.md) | 提供者抽象层设计模式 | P2 |
 | [LLM 调用返回封装](./abstractions/llm-call-return-encapsulation.md) | LLM 调用的 SDK 使用模式 | P2 |
 | [LLM 框架比较](./abstractions/llm-framework-comparison.md) | 综合框架比较（LitAI, Pydantic AI, Republic, Kimi CLI, LangChain） | P2 |
@@ -119,6 +125,7 @@ Slate 架构相关。
 
 | 优先级 | 文档 | 主题 |
 |--------|------|------|
+| P0 | [错误恢复与上下文无损](./error-handling/error-recovery-without-context-loss.md) | 生产弹性 |
 | P0 | [异步流式一等公民](./streaming/async-streaming-first-class.md) | 核心抽象 |
 | P0 | [类型化消息部件](./type-safety/typed-message-parts-pydantic-ai.md) | 类型安全 |
 | P0 | [分层运动系统](./robotics/layered-motion-system.md) | 机器人控制 |
@@ -127,11 +134,18 @@ Slate 架构相关。
 | P0 | [LiveKit Agents 双工管道](./streaming/livekit-agents-duplex-pipeline.md) | 实时语音管道 |
 | P0 | [FlushSentinel 与 PREFLIGHT 抢占机制](./streaming/livekit-agents-preflight-flushsentinel.md) | 低延迟优化机制 |
 | P1 | [结构化错误与重试](./error-handling/structured-errors-retry.md) | 生产健壮性 |
+| P1 | [Codex 错误处理与流中断](./error-handling/codex-error-handling-stream-interruption.md) | 错误处理 |
 | P1 | [流式工具组装](./streaming/streaming-tool-assembly.md) | 流式处理 |
 | P1 | [Codex LLM 抽象层](./architecture/codex-llm-abstraction.md) | 架构设计 |
 | P1 | [OpenClaw Opik 可观测性插件架构](./architecture/openclaw-opik-observability-plugin.md) | 可观测性架构 |
 | P1 | [Codex 流式处理](./streaming/codex-streaming.md) | 流式架构 |
 | P1 | [Codex 上下文管理](./context-management/codex-context-management.md) | 上下文管理 |
+| P1 | [Kameo Request 与 Tool Call 对比](./concurrency/kameo-request-toolcall-pattern.md) | Actor 请求模式 |
+| P1 | [Kameo Request 与 Mailbox 设计](./architecture/kameo-request-mailbox-design.md) | Actor 架构 |
+| P1 | [Kameo Mailbox 满/超时错误处理](./error-handling/kameo-mailbox-full-error-handling.md) | Actor 错误处理 |
+| P2 | [LLM 抽象比较](./abstractions/llm-abstraction-comparison.md) | 抽象设计 |
+| P2 | [LLM 调用返回封装](./abstractions/llm-call-return-encapsulation.md) | SDK 模式 |
+| P2 | [LLM 框架比较](./abstractions/llm-framework-comparison.md) | 框架对比 |
 | P2 | [上下文管理双模式](./context-management/context-management-dual-mode.md) | 状态管理 |
 | P2 | [中间件/回调系统](./middleware/middleware-callback-system.md) | 可扩展性 |
 | P2 | [状态快照并发](./concurrency/state-snapshot-concurrency.md) | 并发 |

@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>LangChain Callback 系统架构：ReAct Loop 时间线映射</title>
+<style>
+  @font-face {
+    font-family: "TsangerJinKai02";
+    src: url("https://cdn.jsdelivr.net/gh/tw93/Kami@main/assets/fonts/TsangerJinKai02-W04.ttf") format("truetype");
+    font-weight: 400;
+  }
+  @font-face {
+    font-family: "TsangerJinKai02";
+    src: url("https://cdn.jsdelivr.net/gh/tw93/Kami@main/assets/fonts/TsangerJinKai02-W05.ttf") format("truetype");
+    font-weight: 500;
+  }
+  @page {
+    size: A4;
+    margin: 20mm 22mm 22mm 22mm;
+    background: #f5f4ed;
+    @top-right {
+      content: string(section-title);
+      font-family: "TsangerJinKai02", Georgia, serif;
+      font-size: 8pt;
+      color: #6b6a64;
+    }
+    @bottom-center {
+      content: counter(page) " \00b7 LangChain Callback \u7cfb\u7edf\u67b6\u6784";
+      font-family: "TsangerJinKai02", Georgia, serif;
+      font-size: 9pt;
+      color: #6b6a64;
+    }
+  }
+  @page:first {
+    @top-right { content: ""; }
+    @bottom-center { content: ""; }
+  }
+  :root {
+    --parchment: #f5f4ed;
+    --ivory: #faf9f5;
+    --brand: #1B365D;
+    --near-black: #141413;
+    --dark-warm: #3d3d3a;
+    --olive: #504e49;
+    --stone: #6b6a64;
+    --border: #e8e6dc;
+    --tag-bg: #E4ECF5;
+    --serif: "TsangerJinKai02", Georgia, serif;
+  }
+  body {
+    font-family: var(--serif);
+    font-size: 10.5pt;
+    line-height: 1.55;
+    color: var(--near-black);
+    background: var(--parchment);
+  }
+  h1 { font-size: 24pt; font-weight: 500; color: var(--brand); border-left: 4pt solid var(--brand); padding-left: 12pt; }
+  h2 { font-size: 16pt; font-weight: 500; margin-top: 24pt; border-left: 3pt solid var(--brand); padding-left: 10pt; string-set: section-title content(); }
+  h3 { font-size: 13pt; font-weight: 500; color: var(--dark-warm); margin-top: 16pt; }
+  .cover { text-align: center; padding-top: 30vh; }
+  .cover h1 { border: none; font-size: 28pt; }
+  .abstract { background: var(--ivory); padding: 16pt; margin: 20pt 0; border: 0.5pt solid var(--border); }
+  table { width: 100%; border-collapse: collapse; margin: 12pt 0; font-size: 9.5pt; }
+  th { background: var(--ivory); padding: 8pt; text-align: left; font-weight: 500; color: var(--brand); border-bottom: 1pt solid var(--brand); }
+  td { padding: 8pt; border-bottom: 0.5pt solid var(--border); }
+  code { font-family: monospace; font-size: 9pt; background: var(--ivory); padding: 2pt 4pt; }
+  pre { background: var(--ivory); padding: 12pt; overflow-x: auto; font-size: 8.5pt; line-height: 1.4; }
+  .hook-tag { display: inline-block; background: var(--tag-bg); color: var(--brand); padding: 2pt 6pt; margin: 2pt; font-size: 8pt; border-radius: 2pt; }
+  .hook-tag.event { background: #F0E6D8; color: var(--dark-warm); }
+  .timeline { background: var(--ivory); border: 0.5pt solid var(--border); padding: 14pt; margin: 16pt 0; }
+  .timeline-phase { position: relative; padding-left: 24pt; margin-bottom: 12pt; padding-bottom: 12pt; border-bottom: 0.5pt dashed var(--border); }
+  .timeline-phase:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .timeline-phase::before { content: ""; position: absolute; left: 6pt; top: 4pt; width: 8pt; height: 8pt; background: var(--brand); border-radius: 50%; }
+  .timeline-phase::after { content: ""; position: absolute; left: 9pt; top: 16pt; width: 1.5pt; height: calc(100% - 8pt); background: var(--border); }
+  .timeline-phase:last-child::after { display: none; }
+  .phase-title { font-weight: 500; color: var(--brand); margin-bottom: 6pt; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>LangChain Callback 系统架构</h1>
+  <p style="font-size: 14pt; color: var(--olive);">ReAct Loop 时间线映射与观测设计</p>
+  <p style="margin-top: 40pt; color: var(--stone);">技术架构白皮书 &middot; 2026年6月</p>
+</div>
+
+<div class="abstract">
+  <strong>执行摘要</strong><br>
+  LangChain 采用 Mixin-Based 的分层回调设计，将事件观测深度集成到 Agent 执行生命周期中。本文档系统性地解析了 BaseCallbackHandler 的完整回调事件、在 ReAct Loop 中的触发时机、以及与 Pi 三层 Hook 系统的差异。通过对比分析，揭示了 LangChain Callbacks 的观测者本质与设计权衡。
+</div>
+
+<h2>一、回调系统架构</h2>
+
+<h3>1.1 Mixin-Based 分层设计</h3>
+
+<p>LangChain 采用 <strong>Mixin-Based 分层设计</strong>，将回调按组件类型分层：</p>
+
+<pre><code>BaseCallbackHandler
+|-- LLMManagerMixin          (on_llm_start, on_llm_new_token, on_llm_end, on_llm_error)
+|-- ChainManagerMixin        (on_chain_start, on_chain_end, on_chain_error)
+|-- ToolManagerMixin         (on_tool_start, on_tool_end, on_tool_error)
+|-- RetrieverManagerMixin    (on_retriever_start, on_retriever_end, on_retriever_error)
+|-- CallbackManagerMixin     (整合调度)
+|-- RunManagerMixin          (on_text, on_retry, on_custom_event)</code></pre>
+
+<p>关键设计原则：</p>
+<ul>
+<li>关注点分离：每个 Mixin 处理特定组件类型</li>
+<li>生命周期钩子：每个组件都有 <code>start</code>、<code>end</code> 和 <code>error</code> 回调</li>
+<li>继承链：Handler 可以继承多个 Mixin 来组合行为</li>
+<li>异步支持：通过单独的 <code>AsyncCallbackHandler</code> 支持异步操作</li>
+</ul>
+
+<h3>1.2 完整回调事件列表</h3>
+
+<table>
+<tr><th>组件</th><th>开始</th><th>流式</th><th>结束</th><th>错误</th></tr>
+<tr><td><strong>LLM</strong></td><td><code>on_llm_start</code></td><td><code>on_llm_new_token</code></td><td><code>on_llm_end</code></td><td><code>on_llm_error</code></td></tr>
+<tr><td><strong>Chat Model</strong></td><td><code>on_chat_model_start</code></td><td><code>on_llm_new_token</code></td><td><code>on_llm_end</code></td><td><code>on_llm_error</code></td></tr>
+<tr><td><strong>Chain</strong></td><td><code>on_chain_start</code></td><td>-</td><td><code>on_chain_end</code></td><td><code>on_chain_error</code></td></tr>
+<tr><td><strong>Tool</strong></td><td><code>on_tool_start</code></td><td>-</td><td><code>on_tool_end</code></td><td><code>on_tool_error</code></td></tr>
+<tr><td><strong>Retriever</strong></td><td><code>on_retriever_start</code></td><td>-</td><td><code>on_retriever_end</code></td><td><code>on_retriever_error</code></td></tr>
+<tr><td><strong>Agent</strong></td><td><code>on_agent_action</code></td><td>-</td><td><code>on_agent_finish</code></td><td>(通过 chain/tool)</td></tr>
+<tr><td><strong>Retry</strong></td><td><code>on_retry</code></td><td>-</td><td>-</td><td>-</td></tr>
+<tr><td><strong>Custom</strong></td><td><code>on_custom_event</code></td><td>-</td><td>-</td><td>-</td></tr>
+</table>
+
+<h3>1.3 回调方法签名</h3>
+
+<pre><code>class BaseCallbackHandler:
+    raise_error: bool = False   # 回调错误时是否抛出异常
+    run_inline: bool = False    # 是否内联执行
+
+    def on_llm_start(self, serialized, prompts, run_id=None, **kwargs):
+        """LLM 开始调用时触发"""
+
+    def on_llm_new_token(self, token, *, chunk=None, run_id=None, **kwargs):
+        """每个 Token 生成时触发（流式）"""
+
+    def on_llm_end(self, response, *, run_id=None, **kwargs):
+        """LLM 完成时触发"""
+
+    def on_tool_start(self, serialized, input_str, *, run_id=None, **kwargs):
+        """工具开始执行时触发"""
+
+    def on_tool_end(self, output, *, run_id=None, **kwargs):
+        """工具执行完成时触发"""
+
+    def on_agent_action(self, action, *, run_id=None, **kwargs):
+        """Agent 执行动作时触发"""
+
+    def on_agent_finish(self, finish, *, run_id=None, **kwargs):
+        """Agent 完成时触发"""</code></pre>
+
+<h2>二、ReAct Loop 时间线映射</h2>
+
+<div class="timeline">
+  <div class="timeline-phase">
+    <div class="phase-title">1. 整轮循环开始</div>
+    <span class="hook-tag event">on_chain_start</span>
+  </div>
+
+  <div class="timeline-phase">
+    <div class="phase-title">2. LLM 请求准备（Reason Phase）</div>
+    <span class="hook-tag event">on_llm_start</span>
+    <span class="hook-tag event">on_llm_new_token &times; N</span>
+    <span class="hook-tag event">on_llm_end</span>
+  </div>
+
+  <div class="timeline-phase">
+    <div class="phase-title">3. Agent 动作解析（Act Phase）</div>
+    <span class="hook-tag event">on_agent_action</span>
+    <span class="hook-tag event">on_tool_start</span>
+    <span class="hook-tag event">on_tool_end</span>
+    <span class="hook-tag event">on_tool_error</span>
+  </div>
+
+  <div class="timeline-phase">
+    <div class="phase-title">4. 观察阶段（Observation Phase）</div>
+    <span class="hook-tag event">(隐式：工具结果添加到上下文)</span>
+  </div>
+
+  <div class="timeline-phase">
+    <div class="phase-title">5. 循环决策 / 完成</div>
+    <span class="hook-tag event">on_agent_finish</span>
+    <span class="hook-tag event">on_chain_end</span>
+  </div>
+</div>
+
+<h3>2.1 完整时间线示例</h3>
+
+<pre><code># 第一轮 ReAct 循环
+on_chain_start(serialized={...}, inputs={...})
+  |-- on_llm_start(prompts=[...])
+  |-- on_llm_new_token("Let")
+  |-- on_llm_new_token(" me")
+  |-- on_llm_new_token(" search")
+  |-- on_llm_end(response=LLMResult(...))
+
+  |-- on_agent_action(action=AgentAction(tool="search", ...))
+  |-- on_tool_start(serialized={"name": "search"}, input_str="...")
+  |-- on_tool_end(output="Search results...")
+
+# 第二轮循环（如需要）
+  |-- on_llm_start(prompts=[...])
+  |-- on_llm_new_token("Now")
+  |-- on_llm_end(response=LLMResult(...))
+
+  |-- on_agent_action(action=AgentAction(tool="read", ...))
+  |-- on_tool_start(serialized={"name": "read"}, input_str="...")
+  |-- on_tool_end(output="File contents...")
+
+# 完成
+on_agent_finish(finish=AgentFinish(output="Final answer...", log="..."))
+on_chain_end(outputs={...})</code></pre>
+
+<h2>三、Callback 能力与限制</h2>
+
+<h3>3.1 Callback 能做什么</h3>
+
+<table>
+<tr><th>能力</th><th>说明</th><th>示例</th></tr>
+<tr><td><strong>观测</strong></td><td>读取所有事件数据</td><td>记录 Token、工具调用、错误</td></tr>
+<tr><td><strong>计数</strong></td><td>统计 Token 使用量、调用次数</td><td>计费、性能分析</td></tr>
+<tr><td><strong>日志</strong></td><td>记录执行流程</td><td>写入文件、发送到追踪系统</td></tr>
+<tr><td><strong>流式推送</strong></td><td>实时推送事件到客户端</td><td>WebSocket、SSE</td></tr>
+<tr><td><strong>状态跟踪</strong></td><td>维护运行状态</td><td>追踪 run_id、parent_run_id</td></tr>
+<tr><td><strong>条件跳过</strong></td><td>通过 <code>ignore_*</code> 属性跳过事件</td><td><code>ignore_llm = True</code></td></tr>
+</table>
+
+<h3>3.2 Callback 不能做什么</h3>
+
+<table>
+<tr><th>限制</th><th>说明</th><th>原因</th></tr>
+<tr><td><strong>修改输入</strong></td><td>无法修改 prompts、messages</td><td>回调是只读观测器</td></tr>
+<tr><td><strong>修改输出</strong></td><td>无法修改 LLM 响应、工具结果</td><td>执行已完成，无法回溯</td></tr>
+<tr><td><strong>阻断执行</strong></td><td>无法阻止工具调用或 LLM 请求</td><td>回调无返回值语义</td></tr>
+<tr><td><strong>改变流程</strong></td><td>无法改变 Agent 决策</td><td>回调不参与控制流</td></tr>
+<tr><td><strong>修改上下文</strong></td><td>无法修改消息历史</td><td>上下文是不可变的</td></tr>
+<tr><td><strong>拦截流</strong></td><td>无法拦截或修改流式 Token</td><td>流式数据已发出</td></tr>
+</table>
+
+<h3>3.3 关键设计特性</h3>
+
+<pre><code>def handle_event(handlers, event_name, ignore_condition_name, *args, **kwargs):
+    coros = []
+    for handler in handlers:
+        try:
+            # 1. 忽略条件检查
+            if not getattr(handler, ignore_condition_name, False):
+                event = getattr(handler, event_name)(*args, **kwargs)
+                # 2. 异步聚合
+                if asyncio.iscoroutine(event):
+                    coros.append(event)
+        except NotImplementedError:
+            # 3. 回退链：on_chat_model_start -&gt; on_llm_start
+            if event_name == "on_chat_model_start":
+                handle_event([handler], "on_llm_start", ...)
+        except Exception as e:
+            # 4. 错误隔离
+            logger.warning("回调错误: %s", e)
+            if handler.raise_error:
+                raise</code></pre>
+
+<p>关键设计模式：</p>
+<ul>
+<li><strong>忽略条件</strong>：Handler 可以声明 <code>ignore_*</code> 属性来跳过事件</li>
+<li><strong>回退链</strong>：<code>on_chat_model_start</code> 回退到 <code>on_llm_start</code></li>
+<li><strong>异步聚合</strong>：收集协程并适当执行</li>
+<li><strong>错误隔离</strong>：一个 handler 的错误不会破坏其他 handler</li>
+</ul>
+
+<h2>四、代码示例</h2>
+
+<h3>4.1 自定义回调处理器</h3>
+
+<pre><code>from langchain_core.callbacks.base import BaseCallbackHandler
+from langchain_core.outputs import LLMResult
+
+class TokenCountingHandler(BaseCallbackHandler):
+    """统计所有 LLM 调用的 Token 数量"""
+
+    def __init__(self):
+        self.total_tokens = 0
+        self.prompt_tokens = 0
+        self.completion_tokens = 0
+
+    def on_llm_end(self, response: LLMResult, **kwargs) -&gt; None:
+        for generation in response.generations:
+            for gen in generation:
+                if gen.generation_info:
+                    usage = gen.generation_info.get('token_usage', {})
+                    self.prompt_tokens += usage.get('prompt_tokens', 0)
+                    self.completion_tokens += usage.get('completion_tokens', 0)
+                    self.total_tokens += usage.get('total_tokens', 0)
+
+    def on_llm_error(self, error, **kwargs) -&gt; None:
+        print(f"LLM 错误: {error}")
+
+# 使用
+handler = TokenCountingHandler()
+llm = ChatOpenAI(callbacks=[handler])
+result = llm.invoke("Hello!")
+print(f"总 Token: {handler.total_tokens}")</code></pre>
+
+<h3>4.2 流式回调</h3>
+
+<pre><code>class StreamingHandler(BaseCallbackHandler):
+    def on_llm_new_token(self, token: str, **kwargs) -&gt; None:
+        sys.stdout.write(token)
+        sys.stdout.flush()
+
+    def on_llm_start(self, serialized, prompts, **kwargs) -&gt; None:
+        print("\n[LLM 开始]")
+
+    def on_llm_end(self, response, **kwargs) -&gt; None:
+        print("\n[LLM 结束]")
+
+llm = ChatOpenAI(streaming=True, callbacks=[StreamingHandler()])</code></pre>
+
+<h3>4.3 WebSocket 回调</h3>
+
+<pre><code>class WebSocketCallbackHandler(BaseCallbackHandler):
+    def __init__(self, websocket):
+        self.websocket = websocket
+
+    def on_llm_new_token(self, token, **kwargs):
+        asyncio.create_task(self.websocket.send(token))
+
+    def on_tool_start(self, serialized, input_str, **kwargs):
+        asyncio.create_task(self.websocket.send({
+            "type": "tool_start", "tool": serialized["name"]
+        }))
+
+    def on_tool_end(self, output, **kwargs):
+        asyncio.create_task(self.websocket.send({
+            "type": "tool_end", "output": output
+        }))</code></pre>
+
+<h2>五、关键设计原则总结</h2>
+
+<p><strong>观测者模式</strong>：LangChain Callback 是一个<strong>单向的观测和监听</strong>框架，设计用于：</p>
+<ul>
+<li>追踪 Agent 执行流程</li>
+<li>收集性能指标（Token 用量、延迟）</li>
+<li>实时推送事件（WebSocket、SSE）</li>
+<li>集成外部系统（LangSmith、Langfuse 等）</li>
+</ul>
+
+<p><strong>只读语义</strong>：所有回调方法返回 <code>void</code>，不修改任何执行状态。回调是<strong>被动观测者</strong>，不是<strong>主动参与者</strong>。</p>
+
+<p><strong>错误隔离</strong>：<code>handle_event</code> 的 try-except 保证一个 handler 的崩溃不会破坏其他 handler 或主流程。</p>
+
+<p><strong>一句话总结</strong>：LangChain Callback 是<strong>执行后的观测系统</strong>——它告诉你"发生了什么"，但不能改变"将要发生什么"。</p>
+
+</body>
+</html>

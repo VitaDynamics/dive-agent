@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>LangChain Middleware vs Pi 执行管线对比</title>
+<style>
+  @font-face {
+    font-family: "TsangerJinKai02";
+    src: url("https://cdn.jsdelivr.net/gh/tw93/Kami@main/assets/fonts/TsangerJinKai02-W04.ttf") format("truetype");
+    font-weight: 400;
+  }
+  @font-face {
+    font-family: "TsangerJinKai02";
+    src: url("https://cdn.jsdelivr.net/gh/tw93/Kami@main/assets/fonts/TsangerJinKai02-W05.ttf") format("truetype");
+    font-weight: 500;
+  }
+  @page {
+    size: A4;
+    margin: 20mm 22mm 22mm 22mm;
+    background: #f5f4ed;
+    @top-right {
+      content: string(section-title);
+      font-family: "TsangerJinKai02", Georgia, serif;
+      font-size: 8pt;
+      color: #6b6a64;
+    }
+    @bottom-center {
+      content: counter(page) " \00b7 LangChain Middleware vs Pi";
+      font-family: "TsangerJinKai02", Georgia, serif;
+      font-size: 9pt;
+      color: #6b6a64;
+    }
+  }
+  @page:first {
+    @top-right { content: ""; }
+    @bottom-center { content: ""; }
+  }
+  :root {
+    --parchment: #f5f4ed;
+    --ivory: #faf9f5;
+    --brand: #1B365D;
+    --brand-pi: #2D5A8A;
+    --brand-lc: #4A7C59;
+    --near-black: #141413;
+    --dark-warm: #3d3d3a;
+    --olive: #504e49;
+    --stone: #6b6a64;
+    --border: #e8e6dc;
+    --tag-bg: #E4ECF5;
+    --tag-pi: #D6E1EE;
+    --tag-lc: #D6ECD8;
+    --tag-middleware: #F5E6D3;
+    --serif: "TsangerJinKai02", Georgia, serif;
+  }
+  body {
+    font-family: var(--serif);
+    font-size: 10.5pt;
+    line-height: 1.55;
+    color: var(--near-black);
+    background: var(--parchment);
+  }
+  h1 { font-size: 24pt; font-weight: 500; color: var(--brand); border-left: 4pt solid var(--brand); padding-left: 12pt; }
+  h2 { font-size: 16pt; font-weight: 500; margin-top: 24pt; border-left: 3pt solid var(--brand); padding-left: 10pt; string-set: section-title content(); }
+  h3 { font-size: 13pt; font-weight: 500; color: var(--dark-warm); margin-top: 16pt; }
+  h4 { font-size: 11pt; font-weight: 500; color: var(--olive); margin-top: 12pt; }
+  .cover { text-align: center; padding-top: 30vh; }
+  .cover h1 { border: none; font-size: 28pt; }
+  .abstract { background: var(--ivory); padding: 16pt; margin: 20pt 0; border: 0.5pt solid var(--border); }
+  table { width: 100%; border-collapse: collapse; margin: 12pt 0; font-size: 9.5pt; }
+  th { background: var(--ivory); padding: 8pt; text-align: left; font-weight: 500; color: var(--brand); border-bottom: 1pt solid var(--brand); }
+  td { padding: 8pt; border-bottom: 0.5pt solid var(--border); vertical-align: top; }
+  code { font-family: monospace; font-size: 9pt; background: var(--ivory); padding: 2pt 4pt; }
+  pre { background: var(--ivory); padding: 12pt; overflow-x: auto; font-size: 8.5pt; line-height: 1.4; border: 0.5pt solid var(--border); }
+  .tag { display: inline-block; padding: 2pt 6pt; margin: 2pt; font-size: 8pt; border-radius: 2pt; }
+  .tag-pi { background: var(--tag-pi); color: var(--brand-pi); }
+  .tag-lc { background: var(--tag-lc); color: var(--brand-lc); }
+  .tag-common { background: var(--tag-bg); color: var(--brand); }
+  .highlight-box { background: var(--ivory); border-left: 3pt solid var(--brand); padding: 12pt 14pt; margin: 14pt 0; }
+  .pi-side { border-left: 3pt solid var(--brand-pi); padding-left: 10pt; margin: 8pt 0; }
+  .lc-side { border-left: 3pt solid var(--brand-lc); padding-left: 10pt; margin: 8pt 0; }
+  .warning-box { background: #fef8f0; border-left: 3pt solid #c77d20; padding: 12pt 14pt; margin: 14pt 0; }
+  ul { margin: 6pt 0; padding-left: 18pt; }
+  li { margin: 3pt 0; }
+  strong { color: var(--near-black); }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>LangChain Middleware<br>vs Pi 执行管线对比</h1>
+  <p style="font-size: 14pt; color: var(--olive);">统一 Middleware 抽象 vs 三层 Hook 架构</p>
+  <p style="margin-top: 40pt; color: var(--stone);">技术架构白皮书 &middot; 2026年6月</p>
+</div>
+
+<div class="abstract">
+  <strong>执行摘要</strong><br>
+  LangChain v1 引入了 <code>AgentMiddleware</code> 统一抽象，将所有代理扩展能力（观测、拦截、工具注册、状态管理）集中到一个类中。Pi 没有 "Middleware" 概念名，但其三层架构（Agent Loop 回调 + AgentEvent 流 + Harness/Extension Hook）实现了等价甚至更细分的能力。本文档从架构设计、钩子映射、拦截能力、组合模式四维度进行系统对比，揭示两种设计哲学背后的权衡与适用场景。
+</div>
+
+<h2>一、问题定义</h2>
+
+<p>Agent 框架需要一个标准化的扩展机制，允许开发者在不修改框架核心代码的情况下实现：</p>
+<ol>
+  <li><strong>观测</strong> — 日志、监控、追踪 Agent 执行过程</li>
+  <li><strong>修改</strong> — 改写消息、替换模型、注入指令</li>
+  <li><strong>阻断</strong> — 拦截危险的工具调用或 LLM 响应</li>
+  <li><strong>注册</strong> — 向 Agent 添加额外的工具/资源</li>
+  <li><strong>控制</strong> — 决定 Agent 的循环终止条件</li>
+</ol>
+
+<div class="highlight-box">
+  <strong>核心问题</strong>：LangChain 的 <code>AgentMiddleware</code> 在 Pi 中对应哪些部分？它们的共同之处和本质差异在哪里？
+</div>
+
+<h2>二、架构设计对比</h2>
+
+<h3>2.1 宏观架构</h3>
+
+<table>
+<tr><th>维度</th><th><span class="tag tag-lc">LangChain Middleware</span></th><th><span class="tag tag-pi">Pi 三层架构</span></th></tr>
+<tr>
+  <td><strong>核心抽象</strong></td>
+  <td><code>AgentMiddleware</code> 统一类（12 个钩子方法）</td>
+  <td>三层：<code>AgentLoopConfig</code> + <code>AgentEvent</code> + <code>ExtensionRunner</code></td>
+</tr>
+<tr>
+  <td><strong>钩子类型</strong></td>
+  <td>生命周期钩子（before/after）+ 拦截器（wrap）+ 工具注册 + 状态 schema</td>
+  <td>Loop 回调（控制流）+ Event（观测）+ Harness HookEvent（拦截）+ Extension 工具注册</td>
+</tr>
+<tr>
+  <td><strong>组合方式</strong></td>
+  <td>图节点链（生命周期）+ 洋葱闭包（拦截器）</td>
+  <td>内联函数调用（Loop）+ 多播通知（Event）+ 顺序管道&短路（Harness）</td>
+</tr>
+<tr>
+  <td><strong>执行引擎</strong></td>
+  <td>LangGraph（图执行）</td>
+  <td>纯函数式 ReAct Loop</td>
+</tr>
+<tr>
+  <td><strong>类型系统</strong></td>
+  <td>Python 泛型（StateT, ContextT, ResponseT）</td>
+  <td>TypeScript 联合类型 + 泛型 + Phantom Type</td>
+</tr>
+<tr>
+  <td><strong>创建方式</strong></td>
+  <td>子类化 + 7 个装饰器</td>
+  <td>设置 Agent 属性 + <code>agent.subscribe()</code> + <code>ExtensionFactory</code></td>
+</tr>
+<tr>
+  <td><strong>热插拔</strong></td>
+  <td>不支持</td>
+  <td>Extension 层支持 reload</td>
+</tr>
+</table>
+
+<h3>2.2 层级对应关系</h3>
+
+<div class="highlight-box">
+  <strong>关键发现</strong>：LangChain Middleware 的 12 个钩子方法 <strong>分散映射到 Pi 的三个独立层次</strong>，没有一个 Union 层面的等价物。
+</div>
+
+<table>
+<tr><th>LC Middleware 能力</th><th>数量</th><th>Pi 等价系统</th><th>对应关系</th></tr>
+<tr>
+  <td><span class="tag tag-lc">生命周期钩子</span> (before/after_model, before/after_agent)</td>
+  <td>8 个方法</td>
+  <td><span class="tag tag-pi">Agent Loop 层</span> + <span class="tag tag-pi">Harness events</span></td>
+  <td><code>transformContext</code>、<code>convertToLlm</code>、<code>before_agent_start</code> 等</td>
+</tr>
+<tr>
+  <td><span class="tag tag-lc">拦截器</span> (wrap_model_call, wrap_tool_call)</td>
+  <td>4 个方法</td>
+  <td><span class="tag tag-pi">Harness 层</span> (HookEvent) + <span class="tag tag-pi">Loop 层</span> (beforeToolCall)</td>
+  <td><code>context</code>、<code>before_provider_request</code>、<code>tool_call</code>、<code>tool_result</code> 等</td>
+</tr>
+<tr>
+  <td><span class="tag tag-lc">工具注册</span> (tools)</td>
+  <td>1 个属性</td>
+  <td><span class="tag tag-pi">Extension 层</span></td>
+  <td><code>registerTool()</code></td>
+</tr>
+<tr>
+  <td><span class="tag tag-lc">状态 schema</span> (state_schema)</td>
+  <td>1 个属性</td>
+  <td><span class="tag tag-pi">Agent</span> 直接持有 + <span class="tag tag-pi">Extension</span> rootState()</td>
+  <td><code>Agent._state</code>，<code>ExtensionAPI.rootState()</code></td>
+</tr>
+<tr>
+  <td><span class="tag tag-lc">流变换器</span> (transformers)</td>
+  <td>1 个属性</td>
+  <td><strong>无直接等价</strong></td>
+  <td>Pi 通过 <code>onPayload</code>/<code>onResponse</code> 回调处理</td>
+</tr>
+<tr>
+  <td><span class="tag tag-lc">装饰器</span> (@before_model 等)</td>
+  <td>7 个装饰器</td>
+  <td><strong>无直接等价</strong></td>
+  <td>Pi 的 <code>AgentLoopConfig</code> 回调通过对象属性赋值</td>
+</tr>
+</table>
+
+<div class="highlight-box">
+  <strong>一句话</strong>：LangChain 把能力集中到一个类，Pi 把能力拆到三个系统中。LC 的 Middleware 同时承担了 Pi 的 Loop 层、Event 层、Extension 层的职责。
+</div>
+
+<h2>三、钩子方法逐一映射</h2>
+
+<h3>3.1 生命周期钩子映射</h3>
+
+<table>
+<tr><th>LC 方法</th><th>触发时机</th><th>Pi 等价</th><th>实现方式</th></tr>
+<tr>
+  <td><code>before_agent</code></td>
+  <td>Agent 执行开始前（一次）</td>
+  <td><code>before_agent_start</code> Harness 事件</td>
+  <td>Extension 注册 <code>on("before_agent_start")</code>，可修改 systemPrompt、注入初始消息</td>
+</tr>
+<tr>
+  <td><code>after_agent</code></td>
+  <td>Agent 执行完成后（一次）</td>
+  <td><code>agent_end</code> AgentEvent + Harness 事件</td>
+  <td><code>agent.subscribe()</code> 观测；Extension 处理器不参与控制</td>
+</tr>
+<tr>
+  <td><code>before_model</code></td>
+  <td>每次 LLM 调用前</td>
+  <td><code>transformContext</code> + <code>convertToLlm</code> + <code>before_provider_request</code></td>
+  <td>Loop 回调（消息级修改）+ Harness 事件（请求级修改）</td>
+</tr>
+<tr>
+  <td><code>after_model</code></td>
+  <td>每次 LLM 调用后</td>
+  <td><code>after_provider_response</code> Harness 事件</td>
+  <td>Extension 管道，在 LLM 响应完成后 emit</td>
+</tr>
+</table>
+
+<h3>3.2 拦截器映射</h3>
+
+<table>
+<tr><th>LC 方法</th><th>能力</th><th>Pi 等价</th><th>能力对比</th></tr>
+<tr>
+  <td><code>wrap_model_call</code></td>
+  <td>拦截 LLM 调用：可重试、短路、修改请求/响应</td>
+  <td><code>context</code> + <code>before_provider_request</code> + <code>before_provider_payload</code> + <code>after_provider_response</code> 组合</td>
+  <td>⚠️ Pi 可修改请求和响应，但<b>不能重试 handler</b>（重试是 provider 层的事）</td>
+</tr>
+<tr>
+  <td><code>wrap_tool_call</code></td>
+  <td>拦截工具调用：可重试、短路、修改请求/返回</td>
+  <td><code>beforeToolCall</code>(Loop) + <code>afterToolCall</code>(Loop) + <code>tool_call</code>(Harness) + <code>tool_result</code>(Harness)</td>
+  <td>✅ 功能等价，可以 block / patch 结果</td>
+</tr>
+</table>
+
+<div class="warning-box">
+  <strong>关键差异</strong>：LC 的 <code>wrap_model_call</code> 通过洋葱闭包模式可以多次调用 <code>handler(request)</code> 实现重试。Pi 的 LLM 调用封装在 <code>streamFn</code> 闭包中，外部无法获取 handler 引用。Pi 设计上认为重试是 provider 层的事（<code>SimpleStreamOptions.maxRetries</code>），不是扩展层该管的。
+</div>
+
+<h3>3.3 工具注册和状态映射</h3>
+
+<table>
+<tr><th>LC 能力</th><th>Pi 等价</th><th>实现方式</th></tr>
+<tr>
+  <td><code>tools</code> 属性（Middleware 注册工具）</td>
+  <td><code>ExtensionAPI.registerTool()</code></td>
+  <td>扩展注册工具，<code>_refreshToolRegistry()</code> 合并到 agent 的工具列表</td>
+</tr>
+<tr>
+  <td><code>state_schema</code>（Middleware 自定义状态）</td>
+  <td><code>rootState()</code> + <code>Agent._state</code></td>
+  <td>扩展通过 API 读写根状态；Agent 直接持有 <code>_state: MutableAgentState</code></td>
+</tr>
+<tr>
+  <td><code>transformers</code>（流变换器链）</td>
+  <td><strong>无直接等价</strong></td>
+  <td>Pi 通过 <code>onPayload</code>/<code>onResponse</code> 在 provider 层做流处理，无通用 transformer 链</td>
+</tr>
+</table>
+
+<h2>四、组合模式对比</h2>
+
+<h3>4.1 洋葱包装 vs 链式管道</h3>
+
+<table>
+<tr><th>维度</th><th><span class="tag tag-lc">LangChain 洋葱包装</span></th><th><span class="tag tag-pi">Pi 链式管道</span></th></tr>
+<tr>
+  <td><strong>实现</strong></td>
+  <td><code>outer(inner(core_handler))</code> — 右到左包装成闭包链</td>
+  <td><code>for h in handlers: result = await h(event)</code> — 顺序遍历</td>
+</tr>
+<tr>
+  <td><strong>调用栈</strong></td>
+  <td>完整的洋葱调用栈，外层包裹内层</td>
+  <td>扁平顺序，下游处理器看不到上游的修改（除非原地修改 event）</td>
+</tr>
+<tr>
+  <td><strong>handler 控制</strong></td>
+  <td>每个 Middleware 自主决定是否/何时/如何调用 handler</td>
+  <td>没有 handler 概念，每个处理器只是处理一个事件</td>
+</tr>
+<tr>
+  <td><strong>短路机制</strong></td>
+  <td>不调用 handler → 链中断</td>
+  <td>返回 <code>cancel: true</code> 或 <code>block: true</code> → 剩余处理器跳过</td>
+</tr>
+<tr>
+  <td><strong>重试能力</strong></td>
+  <td>✅ 多次调用 handler 实现重试</td>
+  <td>❌ 无法重试（没有 handler 可调用）</td>
+</tr>
+</table>
+
+<h4>LangChain 洋葱包装实现</h4>
+<pre># factory.py:221
+def _chain_model_call_handlers(mw_list, core_handler):
+    handler = core_handler
+    for m in reversed(mw_list):           # 从右向左包装
+        handler = make_handler(m, handler)
+    return handler
+# 结果：m[0](m[1](m[2](core_handler)))</pre>
+
+<h4>Pi 链式管道实现</h4>
+<pre>// runner.ts:693
+async emit(event) {
+    for (const ext of this.extensions) {
+        const handlers = ext.handlers.get(event.type);
+        for (const handler of handlers) {
+            const result = await handler(event, ctx);
+            if (result.cancel) return result;  // 短路
+        }
+    }
+}</pre>
+
+<h3>4.2 生命周期钩子编排</h3>
+
+<table>
+<tr><th>维度</th><th><span class="tag tag-lc">LangChain 图节点</span></th><th><span class="tag tag-pi">Pi 内联调用</span></th></tr>
+<tr>
+  <td><strong>编排方式</strong></td>
+  <td>每个 before/after hook 是独立的 LangGraph 节点，用边连接</td>
+  <td>在 <code>streamAssistantResponse</code> 和 <code>executeToolCalls</code> 中直接 await 回调</td>
+</tr>
+<tr>
+  <td><strong>执行顺序</strong></td>
+  <td><code>START → before_m[0] → ... → before_m[n] → model → after_m[n] → ... → after_m[0]</code></td>
+  <td>在函数体中按书写顺序 await</td>
+</tr>
+<tr>
+  <td><strong>条件跳转</strong></td>
+  <td>✅ 通过 <code>@hook_config(can_jump_to=["end","tools","model"])</code> 条件跳转</td>
+  <td>✅ 通过 <code>shouldStopAfterTurn</code> 终止、<code>prepareNextTurn</code> 修改下一轮</td>
+</tr>
+<tr>
+  <td><strong>开销</strong></td>
+  <td>每个 hook 是一个独立的图节点 trip</td>
+  <td>零开销内联调用</td>
+</tr>
+<tr>
+  <td><strong>可观测性</strong></td>
+  <td>图节点自动记录到 LangSmith</td>
+  <td>需要显式 emit 事件到 Harness 层</td>
+</tr>
+</table>
+
+<h2>五、代码示例：同一功能对比</h2>
+
+<h3>5.1 重试失败的模型调用</h3>
+
+<div class="lc-side">
+  <strong>LangChain（洋葱包装重试）</strong>
+  <pre>class ModelRetryMiddleware(AgentMiddleware):
+    def wrap_model_call(self, request, handler):
+        for attempt in range(3):
+            try:
+                return handler(request)  # 可多次调用
+            except Exception:
+                if attempt == 2: raise
+                time.sleep(2 ** attempt)</pre>
+</div>
+
+<div class="pi-side">
+  <strong>Pi（provider 层重试）</strong>
+  <pre>// Pi 无法在 AgentLoopConfig 层面重试 LLM 调用
+// 重试由 provider 层处理：
+// SimpleStreamOptions.maxRetries = 2
+// 如果需要自定义重试逻辑，在 provider 注册时处理
+// 设计哲学：重试是基础设施问题，不是扩展问题</pre>
+</div>
+
+<h3>5.2 阻断危险工具调用</h3>
+
+<div class="lc-side">
+  <strong>LangChain</strong>
+  <pre>class SafeGuardMiddleware(AgentMiddleware):
+    def wrap_tool_call(self, request, handler):
+        if request.tool_call["name"] in ["rm", "delete"]:
+            return ToolMessage(
+                content="Blocked: tool not allowed",
+                tool_call_id=request.tool_call["id"]
+            )
+        return handler(request)</pre>
+</div>
+
+<div class="pi-side">
+  <strong>Pi（Loop 层 + Extension 层都支持）</strong>
+  <pre>// Loop 层
+agent.beforeToolCall = async ({ toolCall }) => {
+    if (["rm", "delete"].includes(toolCall.name))
+        return { block: true };
+};
+
+// Extension 层
+extension.on("tool_call", async (event, ctx) => {
+    if (event.toolName === "rm") {
+        const approved = await ctx.ui.confirm("Approve rm?");
+        if (!approved) return { block: true };
+    }
+});</pre>
+</div>
+
+<h3>5.3 消息上下文裁剪</h3>
+
+<div class="lc-side">
+  <strong>LangChain（before_model 返回状态更新）</strong>
+  <pre>class ContextTrimMiddleware(AgentMiddleware):
+    def before_model(self, state, runtime):
+        msgs = state["messages"]
+        if count_tokens(msgs) > MAX:
+            summary = summarize(msgs[:-10])
+            state["messages"] = [sys(summary)] + msgs[-10:]
+            return {"messages": state["messages"]}</pre>
+</div>
+
+<div class="pi-side">
+  <strong>Pi（transformContext 直接返回消息）</strong>
+  <pre>agent.transformContext = async (messages) => {
+    if (estimateTokens(messages) > MAX) {
+        const summary = await summarize(
+            messages.slice(0, -10)
+        );
+        return [systemMsg(summary), ...messages.slice(-10)];
+    }
+    return messages;
+};</pre>
+</div>
+
+<h2>六、设计哲学对比</h2>
+
+<h3>6.0 本质差异：钩子的组织方式</h3>
+
+<div class="highlight-box">
+  <strong>核心洞察</strong>：两种系统的 Agent 均独立于钩子存在——不带 Middleware 的 LangChain agent 一样能跑，不注册任何 hook 的 Pi agent 也照常执行。本质差异<b>不是谁定义生命周期</b>，而是<b>钩子的组织方式</b>。
+</div>
+
+<table>
+<tr><th>维度</th><th><span class="tag tag-lc">LangChain（打包派）</span></th><th><span class="tag tag-pi">Pi（松散派）</span></th></tr>
+<tr>
+  <td><strong>钩子组织</strong></td>
+  <td>一个 <code>AgentMiddleware</code> 子类囊括多个阶段的钩子（before_model + wrap_tool_call + after_agent + ...）</td>
+  <td>三处独立注册：Loop 回调设到 Agent 属性、观测用 <code>subscribe()</code>、拦截用 <code>extension.on()</code></td>
+</tr>
+<tr>
+  <td><strong>耦合度</strong></td>
+  <td>一个类 = 一组生命周期干预点，所有钩子内聚在一个文件中</td>
+  <td>互不依赖，各自注册。改 <code>beforeToolCall</code> 不会影响 Extension 层的 <code>tool_result</code> processor</td>
+</tr>
+<tr>
+  <td><strong>心智模型</strong></td>
+  <td>"我需要创建一个 Middleware 来介入 Agent"</td>
+  <td>"我需要在 X 阶段做 Y 事，去对应的注册点挂一个回调/事件处理器"</td>
+</tr>
+<tr>
+  <td><strong>典型用法</strong></td>
+  <td><code>create_agent(model, middleware=[MyMiddleware()])</code></td>
+  <td><code>agent.beforeToolCall = fn</code> + <code>agent.subscribe(listener)</code> + <code>extension.on("tool_call", handler)</code></td>
+</tr>
+</table>
+
+<h3>6.1 各自的设计哲学</h3>
+
+<div class="pi-side">
+  <strong>Pi — "拦截与修改框架"</strong>
+  <ul>
+    <li>按能力分层：控制流归 Loop、观测归 Event、拦截归 Extension</li>
+    <li>各自独立注册，互不耦合</li>
+    <li>不依赖特定执行引擎</li>
+    <li>Extension 热加载/卸载</li>
+    <li>适合<strong>应用开发者</strong>：按需在任意层级注入代码，灵活度高</li>
+  </ul>
+</div>
+
+<div class="lc-side">
+  <strong>LangChain Middleware — "大一统扩展入口"</strong>
+  <ul>
+    <li>所有扩展点集成在一个基类中</li>
+    <li>子类化 + 装饰器两种创建方式</li>
+    <li>强依赖 LangGraph（图执行引擎）</li>
+    <li>Middleware 顺序直接影响执行行为</li>
+    <li>适合<strong>库设计者</strong>：一次性定义好 Middleware 列表，传给 <code>create_agent()</code></li>
+  </ul>
+</div>
+
+<h2>七、完整能力矩阵</h2>
+
+<table>
+<tr><th>能力</th><th><span class="tag tag-lc">LangChain Middleware</span></th><th><span class="tag tag-pi">Pi Loop 层</span></th><th><span class="tag tag-pi">Pi Event 层</span></th><th><span class="tag tag-pi">Pi Harness 层</span></th></tr>
+<tr><td>观测执行流程</td><td>✅ 生命周期钩子 + 图节点追踪</td><td>❌</td><td>✅ <code>subscribe()</code> 全部事件</td><td>✅ <code>on("*_end")</code></td></tr>
+<tr><td>修改 LLM 请求</td><td>✅ <code>wrap_model_call</code> + <code>before_model</code></td><td>✅ <code>transformContext</code></td><td>❌</td><td>✅ <code>context</code> + <code>before_provider_request</code></td></tr>
+<tr><td>修改 LLM 响应</td><td>✅ <code>wrap_model_call</code> 返回修改</td><td>❌</td><td>❌</td><td>✅ <code>after_provider_response</code> + <code>message_end</code></td></tr>
+<tr><td>重试 LLM 调用</td><td>✅ <code>wrap_model_call</code> 多次调 handler</td><td>❌</td><td>❌</td><td>❌（provider 层处理）</td></tr>
+<tr><td>阻断工具调用</td><td>✅ <code>wrap_tool_call</code> 返回伪造结果</td><td>✅ <code>beforeToolCall { block: true }</code></td><td>❌</td><td>✅ <code>tool_call { block: true }</code></td></tr>
+<tr><td>修改工具结果</td><td>✅ <code>wrap_tool_call</code> 返回值</td><td>✅ <code>afterToolCall { patch }</code></td><td>❌</td><td>✅ <code>tool_result { content, isError }</code></td></tr>
+<tr><td>重试工具调用</td><td>✅ <code>wrap_tool_call</code> 多次调 handler</td><td>❌</td><td>❌</td><td>❌</td></tr>
+<tr><td>控制循环终止</td><td>✅ <code>jump_to="end"</code></td><td>✅ <code>shouldStopAfterTurn</code></td><td>❌</td><td>❌</td></tr>
+<tr><td>注册工具</td><td>✅ <code>tools</code> 属性</td><td>❌</td><td>❌</td><td>✅ <code>registerTool()</code></td></tr>
+<tr><td>自定义状态</td><td>✅ <code>state_schema</code> 合并</td><td>❌（直接操作 Agent._state）</td><td>❌</td><td>✅ <code>rootState()</code></td></tr>
+<tr><td>UI 交互</td><td>❌</td><td>❌</td><td>❌</td><td>✅ <code>ctx.ui.select/confirm/input</code></td></tr>
+<tr><td>热插拔</td><td>❌</td><td>❌</td><td>✅ add/remove listener</td><td>✅ reload extensions</td></tr>
+<tr><td>条件跳转</td><td>✅ <code>@hook_config(can_jump_to=[...])</code></td><td>❌</td><td>❌</td><td>❌</td></tr>
+</table>
+
+<h2>八、适用场景对比</h2>
+
+<h3>8.1 选择 LangChain Middleware 的场景</h3>
+<ul>
+  <li><strong>统一扩展入口</strong>：希望一个类搞定所有 Agent 扩展需求</li>
+  <li><strong>图编排能力</strong>：需要并行执行多个 hook、条件跳转等复杂编排</li>
+  <li><strong>LangSmith 集成</strong>：自动追踪每个 hook 的执行</li>
+  <li><strong>Python 生态</strong>：与 DataDog、Prometheus 等集成</li>
+  <li><strong>快速原型</strong>：装饰器一键创建 Middleware</li>
+</ul>
+
+<h3>8.2 选择 Pi 三层架构的场景</h3>
+<ul>
+  <li><strong>精细职责分离</strong>：观测不干扰控制、拦截不影响观测</li>
+  <li><strong>需要 UI 交互</strong>：Extension 有完整的 UI 交互 API</li>
+  <li><strong>需要热插拔</strong>：Extension 可动态加载/卸载/升级</li>
+  <li><strong>需要持久化</strong>：Session 持久化保证扩展可审计可恢复</li>
+  <li><strong>TypeScript 类型安全</strong>：每个事件有精确的 Result 类型</li>
+  <li><strong>插件生态</strong>：文件系统扫描加载，用户可安装/分享扩展包</li>
+</ul>
+
+<h2>九、一句话总结</h2>
+
+<div class="highlight-box">
+  <strong>LangChain Middleware = 大一统的"瑞士军刀"</strong>：一个类解决所有扩展问题，统一、直接、powerful。<br><br>
+  <strong>Pi 三层架构 = 职责分离的"微服务"</strong>：Loop 层控执行、Event 层做观测、Extension 层管拦截——各司其职，互不干扰。
+</div>
+
+<p style="margin-top: 20pt; color: var(--stone);">
+  两者不是竞争，而是不同设计哲学的体现：<strong>Monolith vs Modular</strong>。LangChain 把能力合在 Middleware 里追求一站式体验；Pi 把能力拆到三层中追求灵活度和可组合性。在实际项目中，可以根据复杂度需求选择或借鉴对方的设计思路。
+</p>
+
+</body>
+</html>

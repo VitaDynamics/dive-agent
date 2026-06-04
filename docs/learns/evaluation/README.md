@@ -21,6 +21,12 @@ Agent Evaluation 涵盖：
 | [Seed-driven Evaluation](./seed-driven-evaluation/) | 基于 Seed 的自适应行为评估模式 | 1 |
 | Production Tracing & Eval | 生产级 trace 与可定制评估方案 | 3 |
 
+### [Seed-driven Evaluation](./seed-driven-evaluation/)
+
+| 文档 | 描述 | 优先级 |
+|------|------|--------|
+| [Bloom: Seed-driven 行为评估](./seed-driven-evaluation/bloom-behavioral-evaluation.md) | 动态种子生成、自适应行为检测、后门识别 | P1 |
+
 ### 其他文档
 
 | 文档 | 描述 | 优先级 |

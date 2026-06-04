@@ -36,6 +36,12 @@ Agent 评估和测试框架的模式分析。
 | [Seed-driven Evaluation](./evaluation/seed-driven-evaluation/) | 基于 Seed 的自适应行为评估模式 | 1 |
 | Production Tracing & Eval | 生产级 trace 与可定制评估方案 | 3 |
 
+### 其他文档
+
+| 文档 | 描述 | 优先级 |
+|------|------|--------|
+| [Opik Bloom 集成](./evaluation/opik-bloom-integration.md) | 评估框架与观测平台集成 | P1 |
+
 潜在主题：
 - 基准测试框架设计
 - Agent 行为评估指标
@@ -80,6 +86,7 @@ Agent 训练和微调相关的学习笔记。
 
 | 优先级 | 文档 | 类别 | 主题 |
 |--------|------|------|------|
+| P0 | [错误恢复与上下文无损](./harness/error-handling/error-recovery-without-context-loss.md) | Harness | 生产弹性 |
 | P0 | [异步流式一等公民](./harness/streaming/async-streaming-first-class.md) | Harness | 核心抽象 |
 | P0 | [类型化消息部件](./harness/type-safety/typed-message-parts-pydantic-ai.md) | Harness | 类型安全 |
 | P0 | [分层运动系统](./harness/robotics/layered-motion-system.md) | Harness | 机器人控制 |
@@ -90,11 +97,15 @@ Agent 训练和微调相关的学习笔记。
 | P1 | [Bloom: Seed-driven 行为评估](./evaluation/seed-driven-evaluation/bloom-behavioral-evaluation.md) | Evaluation | 安全评估 |
 | P1 | [Opik Bloom 集成](./evaluation/opik-bloom-integration.md) | Evaluation | 评估集成 |
 | P1 | [结构化错误与重试](./harness/error-handling/structured-errors-retry.md) | Harness | 生产健壮性 |
+| P1 | [Codex 错误处理与流中断](./harness/error-handling/codex-error-handling-stream-interruption.md) | Harness | 错误处理 |
 | P1 | [流式工具组装](./harness/streaming/streaming-tool-assembly.md) | Harness | 流式处理 |
 | P1 | [Codex LLM 抽象层](./harness/architecture/codex-llm-abstraction.md) | Harness | 架构设计 |
 | P1 | [Codex 流式处理](./harness/streaming/codex-streaming.md) | Harness | 流式架构 |
 | P1 | [Codex 上下文管理](./harness/context-management/codex-context-management.md) | Harness | 上下文管理 |
 | P1 | [LiveKit VAD 架构](./vad/livekit-vad-architecture.md) | VAD | VAD 架构 |
+| P1 | [Kameo Request 与 Tool Call 对比](./harness/concurrency/kameo-request-toolcall-pattern.md) | Harness | Actor 请求模式 |
+| P1 | [Kameo Request 与 Mailbox 设计](./harness/architecture/kameo-request-mailbox-design.md) | Harness | Actor 架构 |
+| P1 | [Kameo Mailbox 满/超时错误处理](./harness/error-handling/kameo-mailbox-full-error-handling.md) | Harness | Actor 错误处理 |
 | P2 | [上下文管理双模式](./harness/context-management/context-management-dual-mode.md) | Harness | 状态管理 |
 | P2 | [上下文转换比较](./harness/context-management/context-transformation-comparison.md) | Harness | 上下文转换 |
 | P2 | [会话历史管理](./harness/context-management/session-history-management.md) | Harness | 会话管理 |
