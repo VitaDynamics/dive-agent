@@ -13,7 +13,7 @@ LangChain 0.x 的回调系统是一切"可观测性 + 轻量拦截"设计的鼻�
 下方内嵌的 HTML 是本笔记的视觉设计稿，包含完整的事件流时序图、`CallbackManager` 内部结构图、与 `AgentMiddleware` 的能力对照矩阵：
 
 <iframe
-  src="./langchain-callback-system.html"
+  src="/learns/agent/langchain-callback-system.html"
   width="100%"
   height="2400"
   style="border: 0; min-height: 80vh;"
@@ -21,4 +21,4 @@ LangChain 0.x 的回调系统是一切"可观测性 + 轻量拦截"设计的鼻�
   title="LangChain Callback 系统架构"
 ></iframe>
 
-[在新窗口打开完整设计稿 →](./langchain-callback-system.html)
+[在新窗口打开完整设计稿 →](/learns/agent/langchain-callback-system.html)

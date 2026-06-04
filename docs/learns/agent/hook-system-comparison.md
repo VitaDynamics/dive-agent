@@ -22,7 +22,7 @@ tags: agent, hook, middleware, callback, comparison
 下方内嵌的 HTML 是本笔记的视觉设计稿，包含完整的对比表、决策矩阵、流程图：
 
 <iframe
-  src="./hook-system-comparison.html"
+  src="/learns/agent/hook-system-comparison.html"
   width="100%"
   height="2400"
   style="border: 0; min-height: 80vh;"
@@ -30,4 +30,4 @@ tags: agent, hook, middleware, callback, comparison
   title="Agent Hook 系统对比"
 ></iframe>
 
-[在新窗口打开完整设计稿 →](./hook-system-comparison.html)
+[在新窗口打开完整设计稿 →](/learns/agent/hook-system-comparison.html)
