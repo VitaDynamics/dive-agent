@@ -38,7 +38,7 @@ function HeroSection() {
           </Link>
           <Link
             className="button button--outline button--lg"
-            to="https://github.com/DylanLIiii/dive-agent"
+            to="https://github.com/VitaDynamics/dive-agent"
           >
             GitHub
           </Link>
