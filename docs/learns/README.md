@@ -103,6 +103,9 @@ Agent 训练和微调相关的学习笔记。
 | P1 | [Codex 流式处理](./harness/streaming/codex-streaming.md) | Harness | 流式架构 |
 | P1 | [Codex 上下文管理](./harness/context-management/codex-context-management.md) | Harness | 上下文管理 |
 | P1 | [LiveKit VAD 架构](./vad/livekit-vad-architecture.md) | VAD | VAD 架构 |
+| P1 | [Kameo Request 与 Tool Call 对比](./harness/concurrency/kameo-request-toolcall-pattern.md) | Harness | Actor 请求模式 |
+| P1 | [Kameo Request 与 Mailbox 设计](./harness/architecture/kameo-request-mailbox-design.md) | Harness | Actor 架构 |
+| P1 | [Kameo Mailbox 满/超时错误处理](./harness/error-handling/kameo-mailbox-full-error-handling.md) | Harness | Actor 错误处理 |
 | P2 | [上下文管理双模式](./harness/context-management/context-management-dual-mode.md) | Harness | 状态管理 |
 | P2 | [上下文转换比较](./harness/context-management/context-transformation-comparison.md) | Harness | 上下文转换 |
 | P2 | [会话历史管理](./harness/context-management/session-history-management.md) | Harness | 会话管理 |

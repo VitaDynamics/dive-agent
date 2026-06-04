@@ -110,6 +110,20 @@
         "commit": "9a0a8d7ccb03b89bd3700477b2b8b399bd38dc03"
       },
       {
+        "name": "kameo",
+        "url": "https://github.com/tqwewe/kameo.git",
+        "branch": "main",
+        "depth": 1,
+        "description": "Rust Actor 框架，用于构建并发和分布式系统",
+        "addedAt": "2026-03-10",
+        "notes": [
+          "docs/learns/harness/concurrency/kameo-request-toolcall-pattern.md",
+          "docs/learns/harness/architecture/kameo-request-mailbox-design.md",
+          "docs/learns/harness/error-handling/kameo-mailbox-full-error-handling.md"
+        ],
+        "commit": "3a669e7de506413ff1577cc12c10ffc38dc16adf"
+      },
+      {
         "name": "livekit-agents",
         "url": "https://github.com/livekit/agents.git",
         "branch": "main",

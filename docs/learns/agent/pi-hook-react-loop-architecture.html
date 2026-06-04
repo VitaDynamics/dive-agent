@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Pi Agent 三层 Hook 系统架构：ReAct Loop 时间线映射</title>
+<style>
+  @font-face {
+    font-family: "TsangerJinKai02";
+    src: url("https://cdn.jsdelivr.net/gh/tw93/Kami@main/assets/fonts/TsangerJinKai02-W04.ttf") format("truetype");
+    font-weight: 400;
+  }
+  @font-face {
+    font-family: "TsangerJinKai02";
+    src: url("https://cdn.jsdelivr.net/gh/tw93/Kami@main/assets/fonts/TsangerJinKai02-W05.ttf") format("truetype");
+    font-weight: 500;
+  }
+  @page {
+    size: A4;
+    margin: 20mm 22mm 22mm 22mm;
+    background: #f5f4ed;
+    @top-right {
+      content: string(section-title);
+      font-family: "TsangerJinKai02", Georgia, serif;
+      font-size: 8pt;
+      color: #6b6a64;
+    }
+    @bottom-center {
+      content: counter(page) " · Pi Agent Hook 系统架构";
+      font-family: "TsangerJinKai02", Georgia, serif;
+      font-size: 9pt;
+      color: #6b6a64;
+    }
+  }
+  @page:first {
+    @top-right { content: ""; }
+    @bottom-center { content: ""; }
+  }
+  :root {
+    --parchment: #f5f4ed;
+    --ivory: #faf9f5;
+    --brand: #1B365D;
+    --near-black: #141413;
+    --dark-warm: #3d3d3a;
+    --olive: #504e49;
+    --stone: #6b6a64;
+    --border: #e8e6dc;
+    --tag-bg: #E4ECF5;
+    --serif: "TsangerJinKai02", Georgia, serif;
+  }
+  body {
+    font-family: var(--serif);
+    font-size: 10.5pt;
+    line-height: 1.55;
+    color: var(--near-black);
+    background: var(--parchment);
+  }
+  h1 { font-size: 24pt; font-weight: 500; color: var(--brand); border-left: 4pt solid var(--brand); padding-left: 12pt; }
+  h2 { font-size: 16pt; font-weight: 500; margin-top: 24pt; border-left: 3pt solid var(--brand); padding-left: 10pt; string-set: section-title content(); }
+  h3 { font-size: 13pt; font-weight: 500; color: var(--dark-warm); margin-top: 16pt; }
+  .cover { text-align: center; padding-top: 30vh; }
+  .cover h1 { border: none; font-size: 28pt; }
+  .abstract { background: var(--ivory); padding: 16pt; margin: 20pt 0; border: 0.5pt solid var(--border); }
+  table { width: 100%; border-collapse: collapse; margin: 12pt 0; font-size: 9.5pt; }
+  th { background: var(--ivory); padding: 8pt; text-align: left; font-weight: 500; color: var(--brand); border-bottom: 1pt solid var(--brand); }
+  td { padding: 8pt; border-bottom: 0.5pt solid var(--border); }
+  code { font-family: monospace; font-size: 9pt; background: var(--ivory); padding: 2pt 4pt; }
+  pre { background: var(--ivory); padding: 12pt; overflow-x: auto; font-size: 8.5pt; line-height: 1.4; }
+  .hook-tag { display: inline-block; background: var(--tag-bg); color: var(--brand); padding: 2pt 6pt; margin: 2pt; font-size: 8pt; border-radius: 2pt; }
+  .hook-tag.event { background: #F0E6D8; color: var(--dark-warm); }
+  .timeline { background: var(--ivory); border: 0.5pt solid var(--border); padding: 14pt; margin: 16pt 0; }
+  .timeline-phase { position: relative; padding-left: 24pt; margin-bottom: 12pt; padding-bottom: 12pt; border-bottom: 0.5pt dashed var(--border); }
+  .timeline-phase:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .timeline-phase::before { content: ""; position: absolute; left: 6pt; top: 4pt; width: 8pt; height: 8pt; background: var(--brand); border-radius: 50%; }
+  .timeline-phase::after { content: ""; position: absolute; left: 9pt; top: 16pt; width: 1.5pt; height: calc(100% - 8pt); background: var(--border); }
+  .timeline-phase:last-child::after { display: none; }
+  .phase-title { font-weight: 500; color: var(--brand); margin-bottom: 6pt; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>Pi Agent 三层 Hook 系统架构</h1>
+  <p style="font-size: 14pt; color: var(--olive);">ReAct Loop 时间线映射与事件驱动设计</p>
+  <p style="margin-top: 40pt; color: var(--stone);">技术架构白皮书 · 2026年6月</p>
+</div>
+
+<div class="abstract">
+  <strong>执行摘要</strong><br>
+  Pi Agent 采用独特的三层 Hook 系统架构，将事件驱动编程模型深度集成到 ReAct Loop 中。本文档系统性地解析了三层 Hook——Agent Loop 层、Agent 事件层和 Harness/Extension 层——在整个 Agent 执行生命周期中的触发时机、设计原理与协作机制。通过类型安全的 HookEvent 系统和 Phantom Type 设计，Pi 实现了在 ReAct Loop 关键节点上的精细化控制能力。
+</div>
+
+<h2>一、三层 Hook 定义</h2>
+
+<table>
+<tr><th>层级</th><th>所在文件</th><th>核心特征</th><th>作用</th></tr>
+<tr>
+  <td><strong>Agent Loop 层</strong></td>
+  <td><code>agent-loop.ts</code></td>
+  <td>函数回调，直接参与执行逻辑</td>
+  <td>控制工具调用、转换消息格式、决定循环终止</td>
+</tr>
+<tr>
+  <td><strong>Agent 事件层</strong></td>
+  <td><code>agent.ts</code></td>
+  <td>只读事件流 AgentEvent</td>
+  <td>状态同步、UI 更新、日志记录</td>
+</tr>
+<tr>
+  <td><strong>Harness/Extension 层</strong></td>
+  <td><code>harness/</code> 目录</td>
+  <td>类型安全的拦截系统 HookEvent</td>
+  <td>支持 block/patch/cancel，支持扩展</td>
+</tr>
+</table>
+
+<h2>二、Agent Loop 层回调函数</h2>
+
+<table>
+<tr><th>回调函数</th><th>触发时机</th><th>返回值语义</th></tr>
+<tr><td><code>transformContext</code></td><td>消息进入 LLM 前</td><td>修改后的 AgentMessage[]</td></tr>
+<tr><td><code>convertToLlm</code></td><td>序列化为 LLM 请求前</td><td>Message[] 格式转换</td></tr>
+<tr><td><code>beforeToolCall</code></td><td>工具调用执行前</td><td>{ block?: boolean } 可阻断</td></tr>
+<tr><td><code>afterToolCall</code></td><td>工具执行完成后</td><td>{ patch?: object } 可修改结果</td></tr>
+<tr><td><code>prepareNextTurn</code></td><td>每轮结束后</td><td>AgentLoopTurnUpdate 修改上下文</td></tr>
+<tr><td><code>shouldStopAfterTurn</code></td><td>停止决策点</td><td>boolean 是否终止循环</td></tr>
+<tr><td><code>getApiKey</code></td><td>Provider 请求前</td><td>认证密钥</td></tr>
+</table>
+
+<h2>三、Agent 事件层事件类型</h2>
+
+<pre><code>export type AgentEvent =
+  | { type: "agent_start" }
+  | { type: "agent_end"; messages: AgentMessage[] }
+  | { type: "turn_start" }
+  | { type: "turn_end"; message: AgentMessage; toolResults: ToolResultMessage[] }
+  | { type: "message_start"; message: AgentMessage }
+  | { type: "message_update"; message: AgentMessage; ... }
+  | { type: "message_end"; message: AgentMessage }  // → 触发 Session 写入
+  | { type: "tool_execution_start/update/end"; ... }</code></pre>
+
+<h2>四、Harness 层 Phantom Type 设计</h2>
+
+<pre><code>declare const HookResult: unique symbol;
+
+interface HookEvent&lt;TType extends string, TResult = void&gt; {
+  type: TType;
+  readonly [HookResult]?: TResult;  // 只在类型层面存在
+}
+
+type ResultOf&lt;E&gt; = E extends { readonly [HookResult]?: infer R } ? R : void;</code></pre>
+
+<h2>五、完整 ReAct Loop 时间线</h2>
+
+<div class="timeline">
+  <div class="timeline-phase">
+    <div class="phase-title">1. 整轮循环开始</div>
+    <span class="hook-tag event">agent_start</span>
+    <span class="hook-tag">before_agent_start</span>
+  </div>
+  
+  <div class="timeline-phase">
+    <div class="phase-title">2. 单轮开始 + Prompt 注入</div>
+    <span class="hook-tag event">turn_start</span>
+    <span class="hook-tag event">message_start/end</span>
+    <span class="hook-tag">transformContext</span>
+    <span class="hook-tag">context</span>
+  </div>
+  
+  <div class="timeline-phase">
+    <div class="phase-title">3. LLM 请求准备</div>
+    <span class="hook-tag">convertToLlm</span>
+    <span class="hook-tag">before_provider_request</span>
+    <span class="hook-tag">before_provider_payload</span>
+    <span class="hook-tag">getApiKey</span>
+  </div>
+  
+  <div class="timeline-phase">
+    <div class="phase-title">4. 流式响应 (Reason Phase)</div>
+    <span class="hook-tag event">message_start</span>
+    <span class="hook-tag event">message_update × N</span>
+    <span class="hook-tag">after_provider_response</span>
+    <span class="hook-tag event">message_end</span>
+    <span class="hook-tag" style="background: var(--brand); color: white;">session.appendMessage()</span>
+  </div>
+
+  <div class="timeline-phase">
+    <div class="phase-title">5. 工具调用 (Act Phase)</div>
+    <span class="hook-tag">beforeToolCall</span>
+    <span class="hook-tag">tool_call</span>
+    <span class="hook-tag event">tool_execution_start/update/end</span>
+    <span class="hook-tag">afterToolCall</span>
+    <span class="hook-tag">tool_result</span>
+    <span class="hook-tag event">message_start/end</span>
+  </div>
+  
+  <div class="timeline-phase">
+    <div class="phase-title">6. 回合结束 + 状态固化</div>
+    <span class="hook-tag event">turn_end</span>
+    <span class="hook-tag">prepareNextTurn</span>
+    <span class="hook-tag">shouldStopAfterTurn</span>
+    <span class="hook-tag">save_point</span>
+  </div>
+  
+  <div class="timeline-phase">
+    <div class="phase-title">7. 整轮结束</div>
+    <span class="hook-tag event">agent_end</span>
+    <span class="hook-tag">settled</span>
+  </div>
+</div>
+
+<h2>六、AppendOnlyLog 写入机制</h2>
+
+<h3>6.1 写入时机：双重策略</h3>
+
+<table>
+<tr><th>时机</th><th>触发事件</th><th>写入方式</th><th>说明</th></tr>
+<tr>
+  <td><strong>消息完成时</strong></td>
+  <td><code>message_end</code></td>
+  <td>立即写入</td>
+  <td>每完成一条消息（user/assistant/toolResult），立即 <code>session.appendMessage()</code></td>
+</tr>
+<tr>
+  <td><strong>回合结束时</strong></td>
+  <td><code>turn_end</code></td>
+  <td>批量刷新</td>
+  <td>flushPendingSessionWrites() — 写入队列中的 model/thinking/tools 变更</td>
+</tr>
+<tr>
+  <td><strong>空闲期操作</strong></td>
+  <td>phase = "idle"</td>
+  <td>立即写入</td>
+  <td>compaction、branch、model切换等结构性操作立即持久化</td>
+</tr>
+</table>
+
+<h3>6.2 三种消息的写入时机与数据结构</h3>
+
+<table>
+<tr><th>消息类型</th><th>触发时机</th><th>修改窗口</th><th>写入内容</th><th>数据结构</th></tr>
+<tr>
+  <td><strong>Prompt 消息</strong><br><code>role: "user"</code></td>
+  <td><code>agent_start</code> 后<br><code>turn_start</code> 时</td>
+  <td>无修改窗口<br><code>message_start</code> → <code>message_end</code> 连续触发</td>
+  <td>原始用户输入</td>
+  <td><pre style="margin:0;font-size:8pt;">UserMessage {
+  role: "user";
+  content: string | (TextContent|ImageContent)[];
+  timestamp: number;
+}</pre></td>
+</tr>
+<tr>
+  <td><strong>Assistant 消息</strong><br><code>role: "assistant"</code></td>
+  <td>LLM 流式响应<br>完成后</td>
+  <td>流式传输期间持续更新<br><code>message_update × N</code><br>流式结束后 <code>message_end</code></td>
+  <td>最终完整响应<br>（含 thinking/toolCalls）</td>
+  <td><pre style="margin:0;font-size:8pt;">AssistantMessage {
+  role: "assistant";
+  content: (TextContent|ThinkingContent|ToolCall)[];
+  api: Api;
+  provider: string;
+  model: string;
+  usage: Usage;
+  stopReason: StopReason;
+  timestamp: number;
+}</pre></td>
+</tr>
+<tr>
+  <td><strong>ToolResult 消息</strong><br><code>role: "toolResult"</code></td>
+  <td>工具执行<br>完成后</td>
+  <td>无修改窗口<br>工具返回后立即生成</td>
+  <td>工具执行结果<br>（可被 <code>tool_result</code> hook patch）</td>
+  <td><pre style="margin:0;font-size:8pt;">ToolResultMessage {
+  role: "toolResult";
+  toolCallId: string;
+  toolName: string;
+  content: (TextContent|ImageContent)[];
+  details?: any;
+  isError: boolean;
+  timestamp: number;
+}</pre></td>
+</tr>
+</table>
+
+<h4>关键设计原则：消息不可变性</h4>
+
+<p>一旦 <code>message_end</code> 触发，消息内容即视为<strong>最终确定</strong>，立即写入 AppendOnlyLog，之后不再修改。三种消息的差异在于：</p>
+
+<ul>
+<li><strong>Prompt 消息</strong>：几乎瞬间完成，无修改机会，写入原始输入</li>
+<li><strong>Assistant 消息</strong>：流式构建，在 <code>message_update</code> 期间内容持续变化，只有 <code>message_end</code> 时才最终定型并写入</li>
+<li><strong>ToolResult 消息</strong>：工具同步返回，内容确定后立刻写入（但可在写入前通过 <code>tool_result</code> hook 修改）</li>
+</ul>
+
+<h3>6.3 官方消息修改入口</h3>
+
+<p>Pi 提供以下<strong>官方修改入口</strong>，在消息写入前对其进行修改：</p>
+
+<table>
+<tr><th>修改目标</th><th>Hook / 回调</th><th>修改能力</th><th>代码示例</th></tr>
+<tr>
+  <td><strong>System Prompt</strong><br>系统指令</td>
+  <td><code>before_agent_start</code></td>
+  <td>可修改 <code>systemPrompt</code><br>可注入初始 <code>messages</code></td>
+  <td><pre style="margin:0;font-size:8pt;">harness.on("before_agent_start", async (event) => {
+  return {
+    systemPrompt: event.systemPrompt + "\n请记住：简洁回答。",
+    messages: [{ role: "system", content: "上下文..." }]
+  };
+});</pre></td>
+</tr>
+<tr>
+  <td><strong>进入 LLM 的消息列表</strong><br>（裁剪/注入）</td>
+  <td><code>context</code> 或 <code>transformContext</code></td>
+  <td>可替换整个 <code>messages</code> 数组<br>可添加/删除/修改任意消息</td>
+  <td><pre style="margin:0;font-size:8pt;">harness.on("context", async (event) => {
+  // 1. 裁剪过长历史
+  const trimmed = event.messages.slice(-20);
+  // 2. 注入系统提示
+  const modified = [
+    ...trimmed,
+    { role: "user", content: "请记住：简洁回答。" }
+  ];
+  return { messages: modified };
+});</pre></td>
+</tr>
+<tr>
+  <td><strong>LLM 请求参数</strong></td>
+  <td><code>before_provider_request</code><br><code>before_provider_payload</code></td>
+  <td>可修改 model、streamOptions<br>可修改序列化后的 payload</td>
+  <td><pre style="margin:0;font-size:8pt;">harness.on("before_provider_request", async (event) => {
+  return {
+    model: cheaperModel,  // 降级模型
+    streamOptions: { ... }
+  };
+});</pre></td>
+</tr>
+<tr>
+  <td><strong>ToolResult 内容</strong></td>
+  <td><code>tool_result</code></td>
+  <td>可 patch <code>content</code><br>可修改 <code>details</code>、<code>isError</code></td>
+  <td><pre style="margin:0;font-size:8pt;">harness.on("tool_result", async (event) => {
+  if (event.toolName === "read_file") {
+    return {
+      content: "[截断] " + event.content.slice(0, 1000),
+      details: { truncated: true }
+    };
+  }
+});</pre></td>
+</tr>
+<tr>
+  <td><strong>下一轮的上下文</strong></td>
+  <td><code>prepareNextTurn</code></td>
+  <td>可替换整个 <code>context.messages</code><br>可切换 model/thinkingLevel</td>
+  <td><pre style="margin:0;font-size:8pt;">agent.prepareNextTurn = async (ctx) => {
+  // 修改最后一条消息
+  const modified = [...ctx.newMessages];
+  modified[modified.length - 1].content += "[补充]";
+  return {
+    context: { ...ctx.context, messages: modified },
+    model: newModel
+  };
+};</pre></td>
+</tr>
+</table>
+
+<h4>关键限制</h4>
+
+<ul>
+<li><strong>Prompt 消息（已写入的）</strong>：无官方 API 修改，设计上就是原始用户输入</li>
+<li><strong>Assistant 消息（LLM 输出）</strong>：无官方 API 修改，设计上保持 LLM 原始输出不可篡改</li>
+<li><strong>如需强制修改</strong>：只能通过 <code>prepareNextTurn</code> 替换整条 <code>context.messages</code> 数组</li>
+</ul>
+
+<h4>对 Append Only Log 的友好性分析</h4>
+
+<p>不同修改入口对 Session 持久化的影响：</p>
+
+<table>
+<tr><th>友好度</th><th>入口</th><th>层级</th><th>Session 一致性</th></tr>
+<tr style="background: #e8f5e9;">
+  <td><strong>⭐⭐⭐ 最友好</strong></td>
+  <td><code>before_agent_start</code><br><code>tool_result</code></td>
+  <td>Harness</td>
+  <td>修改后的内容正常走完 <code>message_end</code> → <code>session.appendMessage()</code>，<strong>Session 记录与实际执行完全一致</strong></td>
+</tr>
+<tr style="background: #fff3e0;">
+  <td><strong>⭐⭐ 次友好</strong></td>
+  <td><code>context</code><br><code>prepareNextTurn</code></td>
+  <td>Agent Loop / Harness</td>
+  <td><strong>Session 存原始消息，执行看修改后的消息</strong> —— 恢复时会得到与执行时不同的上下文，存在一致性风险</td>
+</tr>
+<tr style="background: #ffebee;">
+  <td><strong>⭐ 不友好</strong></td>
+  <td><code>before_provider_payload</code></td>
+  <td>Harness</td>
+  <td><strong>完全绕过 Session 记录</strong>，Session 存的是原始 payload，无法恢复实际发送的内容</td>
+</tr>
+</table>
+
+<div style="background: var(--ivory); border-left: 3pt solid var(--brand); padding: 12pt 14pt; margin: 14pt 0;">
+<strong>设计建议</strong>：如需保证 Session 可恢复性与执行一致性，优先使用 <code>before_agent_start</code>（注入初始消息）和 <code>tool_result</code>（修改工具返回），避免使用 <code>context</code> 和 <code>before_provider_payload</code> 进行结构性修改。
+</div>
+
+<h3>6.4 Phase 管理与会话写入</h3>
+
+<pre><code>type AgentHarnessPhase = "idle" | "turn" | "compaction" | "branch_summary" | "retry";
+
+// "turn" 阶段：活跃操作期
+if (this.phase === "turn") {
+  // 变更进入 pending 队列，不立即写入
+  this.pendingSessionWrites.push({ type: "model_change", ... });
+}
+
+// "idle" 阶段：可立即写入
+if (this.phase === "idle") {
+  await this.session.appendModelChange(model.provider, model.id);
+}</code></pre>
+
+<h3>6.5 Session Entry 类型</h3>
+
+<p>所有状态变更建模为不可变的 Entry，追加到 Session Tree：</p>
+
+<pre><code>type SessionTreeEntry =
+  | MessageEntry              // 普通消息
+  | ModelChangeEntry          // 模型切换
+  | ThinkingLevelChangeEntry  // thinking 级别变更
+  | ActiveToolsChangeEntry    // 工具集变更
+  | CompactionEntry           // 压缩操作
+  | BranchSummaryEntry        // 分支摘要
+  | LabelEntry                // 标签
+  | CustomEntry;              // 自定义数据</code></pre>
+
+<h2>七、状态恢复机制</h2>
+
+<h3>7.1 恢复流程：半持久化架构</h3>
+
+<div class="timeline">
+  <div class="timeline-phase">
+    <div class="phase-title">1. Host App 重建 Runtime Dependencies</div>
+    <span class="hook-tag">注册 tools</span>
+    <span class="hook-tag">注册 models</span>
+    <span class="hook-tag">注册 extensions/hooks</span>
+    <span class="hook-tag">配置 auth providers</span>
+  </div>
+
+  <div class="timeline-phase">
+    <div class="phase-title">2. Harness 打开 Session</div>
+    <span class="hook-tag" style="background: var(--brand); color: white;">session.getBranch()</span>
+    <span class="hook-tag">获取 leaf → root 的 entries</span>
+  </div>
+
+  <div class="timeline-phase">
+    <div class="phase-title">3. Reduce Session Entries → 当前状态</div>
+    <span class="hook-tag" style="background: var(--brand); color: white;">buildSessionContext()</span>
+    <span class="hook-tag">提取 thinkingLevel/model/tools</span>
+    <span class="hook-tag">重建 messages（处理 compaction）</span>
+  </div>
+
+  <div class="timeline-phase">
+    <div class="phase-title">4. 验证 Runtime Dependencies</div>
+    <span class="hook-tag">检查 active tool names</span>
+    <span class="hook-tag">验证 model registry</span>
+  </div>
+
+  <div class="timeline-phase">
+    <div class="phase-title">5. 和解未完成操作</div>
+    <span class="hook-tag">标记 interrupted turns</span>
+    <span class="hook-tag">恢复队列状态</span>
+    <span class="hook-tag">恢复 pending writes</span>
+  </div>
+</div>
+
+<h3>7.2 核心归约函数</h3>
+
+<pre><code>export function buildSessionContext(pathEntries: SessionTreeEntry[]): SessionContext {
+  // 从 entries 提取配置状态
+  for (const entry of pathEntries) {
+    if (entry.type === "thinking_level_change") {
+      thinkingLevel = entry.thinkingLevel;
+    } else if (entry.type === "model_change") {
+      model = { provider: entry.provider, modelId: entry.modelId };
+    } else if (entry.type === "active_tools_change") {
+      activeToolNames = [...entry.activeToolNames];
+    } else if (entry.type === "compaction") {
+      compaction = entry;  // 记录压缩点
+    }
+  }
+
+  // 重建消息列表（处理 compaction 截断）
+  if (compaction) {
+    // 压缩点之前的消息被 summary 替代
+    messages.push(createCompactionSummaryMessage(...));
+    // 只保留 firstKeptEntryId 之后的 entries
+    for (const entry of keptEntries) appendMessage(entry);
+  } else {
+    for (const entry of pathEntries) appendMessage(entry);
+  }
+
+  return { messages, thinkingLevel, model, activeToolNames };
+}</code></pre>
+
+<h3>7.3 恢复策略</h3>
+
+<table>
+<tr><th>场景</th><th>默认策略</th><th>说明</th></tr>
+<tr>
+  <td>未完成的 Agent Turn</td>
+  <td>标记 <code>interrupted</code></td>
+  <td>保守策略，不自动重试，保留队列/pending writes</td>
+</tr>
+<tr>
+  <td>未完成的 Provider 请求</td>
+  <td>标记 <code>interrupted</code></td>
+  <td>Provider streams 不可恢复，不自动重试</td>
+</tr>
+<tr>
+  <td>未完成的 Tool 调用</td>
+  <td>根据 metadata 决定</td>
+  <td>非幂等工具不重试，幂等/可重试工具可重新执行</td>
+</tr>
+<tr>
+  <td>缺失的 Active Tools</td>
+  <td><code>fail</code>（可配置 <code>drop</code>/<code>disable</code>）</td>
+  <td>工具 registry 必须提供兼容实现</td>
+</tr>
+</table>
+
+<h3>7.4 设计哲学</h3>
+
+<p><strong>半持久化架构</strong>：Session 存储可序列化的状态和配置（messages、model changes、tool changes），但<strong>工具实现、模型对象、钩子逻辑</strong>等运行时依赖必须由 Host App 重新注入。</p>
+
+<pre><code>// 未来的恢复 Builder（设计中）
+const harness = await AgentHarness.builder()
+  .env(env)
+  .session(session)           // 提供持久化 session
+  .model(defaultModel)        // 提供默认模型
+  .tools(runtimeTools)        // 提供运行时工具（必须）
+  .restore({ missingActiveTools: "fail" });  // 恢复策略</code></pre>
+
+<h2>八、Pi Extension 扩展系统</h2>
+
+<h3>8.1 Extension 与三层 Hook 的关系</h3>
+
+<p>Extension 是 Pi 的<strong>用户级扩展机制</strong>，与三层 Hook 的关系如下：</p>
+
+<table>
+<tr><th>层级</th><th>Extension 可用性</th><th>使用方式</th></tr>
+<tr>
+  <td><strong>Agent Loop 层</strong></td>
+  <td>❌ 不可用</td>
+  <td>函数回调（<code>transformContext</code>, <code>prepareNextTurn</code> 等）仅供 Host App 内部使用</td>
+</tr>
+<tr>
+  <td><strong>Agent 事件层</strong></td>
+  <td>✅ 可用（只读观察）</td>
+  <td>通过 <code>observe()</code> 订阅 <code>AgentEvent</code>，用于 UI 更新、日志、监控</td>
+</tr>
+<tr>
+  <td><strong>Harness/Extension 层</strong></td>
+  <td>✅ <strong>主要使用</strong></td>
+  <td>通过 <code>on()</code> 订阅 <code>HookEvent</code>，支持 <code>block/patch/cancel</code> 语义</td>
+</tr>
+</table>
+
+<h3>8.2 Extension 能操作的能力矩阵</h3>
+
+<table>
+<tr><th>能力类别</th><th>API / 事件</th><th>操作范围</th></tr>
+<tr>
+  <td rowspan="4"><strong>消息修改</strong><br>（Session 写入前）</td>
+  <td><code>before_agent_start</code></td>
+  <td>修改 <code>systemPrompt</code>，注入初始 <code>message</code></td>
+</tr>
+<tr>
+  <td><code>context</code></td>
+  <td>替换整个 <code>messages</code> 数组（裁剪/注入）</td>
+</tr>
+<tr>
+  <td><code>tool_result</code></td>
+  <td>patch <code>content</code> / <code>details</code> / <code>isError</code></td>
+</tr>
+<tr>
+  <td><code>input</code></td>
+  <td>transform <code>text/images</code>，或标记 <code>handled</code></td>
+</tr>
+<tr>
+  <td rowspan="4"><strong>注册能力</strong></td>
+  <td><code>pi.registerTool()</code></td>
+  <td>注册 LLM 可调用的工具（含自定义渲染）</td>
+</tr>
+<tr>
+  <td><code>pi.registerCommand()</code></td>
+  <td>注册用户命令（如 <code>/my-cmd</code>）</td>
+</tr>
+<tr>
+  <td><code>pi.registerShortcut()</code></td>
+  <td>注册键盘快捷键（如 <code>ctrl+k</code>）</td>
+</tr>
+<tr>
+  <td><code>pi.registerFlag()</code></td>
+  <td>注册 CLI 参数（如 <code>--my-flag</code>）</td>
+</tr>
+<tr>
+  <td rowspan="3"><strong>UI 交互</strong><br>（<code>ctx.ui</code>）</td>
+  <td><code>select/confirm/input</code></td>
+  <td>对话框交互（选择器、确认框、文本输入）</td>
+</tr>
+<tr>
+  <td><code>setStatus/setWidget/setTheme</code></td>
+  <td>状态栏、组件、主题控制</td>
+</tr>
+<tr>
+  <td><code>notify/editor/pasteToEditor</code></td>
+  <td>通知、多行编辑器、粘贴文本</td>
+</tr>
+<tr>
+  <td rowspan="3"><strong>Session 操作</strong><br>（<code>ctx</code>）</td>
+  <td><code>getContextUsage/getSystemPrompt</code></td>
+  <td>读取上下文用量、system prompt</td>
+</tr>
+<tr>
+  <td><code>newSession/fork/navigateTree</code></td>
+  <td>新建 session、分叉、树导航</td>
+</tr>
+<tr>
+  <td><code>sendMessage/sendUserMessage</code></td>
+  <td>发送自定义消息、用户消息</td>
+</tr>
+</table>
+
+<h3>8.3 Extension 的完整事件订阅</h3>
+
+<pre><code>type ExtensionEvent =
+  // Session 生命周期
+  | ResourcesDiscoverEvent
+  | SessionStartEvent | SessionBeforeSwitchEvent | SessionBeforeForkEvent
+  | SessionBeforeCompactEvent | SessionCompactEvent | SessionShutdownEvent
+  | SessionBeforeTreeEvent | SessionTreeEvent
+
+  // Agent 执行（可修改的 HookEvent）
+  | ContextEvent                    // 修改消息列表
+  | BeforeProviderRequestEvent      // 修改请求 payload
+  | BeforeAgentStartEvent           // 修改 systemPrompt
+  | ToolCallEvent                   // 可 block，可 mutate input
+  | ToolResultEvent                 // 可 patch result
+
+  // Agent 执行（只读观察）
+  | AgentStartEvent | AgentEndEvent
+  | TurnStartEvent | TurnEndEvent
+  | MessageStartEvent | MessageUpdateEvent | MessageEndEvent
+  | ToolExecutionStartEvent | ToolExecutionUpdateEvent | ToolExecutionEndEvent
+  | AfterProviderResponseEvent
+
+  // 配置变更与用户输入
+  | ModelSelectEvent | ThinkingLevelSelectEvent
+  | UserBashEvent | InputEvent;</code></pre>
+
+<h3>8.4 Extension 的限制</h3>
+
+<table>
+<tr><th>不能做的事</th><th>原因</th></tr>
+<tr>
+  <td>修改已写入 Session 的 Prompt/Assistant 消息</td>
+  <td>设计上不可变，AppendOnlyLog 一旦写入不可更改</td>
+</tr>
+<tr>
+  <td>直接使用 <code>transformContext</code>, <code>prepareNextTurn</code></td>
+  <td>属于 Agent Loop 层，仅供 Host App 内部使用</td>
+</tr>
+<tr>
+  <td>访问原始 <code>Agent</code> 类实例</td>
+  <td>通过 <code>ExtensionContext</code> 封装的安全 API 访问</td>
+</tr>
+<tr>
+  <td>修改 <code>message_update</code> 期间的流式内容</code></td>
+  <td><code>AssistantMessage</code> 流式期间不可修改，只有 <code>message_end</code> 后可观察</td>
+</tr>
+</table>
+
+<h3>8.5 Extension 设计哲学</h3>
+
+<p><strong>沙盒化扩展模型</strong>：Extension 只能通过<strong>类型安全的 Harness HookEvent</strong> 参与 Agent 生命周期，无法直接操作 Agent Loop 层的执行控制点。这种设计保证了：</p>
+
+<ul>
+<li><strong>稳定性</strong>：Extension 崩溃不会破坏核心 Agent 状态</li>
+<li><strong>可预测性</strong>：所有修改通过声明式的事件结果对象传递</li>
+<li><strong>可审计性</strong>：Extension 的所有操作可追踪、可回放</li>
+</ul>
+
+<div style="background: var(--ivory); border-left: 3pt solid var(--brand); padding: 12pt 14pt; margin: 14pt 0;">
+<strong>一句话总结</strong>：<strong>Extension = Harness 层事件订阅者 + 工具/命令/快捷键注册器 + UI 交互能力</strong>。Extension 无法使用 Agent Loop 层的函数回调，只能通过 Harness 层的类型安全事件系统参与 Agent 生命周期，保证沙盒性和系统稳定性。
+</div>
+
+<h2>九、关键设计原则总结</h2>
+
+<p><strong>Agent Loop 层</strong> = "执行控制点" —— 同步调用，直接返回值影响执行，如 block 工具、修改消息格式、决定停止。</p>
+
+<p><strong>Agent 事件层</strong> = "状态通知流" —— 异步事件，只读观察，如 UI 更新、日志、监控。<code>message_end</code> 触发 Session 写入，<code>turn_end</code> 触发 pending writes 批量刷新。</p>
+
+<p><strong>Harness/Extension 层</strong> = "拦截与扩展系统" —— 类型安全的 HookEvent，支持 block/patch/cancel，与 Agent 事件并行但独立。</p>
+
+<p><strong>状态持久化</strong> = "Append-Only Log" —— 每个消息和配置变更作为不可变 Entry 追加写入，通过归约（reduce）重建当前状态，实现崩溃恢复和会话重建。</p>
+
+<p><strong>一句话总结</strong>：Agent Loop 层控制"怎么执行"，Agent 事件层通知"发生了什么"并驱动"何时写入"，Harness 层决定"是否允许/如何修改"，Session 层保证"状态可恢复" —— 四层交织形成完整的可信 Agent 架构。</p>
+
+</body>
+</html>
