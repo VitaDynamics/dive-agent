@@ -99,10 +99,10 @@
       },
       {
         "name": "pi-mono",
-        "url": "https://github.com/pi-company/pi-mono.git",
+        "url": "https://github.com/earendil-works/pi.git",
         "branch": "main",
         "depth": 1,
-        "description": "Multi-provider LLM abstraction monorepo",
+        "description": "AI agent toolkit: coding agent CLI, unified LLM API (OpenAI/Anthropic/Google/Bedrock/Vertex), TUI & web UI libraries, Slack bot, vLLM pods",
         "addedAt": "2026-03-02",
         "notes": [
           "docs/learns/context-management/context-management-dual-mode.md"
