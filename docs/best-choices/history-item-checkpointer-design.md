@@ -143,10 +143,10 @@ impl ContextBuilder {
 
 ## References
 
-- [LLM 错误恢复与上下文无损](../learns/harness/error-handling/error-recovery-without-context-loss.md)
-- [Republic Anchor 与上下文隔离](../learns/harness/architecture/republic-anchor-mechanism.md)
-- [状态快照模式与双模并发](../learns/harness/concurrency/state-snapshot-concurrency.md)
-- [Codex 错误处理与流中断](../learns/harness/error-handling/codex-error-handling-stream-interruption.md)
+- [LLM 错误恢复与上下文无损](/learns/harness/error-handling/error-recovery-without-context-loss)
+- [Republic Anchor 与上下文隔离](/learns/harness/architecture/republic-anchor-mechanism)
+- [状态快照模式与双模并发](/learns/harness/concurrency/state-snapshot-concurrency)
+- [Codex 错误处理与流中断](/learns/harness/error-handling/codex-error-handling-stream-interruption)
 
 ---
 

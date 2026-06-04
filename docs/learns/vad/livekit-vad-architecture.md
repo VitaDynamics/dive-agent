@@ -341,7 +341,7 @@ async def entrypoint(ctx: JobContext):
 
 - [LiveKit Agents 文档](https://docs.livekit.io/agents/)
 - [Silero VAD](https://github.com/snakers4/silero-vad)
-- [LiveKit Agents 流式处理](../streaming/livekit-agents-duplex-pipeline.md)
+- [LiveKit Agents 流式处理](../harness/streaming/livekit-agents-duplex-pipeline.md)
 
 ---
 

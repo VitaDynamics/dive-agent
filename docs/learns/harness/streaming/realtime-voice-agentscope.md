@@ -161,7 +161,7 @@ await agent.start(queue)
 
 ## 相关文档
 
-- [AgentScope 架构设计](../architecture/agentscope-architecture.md) - AgentScope 的通用架构
+- AgentScope 架构设计 - AgentScope 的通用架构
 - [实时流式处理对比](streaming-comparison.md) - 各种框架流式处理的异同
 
 ---

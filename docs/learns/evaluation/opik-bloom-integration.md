@@ -73,7 +73,7 @@ class InstrumentedOrchestrator(ConversationOrchestrator):
 
 ## 相关文档
 
-- [Agent Evaluation 索引](../../repos/agent-evaluation/README.md)
+- [Agent Evaluation 索引](https://github.com/DylanLIiii/dive-agent/blob/main/repos/agent-evaluation/README.md)
 - [Opik 官方文档](https://github.com/comet-ml/opik)
 - [Bloom 研究仓库](https://github.com/safety-research/bloom)
 

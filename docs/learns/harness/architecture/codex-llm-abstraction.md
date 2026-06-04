@@ -357,8 +357,8 @@ last_request: Option<ResponsesApiRequest>,
 
 ## 相关文档
 
-- [Codex 流式处理设计](./codex-streaming.md) - WebSocket 和 SSE 实现细节
-- [Codex 上下文管理](./codex-context-management.md) - 对话历史和状态管理
+- [Codex 流式处理设计](../streaming/codex-streaming.md) - WebSocket 和 SSE 实现细节
+- [Codex 上下文管理](../context-management/codex-context-management.md) - 对话历史和状态管理
 - [Pydantic AI 流式处理](../streaming/streaming-tool-assembly.md) - 对比其他框架的流式实现
 
 ---

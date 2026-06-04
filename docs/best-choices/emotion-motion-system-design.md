@@ -216,8 +216,8 @@ OpenAI Server → response.function_call_arguments.done
 
 ## 参考
 
-- [机器人情绪系统设计](../learns/robotics/emotion-system-design.md) - 详细实现分析
-- [分层运动系统](../learns/robotics/layered-motion-system.md) - 架构细节
+- [机器人情绪系统设计](/learns/harness/robotics/emotion-system-design) - 详细实现分析
+- [分层运动系统](/learns/harness/robotics/layered-motion-system) - 架构细节
 
 ---
 
