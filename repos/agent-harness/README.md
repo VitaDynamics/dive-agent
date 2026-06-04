@@ -101,12 +101,13 @@ Agent-harness 框架提供：
 
 ### pi-mono
 
-- **URL**: https://github.com/pi-company/pi-mono
+- **URL**: https://github.com/earendil-works/pi
 - **语言**: TypeScript
 - **关键特性**:
   - 多包 monorepo 架构
-  - LLM 部署管理
-  - 编码 Agent，包含 TUI 和 Web UI
+  - 统一 LLM API（OpenAI / Anthropic / Google / Bedrock / Vertex）
+  - 编码 Agent CLI、TUI 与 Web UI
+  - Slack 机器人、vLLM 部署 Pod
 - **学习笔记**:
   - [上下文管理双模式](../../docs/learns/context-management/context-management-dual-mode.md)
 

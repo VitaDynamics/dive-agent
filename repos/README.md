@@ -32,7 +32,7 @@ Agent 框架和编排工具，提供构建 AI Agent 的核心抽象。
 | [republic](https://github.com/fixie/republic) | 基于 Tape 的 Agent 框架，完整审计追踪 | Python |
 | [litai](https://github.com/Lightning-AI/litai) | 轻量级 LLM 路由器，统一计费 | Python |
 | [kimi-cli](https://github.com/MoonshotAI/kimi-cli) | 终端 Agent，包含 kosong 流式库 | Python |
-| [pi-mono](https://github.com/pi-company/pi-mono) | 多提供者 LLM 抽象 monorepo | TypeScript |
+| [pi](https://github.com/earendil-works/pi) | AI 代理工具包：编码 Agent CLI、统一 LLM API、TUI/网页界面 | TypeScript |
 | [kameo](https://github.com/tqwewe/kameo) | Rust Actor 框架，用于构建并发和分布式系统 | Rust |
 | [livekit-agents](https://github.com/livekit/agents) | 实时多模态 AI Agent 框架，支持语音/视频流式处理 | Python |
 
