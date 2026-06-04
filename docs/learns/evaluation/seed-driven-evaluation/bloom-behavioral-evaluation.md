@@ -358,16 +358,16 @@ rollout:
 
 ## 相关文档
 
-- [ACEBench 工具使用评估](../../evaluation/benchmarks/acebench-tool-usage.md) - 固定基准测试对比
-- [Agent Harness 概览](../../../repos/agent-harness/README.md) - 支持的 Agent 框架
+- ACEBench 工具使用评估 - 固定基准测试对比
+- [Agent Harness 概览](https://github.com/VitaDynamics/dive-agent/blob/main/repos/agent-harness/README.md) - 支持的 Agent 框架
 
 ---
 
 ## 参考
 
 - [Bloom GitHub](https://github.com/safety-research/bloom)
-- [Bloom README](../../../../sources/agent-evaluation/bloom/README.md)
-- [Bloom Core Pipeline](../../../../sources/agent-evaluation/bloom/src/bloom/core.py)
+- [Bloom README](https://github.com/safety-research/bloom/blob/main/README.md)
+- [Bloom Core Pipeline](https://github.com/safety-research/bloom/blob/main/src/bloom/core.py)
 
 ---
 

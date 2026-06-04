@@ -357,7 +357,7 @@ results --input-dir out
 ## 参考资料
 
 - [Android Bench GitHub](https://github.com/android-bench/android-bench)
-- [User Guide](docs/guide.md)
-- [Dataset Documentation](docs/dataset.md)
+- [User Guide](https://github.com/android-bench/android-bench/blob/main/docs/guide.md)
+- [Dataset Documentation](https://github.com/android-bench/android-bench/blob/main/docs/dataset.md)
 - [MiniSWE-Agent](https://www.mini-swe-agent.com)
 - [LiteLLM](https://github.com/BerriAI/litellm)

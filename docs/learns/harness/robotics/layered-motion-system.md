@@ -444,9 +444,9 @@ def working_loop(self) -> None:
 
 ## 相关文档
 
-- [reachy-mini-conversation-app 架构概述](../../../repos/agent/README.md) - 整体应用架构
+- [reachy-mini-conversation-app 架构概述](https://github.com/VitaDynamics/dive-agent/blob/main/repos/agent/README.md) - 整体应用架构
 - [异步流式处理](../streaming/async-streaming-first-class.md) - 音频流的异步处理模式
-- [并发模式](../concurrency/) - 线程安全的最佳实践
+- [并发模式](/learns/harness/concurrency/state-snapshot-concurrency) - 线程安全的最佳实践
 
 ---
 

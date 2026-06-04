@@ -95,9 +95,9 @@ Kosong 的最大亮点是它的**容错性与可维护性**。传统的流式处
 
 ## 相关文档
 
-- [AgentScope 实时语音处理](./realtime-voice-agentscope.md)
-- [异步流式一等公民](./async-streaming-first-class.md)
-- [Kimi CLI 架构](../architecture/kimi-cli-architecture.md)
+- [AgentScope 实时语音处理](../harness/streaming/realtime-voice-agentscope.md)
+- [异步流式一等公民](../harness/streaming/async-streaming-first-class.md)
+- [Kimi CLI 架构](../harness/architecture/kimi-cli-architecture.md)
 
 ---
 

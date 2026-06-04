@@ -19,15 +19,6 @@ tags: agent, hook, middleware, callback, comparison
 - 与工具调用的耦合（独立 vs. 绑定 wrap_tool_call）
 - 可观测性（结构化 trace / span / log）
 
-下方内嵌的 HTML 是本笔记的视觉设计稿，包含完整的对比表、决策矩阵、流程图：
+本笔记的完整视觉设计稿（含对比表、决策矩阵、流程图）请全屏查看：
 
-<iframe
-  src="/learns/agent/hook-system-comparison.html"
-  width="100%"
-  height="2400"
-  style="border: 0; min-height: 80vh;"
-  loading="lazy"
-  title="Agent Hook 系统对比"
-></iframe>
-
-[在新窗口打开完整设计稿 →](/learns/agent/hook-system-comparison.html)
+<a href="/dive-agent/designs/agent/hook-system-comparison.html" target="_blank" rel="noopener noreferrer">📄 全屏查看完整设计稿 →</a>

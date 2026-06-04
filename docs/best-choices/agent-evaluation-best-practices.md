@@ -817,7 +817,7 @@ Bloom 评估最上层 Agent 的涌现行为，这些行为受底层所有组件�
 ## 参考
 
 ### 学习笔记
-- [生产级 Trace 与可定制 Eval - Langfuse](../learns/evaluation/production-trace-eval-langfuse.md)
+- [生产级 Trace 与可定制 Eval - Langfuse](/learns/evaluation/production-trace-eval-langfuse)
 
 ### 官方文档
 - [Langfuse Documentation](https://langfuse.com/docs)

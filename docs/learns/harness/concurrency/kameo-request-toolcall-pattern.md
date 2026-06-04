@@ -565,7 +565,7 @@ impl Message<ToolResponse> for MainAgent {
 
 ## 相关文档
 
-- [Kameo Request 同步等待模式](./kameo-request-sync-pattern.md) - 基础模式分析
+- Kameo Request 同步等待模式 - 基础模式分析
 - [异步流式一等公民](../streaming/async-streaming-first-class.md) - 流式处理对比
 
 ---

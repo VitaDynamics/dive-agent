@@ -263,6 +263,6 @@ dimos --replay run unitree-go2
 ## 参考资料
 
 - [Dimensional OS GitHub](https://github.com/dimensionalOS/dimos)
-- [官方文档](docs/)
-- [Blueprints 文档](docs/usage/blueprints.md)
-- [CLI 参考](docs/usage/cli.md)
+- [官方文档](https://github.com/dimensionalOS/dimos/tree/main/docs)
+- [Blueprints 文档](https://github.com/dimensionalOS/dimos/blob/main/docs/usage/blueprints.md)
+- [CLI 参考](https://github.com/dimensionalOS/dimos/blob/main/docs/usage/cli.md)

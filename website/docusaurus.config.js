@@ -7,9 +7,9 @@ const config = {
   tagline: 'Agent 框架学习与最佳实践',
   favicon: 'img/favicon.ico',
 
-  url: 'https://DylanLIiii.github.io',
+  url: 'https://VitaDynamics.github.io',
   baseUrl: '/dive-agent/',
-  organizationName: 'DylanLIiii',
+  organizationName: 'VitaDynamics',
   projectName: 'dive-agent',
   trailingSlash: false,
 
@@ -129,7 +129,7 @@ const config = {
             position: 'left',
           },
           {
-            href: 'https://github.com/DylanLIiii/dive-agent',
+            href: 'https://github.com/VitaDynamics/dive-agent',
             label: 'GitHub',
             position: 'right',
           },
@@ -152,7 +152,7 @@ const config = {
               { label: '仓库索引', to: '/repos' },
               {
                 label: 'GitHub',
-                href: 'https://github.com/DylanLIiii/dive-agent',
+                href: 'https://github.com/VitaDynamics/dive-agent',
               },
             ],
           },
